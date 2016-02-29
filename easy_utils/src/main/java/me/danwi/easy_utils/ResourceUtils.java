@@ -17,7 +17,7 @@ public class ResourceUtils {
     }
 
     /**
-     * 从Assets资源中获取数据
+     * 从资源读取流中获取数据
      *
      * @param inputStream:文件读取流
      * @return
