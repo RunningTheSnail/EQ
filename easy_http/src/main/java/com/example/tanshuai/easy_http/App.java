@@ -1,12 +1,12 @@
-package me.danwi.easy_utils;
+package com.example.tanshuai.easy_http;
 
 import android.app.Application;
 import android.content.Context;
 
 /**
- * Created by RunningSnail on 16/2/27.
+ * Created by tanshuai on 16/1/21.
  */
-public class AppContext extends Application {
+public class App extends Application {
     private static Context context;
 
     @Override

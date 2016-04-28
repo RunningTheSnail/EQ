@@ -1,6 +1,8 @@
 package me.danwi.easy_utils;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 
@@ -20,6 +22,7 @@ public class CommonUtils {
      *
      * @return
      */
+    @TargetApi(Build.VERSION_CODES.CUPCAKE)
     public static String getDeviceId() {
         TelephonyManager telephonyManager = (TelephonyManager) AppContext.getContext().getSystemService(Context.TELEPHONY_SERVICE);
         //手机设备串号,装有SIM卡设备,首次启动系统随机生成的64位数字
