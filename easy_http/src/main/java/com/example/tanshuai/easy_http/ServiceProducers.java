@@ -15,9 +15,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by RunningSnail on 16/1/20.
+ * 服务生产者
  */
 public class ServiceProducers {
-    //服务生产者
     private static ServiceProducers serviceProducers;
 
     private Retrofit retrofit;
