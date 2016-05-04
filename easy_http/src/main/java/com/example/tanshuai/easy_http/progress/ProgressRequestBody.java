@@ -9,7 +9,7 @@ import okhttp3.RequestBody;
 import okio.BufferedSink;
 
 /**
- * Created by tanshuai on 16/1/20.
+ * Created by RunningSnail on 16/1/20.
  */
 public class ProgressRequestBody extends RequestBody {
     //上传的文件
