@@ -19,10 +19,45 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class ServiceProducers {
     private static ServiceProducers serviceProducers;
+    private String url;
+    private String dir;
+    private List<Interceptor> netWork;
+    private List<Interceptor> interceptors;
 
     private Retrofit retrofit;
 
     private OkHttpClient okHttpClient;
+
+    public static class Builder {
+        private String url;
+        private String dir;
+        private List<Interceptor> netWork;
+        private List<Interceptor> interceptors;
+
+        public Builder url(String url) {
+            this.url = url;
+            return this;
+        }
+
+        public Builder dir(String dir) {
+            this.dir = dir;
+            return this;
+        }
+
+        public Builder netWork(List<Interceptor> netWork) {
+            this.netWork = netWork;
+            return this;
+        }
+
+        public Builder applicationInterceptor(List<Interceptor> interceptors) {
+            this.interceptors = interceptors;
+            return this;
+        }
+
+        public ServiceProducers build() {
+            return new ServiceProducers(url, dir, netWork, interceptors);
+        }
+    }
 
     public ServiceProducers(String url, String dir, List<Interceptor> netWork, List<Interceptor> interceptors) {
         checkNotNull(url, "url==null");
@@ -69,23 +104,6 @@ public class ServiceProducers {
             }
         }
         return serviceProducers;
-    }
-
-
-    public static void init(String url) {
-        init(url, null, null, null);
-    }
-
-    public static void init(String url, String dir) {
-        init(url, dir, null, null);
-    }
-
-    public static void init(String url, String dir, List<Interceptor> netWorks) {
-        init(url, dir, netWorks, null);
-    }
-
-    public static void init(String url, String dir, List<Interceptor> netWorks, List<Interceptor> interceptors) {
-        getInstance(url, dir, netWorks, interceptors);
     }
 
     //生产服务
