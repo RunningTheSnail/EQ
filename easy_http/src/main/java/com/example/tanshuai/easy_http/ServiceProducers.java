@@ -19,47 +19,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class ServiceProducers {
     private static ServiceProducers serviceProducers;
-    private String url;
-    private String dir;
-    private List<Interceptor> netWork;
-    private List<Interceptor> interceptors;
 
     private Retrofit retrofit;
 
-    private OkHttpClient okHttpClient;
-
-    public static class Builder {
-        private String url;
-        private String dir;
-        private List<Interceptor> netWork;
-        private List<Interceptor> interceptors;
-
-        public Builder url(String url) {
-            this.url = url;
-            return this;
-        }
-
-        public Builder dir(String dir) {
-            this.dir = dir;
-            return this;
-        }
-
-        public Builder netWork(List<Interceptor> netWork) {
-            this.netWork = netWork;
-            return this;
-        }
-
-        public Builder applicationInterceptor(List<Interceptor> interceptors) {
-            this.interceptors = interceptors;
-            return this;
-        }
-
-        public ServiceProducers build() {
-            return new ServiceProducers(url, dir, netWork, interceptors);
-        }
-    }
-
-    public ServiceProducers(String url, String dir, List<Interceptor> netWork, List<Interceptor> interceptors) {
+    private ServiceProducers(String url, String dir, List<Interceptor> netWork, List<Interceptor> interceptors) {
         checkNotNull(url, "url==null");
         Retrofit.Builder retrofitBuilder = new Retrofit.Builder();
         //为了配置拦截器
@@ -86,7 +49,7 @@ public class ServiceProducers {
         //默认支持cookie
         httpBuilder.cookieJar(new SimpleCookieJar());
         //创建OkHttpClient客户端
-        okHttpClient = httpBuilder.build();
+        OkHttpClient okHttpClient = httpBuilder.build();
         //创建retrofit对象,默认使用Gson解析Request和response
         retrofit = retrofitBuilder.baseUrl(url)
                 .client(okHttpClient)
@@ -104,6 +67,41 @@ public class ServiceProducers {
             }
         }
         return serviceProducers;
+    }
+
+    public static class Builder {
+        //请求的服务器地址,必须以 /  结尾
+        private String url;
+        //缓存目录设置
+        private String dir;
+        //响应之后处理 拦截器
+        private List<Interceptor> netWorks;
+        //请求之前处理 拦截器
+        private List<Interceptor> applications;
+
+        public Builder url(String url) {
+            this.url = url;
+            return this;
+        }
+
+        public Builder dir(String dir) {
+            this.dir = dir;
+            return this;
+        }
+
+        public Builder netWork(List<Interceptor> netWork) {
+            this.netWorks = netWork;
+            return this;
+        }
+
+        public Builder applicationInterceptor(List<Interceptor> applications) {
+            this.applications = applications;
+            return this;
+        }
+
+        public ServiceProducers build() {
+            return getInstance(url, dir, netWorks, applications);
+        }
     }
 
     //生产服务
