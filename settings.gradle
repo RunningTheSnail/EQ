@@ -1,1 +1,1 @@
-include ':app', ':easy_utils', ':easy_http', ':mvpbaselibrary'
+include ':app', ':easy_utils', ':easyFrameWork'
