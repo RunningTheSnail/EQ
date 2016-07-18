@@ -1,4 +1,4 @@
-package com.example.tanshuai.eq;
+package com.example.tanshuai.eq.core;
 
 import rx.Observable;
 import rx.subjects.PublishSubject;

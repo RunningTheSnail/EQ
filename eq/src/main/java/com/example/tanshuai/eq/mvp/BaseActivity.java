@@ -3,6 +3,7 @@ package com.example.tanshuai.eq.mvp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 
 import butterknife.ButterKnife;
 
@@ -23,18 +24,26 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.attach((V) this);
+        if (presenter != null) {
+            presenter.attach((V) this);
+        }
     }
 
     @Override
     protected void onDestroy() {
-        presenter.onDetach();
+        if (presenter != null) {
+            presenter.onDetach();
+        }
         super.onDestroy();
     }
 
     public abstract int getLayoutId();
 
     public abstract T initPresenter();
+
+    public String getValue(TextView tv) {
+        return tv.getText().toString();
+    }
 
     @Override
     protected void onNewIntent(Intent intent) {

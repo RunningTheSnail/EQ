@@ -1,8 +1,6 @@
-package com.example.tanshuai.eq;
+package com.example.tanshuai.eq.core;
 
 import com.example.tanshuai.eq.cookie.SimpleCookieJar;
-import com.example.tanshuai.eq.interceptor.LoggerInterceptor;
-import com.orhanobut.logger.Logger;
 
 import java.io.File;
 import java.util.List;
@@ -30,10 +28,7 @@ public class ServiceProducers {
         //为了配置拦截器
         OkHttpClient.Builder httpBuilder = new OkHttpClient.Builder();
         //开发环境配置日志拦截器
-        if (BuildConfig.DEBUG) {
-            Logger.t(TAG).i("日志拦截器开启");
-            httpBuilder.addInterceptor(new LoggerInterceptor());
-        }
+//        httpBuilder.addInterceptor(new LoggerInterceptor());
         if (dir != null) {
             //设置缓存
             httpBuilder.cache(createCache(dir));

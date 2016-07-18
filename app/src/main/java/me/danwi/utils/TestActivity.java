@@ -2,9 +2,8 @@ package me.danwi.utils;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-
-import com.example.tanshuai.easy_http.utils.DesUtils;
-import com.example.tanshuai.easy_http.utils.MD5Utils;
+import android.view.View;
+import android.widget.Button;
 
 public class TestActivity extends AppCompatActivity {
 
@@ -12,11 +11,32 @@ public class TestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        String password = "r";
-        String md5Password = MD5Utils.md5(password);
-        System.out.println(md5Password);
-        String des = DesUtils.encode("123456789", "hello");
-        System.out.println(des);
-        System.out.println(DesUtils.decode("123456789", des)+"----");
+        Button button = (Button) findViewById(R.id.btn);
+        Button button1 = (Button) findViewById(R.id.btn1);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().beginTransaction().detach(getFragmentManager().findFragmentByTag("MyFragment")).commit();
+            }
+        });
+
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().beginTransaction().attach(getFragmentManager().findFragmentByTag("MyFragment")).commit();
+            }
+        });
+        if (savedInstanceState != null) {
+            MyFragment myFragment = (MyFragment) getFragmentManager().findFragmentByTag("MyFragment");
+            getFragmentManager().beginTransaction().show(myFragment).commit();
+        } else {
+            getFragmentManager().beginTransaction().add(R.id.fl, MyFragment.getInstance(1), "MyFragment").addToBackStack(null).commit();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

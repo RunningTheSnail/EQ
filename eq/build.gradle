@@ -49,4 +49,5 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.1.0'
     apt 'com.jakewharton:butterknife-compiler:8.1.0'
     compile 'com.orhanobut:logger:1.13'
+    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
 }

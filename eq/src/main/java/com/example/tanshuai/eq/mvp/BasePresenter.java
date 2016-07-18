@@ -6,7 +6,7 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by RunningSnail on 16/6/1.
  */
-public abstract class BasePresenter<T> {
+public abstract class BasePresenter<V> {
     public CompositeSubscription compositeSubscription;
 
     public void addSubscription(Subscription subscription) {
@@ -18,9 +18,9 @@ public abstract class BasePresenter<T> {
         }
     }
 
-    public T view;
+    public V view;
 
-    public void attach(T view) {
+    public void attach(V view) {
         this.view = view;
     }
 
