@@ -1,24 +1,43 @@
 package com.example.tanshuai.eq.mvp;
 
-import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import butterknife.ButterKnife;
 
 /**
  * Created by RunningSnail on 16/6/1.
  */
 public abstract class BaseFragment<V, T extends BasePresenter<V>> extends Fragment {
 
+    public BaseActivity activity;
+
     public T presenter;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.activity = (BaseActivity) context;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        presenter = initPresenter();
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        presenter = initPresenter();
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View view = inflater.inflate(getLayoutId(), container, false);
+        ButterKnife.bind(this, view);
+        init();
+        return view;
     }
 
     @Override
@@ -27,11 +46,19 @@ public abstract class BaseFragment<V, T extends BasePresenter<V>> extends Fragme
         presenter.attach((V) this);
     }
 
-    public abstract T initPresenter();
-
+    //销毁视图层级结构
     @Override
-    public void onDetach() {
-        super.onDetach();
+    public void onDestroyView() {
+        super.onDestroyView();
         presenter.onDetach();
     }
+
+    public abstract T initPresenter();
+
+    //获取布局id
+    public abstract int getLayoutId();
+
+    public abstract void init();
+
+    public abstract Fragment newInstance();
 }
