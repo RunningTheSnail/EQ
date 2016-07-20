@@ -10,9 +10,9 @@ import okhttp3.Response;
 
 /**
  * Created by RunningSnail on 16/7/20.
- * 给每个请求添加请求头
+ * 修改请求头拦截器
  */
-public abstract class HeaderInterceptor implements Interceptor {
+public abstract class BaseHeaderInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
