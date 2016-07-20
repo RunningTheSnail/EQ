@@ -1,4 +1,4 @@
-package me.danwi.t.eq.progress;
+package me.danwi.eq.progress;
 
 /**
  * Created by RunningSnail on 16/1/20.

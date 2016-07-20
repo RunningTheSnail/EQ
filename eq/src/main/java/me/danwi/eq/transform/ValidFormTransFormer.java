@@ -1,4 +1,4 @@
-package me.danwi.t.eq.transform;
+package me.danwi.eq.transform;
 
 import android.text.TextUtils;
 

@@ -1,4 +1,4 @@
-package me.danwi.t.eq.interceptor;
+package me.danwi.eq.interceptor;
 
 import android.text.TextUtils;
 

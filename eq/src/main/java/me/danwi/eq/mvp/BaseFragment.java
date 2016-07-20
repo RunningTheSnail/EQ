@@ -1,4 +1,4 @@
-package me.danwi.t.eq.mvp;
+package me.danwi.eq.mvp;
 
 import android.content.Context;
 import android.os.Bundle;

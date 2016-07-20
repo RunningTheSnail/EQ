@@ -1,8 +1,8 @@
-package me.danwi.t.eq.utils;
+package me.danwi.eq.utils;
 
 import android.widget.Toast;
 
-import me.danwi.t.eq.EasyApplication;
+import me.danwi.eq.EasyApplication;
 
 /**
  * Created by RunningSnail on 16/6/18.

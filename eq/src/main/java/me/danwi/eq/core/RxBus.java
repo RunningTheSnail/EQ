@@ -1,4 +1,4 @@
-package me.danwi.t.eq.core;
+package me.danwi.eq.core;
 
 import rx.Observable;
 import rx.subjects.PublishSubject;

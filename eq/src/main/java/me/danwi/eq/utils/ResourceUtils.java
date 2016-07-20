@@ -1,13 +1,13 @@
-package me.danwi.t.eq.utils;
+package me.danwi.eq.utils;
 
 import android.text.TextUtils;
-
-import me.danwi.t.eq.EasyApplication;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
+import me.danwi.eq.EasyApplication;
 
 /**
  * Created by tanshuai on 16/2/27.

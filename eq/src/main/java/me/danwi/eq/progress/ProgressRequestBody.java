@@ -1,4 +1,4 @@
-package me.danwi.t.eq.progress;
+package me.danwi.eq.progress;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -1,4 +1,4 @@
-package me.danwi.t.eq.mvp;
+package me.danwi.eq.mvp;
 
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;

@@ -1,13 +1,13 @@
-package me.danwi.t.eq.utils;
+package me.danwi.eq.utils;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 
-import me.danwi.t.eq.EasyApplication;
-
 import java.io.File;
+
+import me.danwi.eq.EasyApplication;
 
 /**
  * Created by RunningSnail on 16/7/4.

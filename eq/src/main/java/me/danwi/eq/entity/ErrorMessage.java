@@ -1,4 +1,4 @@
-package me.danwi.t.eq.entity;
+package me.danwi.eq.entity;
 
 /**
  * Created by RunningSnail on 16/6/2.

@@ -1,4 +1,4 @@
-package me.danwi.t.eq.subscriber;
+package me.danwi.eq.subscriber;
 
 import android.util.Log;
 

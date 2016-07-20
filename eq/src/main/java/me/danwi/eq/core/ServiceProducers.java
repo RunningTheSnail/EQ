@@ -1,11 +1,10 @@
-package me.danwi.t.eq.core;
-
-import me.danwi.t.eq.cookie.SimpleCookieJar;
-import me.danwi.t.eq.interceptor.LoggerInterceptor;
+package me.danwi.eq.core;
 
 import java.io.File;
 import java.util.List;
 
+import me.danwi.eq.cookie.SimpleCookieJar;
+import me.danwi.eq.interceptor.LoggerInterceptor;
 import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;

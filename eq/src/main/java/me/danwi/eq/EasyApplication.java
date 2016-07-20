@@ -1,4 +1,4 @@
-package me.danwi.t.eq;
+package me.danwi.eq;
 
 import android.app.Application;
 import android.content.Context;
@@ -7,8 +7,8 @@ import com.orhanobut.logger.LogLevel;
 
 import java.util.List;
 
-import me.danwi.t.eq.core.ServiceProducers;
-import me.danwi.t.eq.utils.LogUtils;
+import me.danwi.eq.core.ServiceProducers;
+import me.danwi.eq.utils.LogUtils;
 import okhttp3.Interceptor;
 
 /**

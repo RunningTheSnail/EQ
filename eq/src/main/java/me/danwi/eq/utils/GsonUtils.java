@@ -1,4 +1,4 @@
-package me.danwi.t.eq.utils;
+package me.danwi.eq.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

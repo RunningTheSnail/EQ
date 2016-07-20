@@ -4,10 +4,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.example.tanshuai.eq.core.ServiceProducers;
-import com.example.tanshuai.eq.subscriber.BaseSubscriber;
-import com.example.tanshuai.eq.transform.ThreadTransFormer;
-
+import me.danwi.eq.core.ServiceProducers;
+import me.danwi.eq.subscriber.BaseSubscriber;
+import me.danwi.eq.transform.ThreadTransFormer;
 import me.danwi.utils.api.BDApi;
 
 public class MainActivity extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package me.danwi.t.eq.cookie;
+package me.danwi.eq.cookie;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

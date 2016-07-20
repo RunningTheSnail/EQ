@@ -1,13 +1,13 @@
 package me.danwi.utils;
 
-import com.example.tanshuai.eq.EasyApplication;
-import com.example.tanshuai.eq.interceptor.BaseHeaderInterceptor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import me.danwi.eq.EasyApplication;
+import me.danwi.eq.interceptor.BaseHeaderInterceptor;
 import okhttp3.Interceptor;
 
 /**
@@ -17,16 +17,6 @@ public class AppApplication extends EasyApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        List<Interceptor> interceptors = new ArrayList<>();
-        interceptors.add(new BaseHeaderInterceptor() {
-            @Override
-            public Map<String, String> add() {
-                Map<String, String> map = new HashMap<String, String>();
-                map.put("name", "Jerry");
-                map.put("age", "23");
-                return map;
-            }
-        });
     }
 
     @Override
@@ -41,7 +31,17 @@ public class AppApplication extends EasyApplication {
 
     @Override
     public List<Interceptor> getPre() {
-        return null;
+        List<Interceptor> pre = new ArrayList<>();
+        pre.add(new BaseHeaderInterceptor() {
+            @Override
+            public Map<String, String> add() {
+                Map<String, String> map = new HashMap<>();
+                map.put("name", "Jerry");
+                map.put("age", "23");
+                return map;
+            }
+        });
+        return pre;
     }
 
     @Override

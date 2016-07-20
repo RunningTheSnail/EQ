@@ -1,4 +1,4 @@
-package me.danwi.t.eq.utils;
+package me.danwi.eq.utils;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -6,9 +6,9 @@ import android.os.Build;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 
-import me.danwi.t.eq.EasyApplication;
-
 import java.util.UUID;
+
+import me.danwi.eq.EasyApplication;
 
 /**
  * Created by tanshuai on 16/2/27.

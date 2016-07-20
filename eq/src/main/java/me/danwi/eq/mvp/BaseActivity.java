@@ -1,4 +1,4 @@
-package me.danwi.t.eq.mvp;
+package me.danwi.eq.mvp;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import butterknife.ButterKnife;
+import me.danwi.eq.mvp.BasePresenter;
 
 /**
  * Created by RunningSnail on 16/6/1.

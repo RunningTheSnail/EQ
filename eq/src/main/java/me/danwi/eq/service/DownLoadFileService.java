@@ -1,4 +1,4 @@
-package me.danwi.t.eq.service;
+package me.danwi.eq.service;
 
 import android.app.IntentService;
 import android.content.Intent;

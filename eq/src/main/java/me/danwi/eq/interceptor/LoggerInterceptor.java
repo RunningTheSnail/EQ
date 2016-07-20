@@ -1,9 +1,8 @@
-package me.danwi.t.eq.interceptor;
-
-import me.danwi.t.eq.utils.LogUtils;
+package me.danwi.eq.interceptor;
 
 import java.io.IOException;
 
+import me.danwi.eq.utils.LogUtils;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;

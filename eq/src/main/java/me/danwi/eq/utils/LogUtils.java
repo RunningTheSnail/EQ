@@ -1,4 +1,4 @@
-package me.danwi.t.eq.utils;
+package me.danwi.eq.utils;
 
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;

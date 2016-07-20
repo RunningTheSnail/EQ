@@ -1,11 +1,11 @@
-package me.danwi.t.eq.subscriber;
+package me.danwi.eq.subscriber;
 
-import me.danwi.t.eq.entity.ErrorMessage;
 import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.net.ConnectException;
 
+import me.danwi.eq.entity.ErrorMessage;
 import okhttp3.ResponseBody;
 import retrofit2.adapter.rxjava.HttpException;
 
