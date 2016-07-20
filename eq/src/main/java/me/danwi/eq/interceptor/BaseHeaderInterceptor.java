@@ -28,7 +28,7 @@ public abstract class BaseHeaderInterceptor implements Interceptor {
     }
 
     /**
-     * 要添加的请求头
+     * 要添加的请求头,例如:token,appVersion
      *
      * @return
      */
