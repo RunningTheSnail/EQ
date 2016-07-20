@@ -11,6 +11,7 @@ import butterknife.ButterKnife;
  * Created by RunningSnail on 16/6/1.
  */
 public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCompatActivity {
+    public String TAG;
     public T presenter;
 
     @Override
@@ -18,6 +19,7 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
         ButterKnife.bind(this);
+        TAG = this.getClass().getSimpleName();
         presenter = initPresenter();
     }
 

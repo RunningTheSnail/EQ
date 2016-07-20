@@ -3,12 +3,16 @@ package me.danwi.utils;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 
-import rx.Observable;
-import rx.Subscriber;
+import com.example.tanshuai.eq.core.ServiceProducers;
+import com.example.tanshuai.eq.subscriber.BaseSubscriber;
+import com.example.tanshuai.eq.transform.ThreadTransFormer;
+
+import me.danwi.utils.api.BDApi;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = MainActivity.class.getSimpleName();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,30 +21,16 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        BDApi bdApi = ServiceProducers.createService(BDApi.class);
 
-        Observable.create(new Observable.OnSubscribe<String>() {
-            @Override
-            public void call(Subscriber<? super String> subscriber) {
-                subscriber.onNext("Hello World");
-                subscriber.onError(new BizException());
-                subscriber.onNext("GG");
-            }
-        }).subscribe(new Subscriber<String>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Log.e("tag", e.toString());
-            }
-
-            @Override
-            public void onNext(String s) {
-                Log.i("tag", s);
-            }
-        });
+        bdApi.get()
+                .compose(new ThreadTransFormer<Void>())
+                .subscribe(new BaseSubscriber<Void>() {
+                    @Override
+                    public void onNext(Void aVoid) {
+                        super.onNext(aVoid);
+                    }
+                });
     }
 
 }

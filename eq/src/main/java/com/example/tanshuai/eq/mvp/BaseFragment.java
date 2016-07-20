@@ -14,6 +14,7 @@ import butterknife.ButterKnife;
  * Created by RunningSnail on 16/6/1.
  */
 public abstract class BaseFragment<V, T extends BasePresenter<V>> extends Fragment {
+    public String TAG = "";
 
     public BaseActivity activity;
 
@@ -31,11 +32,13 @@ public abstract class BaseFragment<V, T extends BasePresenter<V>> extends Fragme
         presenter = initPresenter();
     }
 
+    //设计成final禁止子类重写该方法
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public final View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(getLayoutId(), container, false);
         ButterKnife.bind(this, view);
+        TAG = this.getClass().getSimpleName();
         init();
         return view;
     }
@@ -60,5 +63,4 @@ public abstract class BaseFragment<V, T extends BasePresenter<V>> extends Fragme
 
     public abstract void init();
 
-    public abstract Fragment newInstance();
 }

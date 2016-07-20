@@ -7,7 +7,9 @@ import android.content.Context;
  * Created by RunningSnail on 16/2/27.
  */
 public class EasyApplication extends Application {
-    private static Context context;
+    private static final String TAG = EasyApplication.class.getSimpleName();
+
+    public static Context context;
 
     @Override
     public void onCreate() {
