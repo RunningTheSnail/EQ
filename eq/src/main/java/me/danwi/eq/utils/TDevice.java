@@ -7,7 +7,7 @@ import android.net.Uri;
 
 import java.io.File;
 
-import me.danwi.eq.EasyApplication;
+import me.danwi.eq.EQApplication;
 
 /**
  * Created by RunningSnail on 16/7/4.
@@ -45,7 +45,7 @@ public class TDevice {
     public static int getVersionCode(String packageName) {
         int versionCode = 0;
         try {
-            versionCode = EasyApplication.getContext().getPackageManager()
+            versionCode = EQApplication.getContext().getPackageManager()
                     .getPackageInfo(packageName, 0).versionCode;
         } catch (PackageManager.NameNotFoundException ex) {
             versionCode = 0;
@@ -61,10 +61,10 @@ public class TDevice {
     public static String getVersionName() {
         String name = "";
         try {
-            name = EasyApplication
+            name = EQApplication
                     .getContext()
                     .getPackageManager()
-                    .getPackageInfo(EasyApplication.getContext().getPackageName(),
+                    .getPackageInfo(EQApplication.getContext().getPackageName(),
                             0).versionName;
         } catch (PackageManager.NameNotFoundException ex) {
             name = "";

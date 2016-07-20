@@ -14,7 +14,7 @@ import okhttp3.Interceptor;
 /**
  * Created by RunningSnail on 16/2/27.
  */
-public abstract class EasyApplication extends Application {
+public abstract class EQApplication extends Application {
 
     public String TAG = this.getClass().getSimpleName();
 

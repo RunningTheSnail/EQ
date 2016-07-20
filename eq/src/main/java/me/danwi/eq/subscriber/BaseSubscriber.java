@@ -8,7 +8,7 @@ import rx.Subscriber;
  * Created by RunningSnail on 16/7/12
  */
 public class BaseSubscriber<T> extends Subscriber<T> {
-    private static final String TAG = BaseSubscriber.class.getSimpleName();
+    public String TAG = this.getClass().getSimpleName();
 
     @Override
     public void onCompleted() {

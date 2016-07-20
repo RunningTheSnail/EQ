@@ -2,7 +2,7 @@ package me.danwi.eq.utils;
 
 import android.widget.Toast;
 
-import me.danwi.eq.EasyApplication;
+import me.danwi.eq.EQApplication;
 
 /**
  * Created by RunningSnail on 16/6/18.
@@ -22,6 +22,6 @@ public class ToastUtils {
         if (time != 0) {
             duration = Toast.LENGTH_LONG;
         }
-        Toast.makeText(EasyApplication.getContext(), message, duration).show();
+        Toast.makeText(EQApplication.getContext(), message, duration).show();
     }
 }

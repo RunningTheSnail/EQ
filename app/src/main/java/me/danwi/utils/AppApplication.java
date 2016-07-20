@@ -6,14 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import me.danwi.eq.EasyApplication;
+import me.danwi.eq.EQApplication;
 import me.danwi.eq.interceptor.BaseHeaderInterceptor;
 import okhttp3.Interceptor;
 
 /**
  * Created by RunningSnail on 16/7/20.
  */
-public class AppApplication extends EasyApplication {
+public class AppApplication extends EQApplication {
     @Override
     public void onCreate() {
         super.onCreate();

@@ -14,7 +14,7 @@ import butterknife.ButterKnife;
  * Created by RunningSnail on 16/6/1.
  */
 public abstract class BaseFragment<V, T extends BasePresenter<V>> extends Fragment {
-    public String TAG = "";
+    public String TAG = this.getClass().getSimpleName();
 
     public BaseActivity activity;
 
@@ -38,7 +38,6 @@ public abstract class BaseFragment<V, T extends BasePresenter<V>> extends Fragme
     public final View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(getLayoutId(), container, false);
         ButterKnife.bind(this, view);
-        TAG = this.getClass().getSimpleName();
         init();
         return view;
     }
