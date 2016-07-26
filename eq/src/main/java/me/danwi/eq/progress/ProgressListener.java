@@ -3,7 +3,7 @@ package me.danwi.eq.progress;
 /**
  * Created by RunningSnail on 16/1/20.
  */
-interface ProgressListener {
+public interface ProgressListener {
     /**
      * 上传下载进度监听
      * @param bytes 传输的字节数

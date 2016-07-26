@@ -1,13 +1,11 @@
 package me.danwi.utils;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import me.danwi.eq.core.ServiceProducers;
-import me.danwi.eq.subscriber.BaseSubscriber;
-import me.danwi.eq.transform.ThreadTransFormer;
-import me.danwi.utils.api.BDApi;
+import me.danwi.eq.service.DownLoadFileService;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -20,16 +18,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        BDApi bdApi = ServiceProducers.createService(BDApi.class);
-
-        bdApi.get()
-                .compose(new ThreadTransFormer<Void>())
-                .subscribe(new BaseSubscriber<Void>() {
-                    @Override
-                    public void onNext(Void aVoid) {
-                        super.onNext(aVoid);
-                    }
-                });
+        Intent intent = new Intent(this, DownLoadFileService.class);
+        startService(intent);
     }
 
 }

@@ -31,6 +31,7 @@ public abstract class EQApplication extends Application {
                 .pre(getPre())
                 .post(getPost())
                 .dir(getDir())
+                .size(getSize())
                 .debug(isDebug())
                 .build();
 
@@ -48,6 +49,11 @@ public abstract class EQApplication extends Application {
      */
     public abstract boolean isDebug();
 
+    /**
+     * 配置服务器地址
+     *
+     * @return
+     */
     public abstract String getUrl();
 
     /**
@@ -70,4 +76,13 @@ public abstract class EQApplication extends Application {
      * @return
      */
     public abstract String getDir();
+
+    /**
+     * 配置缓存大小,默认是10M
+     *
+     * @return
+     */
+    public int getSize() {
+        return 10;
+    }
 }

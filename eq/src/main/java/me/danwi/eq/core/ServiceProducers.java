@@ -17,18 +17,25 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * 服务生产者
  */
 public class ServiceProducers {
+
+    //私有构造函数
+    private ServiceProducers() {
+
+    }
+
     private static ServiceProducers serviceProducers;
 
     private Retrofit retrofit;
 
-    private ServiceProducers(String url, String dir, List<Interceptor> pre, List<Interceptor> post, boolean debug) {
+    private ServiceProducers(String url, String dir, List<Interceptor> pre, List<Interceptor> post, boolean debug, int size) {
         checkNotNull(url, "url==null");
         Retrofit.Builder retrofitBuilder = new Retrofit.Builder();
         //为了配置拦截器
         OkHttpClient.Builder httpBuilder = new OkHttpClient.Builder();
+
         if (dir != null) {
             //设置缓存
-            httpBuilder.cache(createCache(dir));
+            httpBuilder.cache(createCache(dir, size));
         }
 
         if (pre != null) {
@@ -61,11 +68,11 @@ public class ServiceProducers {
                 .build();
     }
 
-    private static ServiceProducers getInstance(String url, String dir, List<Interceptor> pre, List<Interceptor> post, boolean debug) {
+    private static ServiceProducers getInstance(String url, String dir, List<Interceptor> pre, List<Interceptor> post, boolean debug, int size) {
         if (serviceProducers == null) {
             synchronized (ServiceProducers.class) {
                 if (serviceProducers == null) {
-                    serviceProducers = new ServiceProducers(url, dir, pre, post, debug);
+                    serviceProducers = new ServiceProducers(url, dir, pre, post, debug, size);
                 }
             }
         }
@@ -84,6 +91,9 @@ public class ServiceProducers {
 
         //响应之后处理 拦截器
         private List<Interceptor> post;
+
+        //配置缓存大小
+        private int size;
 
         private boolean debug = false;
 
@@ -112,8 +122,13 @@ public class ServiceProducers {
             return this;
         }
 
+        public Builder size(int size) {
+            this.size = size;
+            return this;
+        }
+
         public ServiceProducers build() {
-            return getInstance(url, dir, pre, post, debug);
+            return getInstance(url, dir, pre, post, debug, size);
         }
     }
 
@@ -125,32 +140,19 @@ public class ServiceProducers {
         return serviceProducers.retrofit.create(service);
     }
 
-    /**
-     * 创建缓存
-     *
-     * @return
-     */
-    public Cache createCache(String dir) {
-        return createCache(dir, 10);
-    }
 
-    public Cache createCache(String dir, long size) {
-        checkNotNull(dir, "缓存目录不能为null");
-        //判断文件是否存在
+    public Cache createCache(String dir, int size) {
         File file = new File(dir);
-        if (file.exists()) {
-            if (file.delete()) {
-                if (file.mkdir()) {
-
-                }
-            }
+        //判断文件夹是否存在
+        if (!file.exists()) {
+            //创建目录
+            file.mkdir();
         }
-        //缓存目录大小10M
         return new Cache(file, size * 1024 * 1024);
     }
 
     //检查服务器地址是否合法
-    public String checkNotNull(String url, String message) {
+    private String checkNotNull(String url, String message) {
         if (url == null) {
             throw new NullPointerException(message);
         }
