@@ -6,6 +6,16 @@ package me.danwi.eq.entity;
 public class DownLoadResult {
     public long current;
     public long contentLength;
-    public int progress;
+    public long progress;
     public boolean done;
+
+    @Override
+    public String toString() {
+        return "DownLoadResult{" +
+                "current=" + current +
+                ", contentLength=" + contentLength +
+                ", progress=" + progress +
+                ", done=" + done +
+                '}';
+    }
 }
