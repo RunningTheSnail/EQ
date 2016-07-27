@@ -69,8 +69,10 @@ public abstract class ResponseBodyTransFormer implements Observable.Transformer<
                                 try {
                                     //读取流
                                     while ((temp = inputStream.read(buffer)) != -1) {
+                                        //获取当前读取的字节数
                                         current = current + temp;
                                         downLoadResult.current = current;
+                                        //已经下载的进度比
                                         downLoadResult.progress = (current * 100 / downLoadResult.contentLength);
                                         if (current == downLoadResult.contentLength) {
                                             downLoadResult.done = true;
