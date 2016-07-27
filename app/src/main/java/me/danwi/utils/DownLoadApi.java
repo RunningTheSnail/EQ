@@ -25,6 +25,6 @@ public interface DownLoadApi {
     Observable<ResponseBody> download();
 
     @Multipart
-    @POST("http://119.9.68.36/admin/uploadSelftime.do")
+    @POST("http://192.9.68.36/admin/uploadSelftime.do")
     Observable<ResponseBody> upload(@Part MultipartBody.Part selfTimeVideo, @Part MultipartBody.Part cover, @Part("title") RequestBody title, @Part("detail") RequestBody detail, @Header("AUTH-TOKEN") String token);
 }
