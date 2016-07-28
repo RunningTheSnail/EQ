@@ -11,25 +11,32 @@ import okhttp3.RequestBody;
 
 /**
  * Created by RunningSnail on 16/7/27.
- * 文件上传辅助类
+ * 请求辅助类
  */
-public class EQUtils {
+public class RequestUtils {
 
-    private EQUtils() {
+    private RequestUtils() {
 
     }
 
+    /**
+     * 组合文件上传参数
+     *
+     * @param uploadList
+     * @return
+     */
     public static Map<String, RequestBody> combine(List<Upload> uploadList) {
         Map<String, RequestBody> params = new HashMap<>();
-
         if (uploadList != null) {
             for (Upload upload : uploadList) {
                 RequestBody requestBody;
                 if (upload.value != null) {
                     requestBody = RequestBody.create(null, upload.value);
+                    //普通键值对添加
                     params.put(upload.key, requestBody);
                 } else {
                     requestBody = RequestBody.create(MultipartBody.FORM, new File(upload.filePath));
+                    //包含文件
                     params.put(upload.key + "\";fileName=" + upload.fileName, requestBody);
                 }
             }
