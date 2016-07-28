@@ -9,7 +9,7 @@ import okhttp3.Response;
 
 /**
  * Created by tanshuai on 16/1/20.
- * <p/>
+ * <p>
  * 日志拦截器
  */
 public class LoggerInterceptor implements Interceptor {
@@ -23,7 +23,7 @@ public class LoggerInterceptor implements Interceptor {
         LogUtils.d(TAG, String.format("Sending request %s on %s%n%s", request.url(), chain.connection(), request.headers()));
         Response response = chain.proceed(request);
         long t2 = System.nanoTime();
-        LogUtils.d(TAG, String.format("Received response for %s in %.1fms%n%s", response.request().url(), (t2 - t1) / 1e6d, response.headers()));
+        LogUtils.d(TAG, String.format("Received response for %s in %.1fms%n%s%s", response.request().url(), (t2 - t1) / 1e6d, response.headers(), (response.cacheResponse() == null ? "请求结果来自网络" : "请求结果来自缓存")));
         return response;
     }
 }

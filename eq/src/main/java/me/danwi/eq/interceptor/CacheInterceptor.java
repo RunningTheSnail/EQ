@@ -31,7 +31,6 @@ public class CacheInterceptor implements Interceptor {
             //没有网络时,强制从缓存中读取
             response = chain.proceed(request.newBuilder().cacheControl(CacheControl.FORCE_CACHE).build());
         }
-        LogUtils.d(TAG, response.networkResponse() + "");
         //请求
         //获取Cache-Control请求头
         if (TextUtils.isEmpty(cacheControl)) {
