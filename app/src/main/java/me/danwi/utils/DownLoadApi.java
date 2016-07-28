@@ -1,5 +1,6 @@
 package me.danwi.utils;
 
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.RequestBody;
@@ -26,6 +27,9 @@ public interface DownLoadApi {
     Observable<ResponseBody> download();
 
     @Multipart
-    @POST("http://11.11.11.11/admin/uploadSelftime.do")
+    @POST("http://119.9.68.36/admin/uploadSelftime.do ")
     Observable<ResponseBody> upload(@PartMap Map<String, RequestBody> params, @Header("AUTH-TOKEN") String token);
+
+    @GET("http://119.9.68.36/api/selftime/getByUser.ac")
+    Observable<List<Video>> getAll(@Header("AUTH-TOKEN") String token);
 }

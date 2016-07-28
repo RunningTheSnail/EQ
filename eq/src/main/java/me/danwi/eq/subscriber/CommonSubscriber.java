@@ -23,6 +23,7 @@ public abstract class CommonSubscriber<T> extends BaseSubscriber<T> {
 
     @Override
     public void onError(Throwable e) {
+        //统一错误输出
         LogUtils.e(TAG, e.toString());
         if (e instanceof ConnectException) {
             deal("服务器连接异常,请检查网络");

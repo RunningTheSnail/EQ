@@ -8,7 +8,7 @@ import java.util.Map;
 
 import me.danwi.eq.EQApplication;
 import me.danwi.eq.interceptor.BaseHeaderInterceptor;
-import me.danwi.eq.interceptor.UploadProgressInterceptor;
+import me.danwi.eq.interceptor.CacheInterceptor;
 import okhttp3.Interceptor;
 
 /**
@@ -42,17 +42,21 @@ public class AppApplication extends EQApplication {
                 return map;
             }
         });
-        pre.add(new UploadProgressInterceptor());
+//        pre.add(new UploadProgressInterceptor());
         return pre;
     }
 
     @Override
     public List<Interceptor> getPost() {
-        return null;
+        List<Interceptor> post = new ArrayList<>();
+        post.add(new CacheInterceptor());
+        return post;
     }
+
+    //配置缓存目录
 
     @Override
     public String getDir() {
-        return null;
+        return getExternalCacheDir().getPath() + "/cache";
     }
 }

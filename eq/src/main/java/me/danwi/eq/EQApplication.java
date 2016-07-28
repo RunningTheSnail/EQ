@@ -71,11 +71,13 @@ public abstract class EQApplication extends Application {
     public abstract List<Interceptor> getPost();
 
     /**
-     * 获取缓存目录
+     * 默认的缓存目录
      *
      * @return
      */
-    public abstract String getDir();
+    public String getDir() {
+        return getCacheDir().getPath();
+    }
 
     /**
      * 配置缓存大小,默认是10M

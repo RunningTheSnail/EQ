@@ -10,11 +10,23 @@ import okhttp3.HttpUrl;
 public final class SimpleCookieJar implements CookieJar {
     private final List<Cookie> allCookies = new ArrayList<>();
 
+    /**
+     * 从响应中保存cookie(从响应头中读取set-cookie:"")
+     *
+     * @param url
+     * @param cookies
+     */
     @Override
     public synchronized void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
         allCookies.addAll(cookies);
     }
 
+    /**
+     * 添加到请求头中(设置请求头cookie:"")
+     *
+     * @param url 匹配的url
+     * @return
+     */
     @Override
     public synchronized List<Cookie> loadForRequest(HttpUrl url) {
         List<Cookie> result = new ArrayList<>();
