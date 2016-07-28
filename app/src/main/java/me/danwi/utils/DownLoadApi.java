@@ -28,10 +28,10 @@ public interface DownLoadApi {
     Observable<ResponseBody> download();
 
     @Multipart
-    @POST("http://119.9.68.36/admin/uploadSelftime.do ")
+    @POST("http://111.9.68.36/admin/uploadSelftime.do ")
     Observable<ResponseBody> upload(@PartMap Map<String, RequestBody> params, @Header("AUTH-TOKEN") String token);
 
     @Headers({"cache-control:max-age=3600"})
-    @GET("http://119.9.68.36/api/selftime/getByUser.ac")
+    @GET("http://111.9.68.36/api/selftime/getByUser.ac")
     Observable<List<Video>> getAll(@Header("AUTH-TOKEN") String token);
 }
