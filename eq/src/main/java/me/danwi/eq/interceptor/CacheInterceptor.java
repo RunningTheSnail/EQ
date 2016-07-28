@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import java.io.IOException;
 
 import me.danwi.eq.utils.LogUtils;
+import me.danwi.eq.utils.NetUtils;
+import okhttp3.CacheControl;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -20,11 +22,18 @@ public class CacheInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
-        Response response = chain.proceed(request);
+        String cacheControl = request.cacheControl().toString();
+        Response response;
+        if (NetUtils.isNetWorkAvailable()) {
+            //有网时,强制从网络中读取
+            response = chain.proceed(request.newBuilder().cacheControl(CacheControl.FORCE_NETWORK).build());
+        } else {
+            //没有网络时,强制从缓存中读取
+            response = chain.proceed(request.newBuilder().cacheControl(CacheControl.FORCE_CACHE).build());
+        }
         LogUtils.d(TAG, response.networkResponse() + "");
         //请求
         //获取Cache-Control请求头
-        String cacheControl = request.cacheControl().toString();
         if (TextUtils.isEmpty(cacheControl)) {
             cacheControl = "no-cache";
         }

@@ -9,7 +9,6 @@ import java.util.Map;
 import me.danwi.eq.EQApplication;
 import me.danwi.eq.interceptor.BaseHeaderInterceptor;
 import me.danwi.eq.interceptor.CacheInterceptor;
-import me.danwi.eq.interceptor.RequestStrategyInterceptor;
 import okhttp3.Interceptor;
 
 /**
@@ -43,16 +42,16 @@ public class AppApplication extends EQApplication {
                 return map;
             }
         });
-        pre.add(new RequestStrategyInterceptor());
+        pre.add(new CacheInterceptor());
 //        pre.add(new UploadProgressInterceptor());
         return pre;
     }
 
     @Override
     public List<Interceptor> getPost() {
-        List<Interceptor> post = new ArrayList<>();
-        post.add(new CacheInterceptor());
-        return post;
+//        List<Interceptor> post = new ArrayList<>();
+//        post.add(new CacheInterceptor());
+        return null;
     }
 
     //配置缓存目录
