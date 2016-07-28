@@ -9,6 +9,7 @@ import java.util.Map;
 import me.danwi.eq.EQApplication;
 import me.danwi.eq.interceptor.BaseHeaderInterceptor;
 import me.danwi.eq.interceptor.CacheInterceptor;
+import me.danwi.eq.interceptor.RequestStrategyInterceptor;
 import okhttp3.Interceptor;
 
 /**
@@ -42,6 +43,7 @@ public class AppApplication extends EQApplication {
                 return map;
             }
         });
+        pre.add(new RequestStrategyInterceptor());
 //        pre.add(new UploadProgressInterceptor());
         return pre;
     }

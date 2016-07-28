@@ -23,7 +23,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name="me.danwi.t.eq.service.DownLoadFileService" />
     </application>
 
 </manifest>

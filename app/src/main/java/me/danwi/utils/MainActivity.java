@@ -12,6 +12,7 @@ import me.danwi.eq.subscriber.CommonSubscriber;
 import me.danwi.eq.transform.ThreadTransFormer;
 import me.danwi.eq.utils.GsonUtils;
 import me.danwi.eq.utils.LogUtils;
+import me.danwi.eq.utils.NetUtils;
 import rx.Subscription;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        LogUtils.d(TAG, NetUtils.isNetWorkAvailable());
         TextView tv = (TextView) findViewById(R.id.send);
         Subscription subscription = downLoadApi.getAll("608bb376-5baf-4828-b670-8d5fe8bc08a0")
                 .compose(new ThreadTransFormer<List<Video>>())
