@@ -1,0 +1,22 @@
+//全局配置,也可以直接写在build.gradle文件中
+//独立出来需要apply from :'文件'
+ext {
+
+    //构建配置
+    android = [
+            applicationId    : "me.danwi.utils",
+            buildToolsVersion: "23.0.3",
+            compileSdkVersion: 23,
+            minSdkVersion    : 15,
+            targetSdkVersion : 23,
+            versionCode      : 1,
+            versionName      : "1.0.0"
+    ]
+
+    //生产环境和开发环境服务器地址配置
+    url = [
+            "debugUrl"  : "http://github.com",
+            "releaseUrl": "http://google.com"
+    ]
+
+}
