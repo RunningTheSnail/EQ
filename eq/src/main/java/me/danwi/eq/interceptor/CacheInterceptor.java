@@ -3,8 +3,9 @@ package me.danwi.eq.interceptor;
 import android.text.TextUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-import me.danwi.eq.utils.LogUtils;
 import me.danwi.eq.utils.NetUtils;
 import okhttp3.CacheControl;
 import okhttp3.Interceptor;
@@ -12,31 +13,45 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * Created by RunningSnail on 16/1/20.
- * <p>
+ * Created with Android Studio.
+ * User: 最帅最帅的RunningSnail
+ * Date: 16/1/20
+ * Time: 上午11:37
  * 缓存拦截器
  */
 public class CacheInterceptor implements Interceptor {
-    private static final String TAG = "CacheInterceptor";
 
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
+        //获取请求的地址
+        String url = request.url().url().toString();
         String cacheControl = request.cacheControl().toString();
         Response response;
         if (NetUtils.isNetWorkAvailable()) {
-            //有网时,强制从网络中读取
-            response = chain.proceed(request.newBuilder().cacheControl(CacheControl.FORCE_NETWORK).build());
+            //有网时,缓存是否过期判断从网络还是缓存中获取
+            if (forceNetWork().contains(url)) {
+                //强制从网络中获取
+                response = chain.proceed(chain.request().newBuilder().cacheControl(CacheControl.FORCE_NETWORK).build());
+            } else {
+                //先判断缓存是否过期,没有过期在缓存中获取,过期了从网络中获取
+                response = chain.proceed(request);
+            }
         } else {
-            //没有网络时,强制从缓存中读取
+            //没有网络时,强制从缓存中读取,如果缓存中过期会抛出异常
             response = chain.proceed(request.newBuilder().cacheControl(CacheControl.FORCE_CACHE).build());
         }
-        //请求
         //获取Cache-Control请求头
         if (TextUtils.isEmpty(cacheControl)) {
             cacheControl = "no-cache";
         }
         //修改响应头,如果请求头设置了缓存就沿用
         return response.newBuilder().removeHeader("Pragma").header("Cache-Control", cacheControl).build();
+    }
+
+    //需要强制从网络中获取的请求
+    //子类可以重写该方法
+    public List<String> forceNetWork() {
+        return new ArrayList<>();
     }
 }

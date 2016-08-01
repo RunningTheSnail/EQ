@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
                 .subscribe(new CommonSubscriber<List<Video>>() {
                     @Override
                     public void deal(String message) {
-                        LogUtils.e(TAG, message);
                     }
 
                     @Override

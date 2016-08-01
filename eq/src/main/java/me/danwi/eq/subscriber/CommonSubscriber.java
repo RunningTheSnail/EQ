@@ -8,6 +8,7 @@ import java.net.ConnectException;
 import me.danwi.eq.entity.ErrorMessage;
 import me.danwi.eq.utils.LogUtils;
 import okhttp3.ResponseBody;
+import retrofit2.Response;
 import retrofit2.adapter.rxjava.HttpException;
 
 /**
@@ -32,21 +33,28 @@ public abstract class CommonSubscriber<T> extends BaseSubscriber<T> {
         //通用异常
         if (e instanceof HttpException) {
             HttpException httpException = (HttpException) e;
-            ResponseBody responseBody = httpException.response().errorBody();
-            try {
-                ErrorMessage errorMessage = new Gson().fromJson(responseBody.string(), ErrorMessage.class);
-                if ("10000".equals(errorMessage.code)) {
+            Response response = httpException.response();
+            ResponseBody responseBody = response.errorBody();
+            //针对自家业务解析
+            if (response.code() == 500) {
+                try {
+                    ErrorMessage errorMessage = new Gson().fromJson(responseBody.string(), ErrorMessage.class);
+                    //如果服务器黑了,并不是正常返回
+                    if (errorMessage != null) {
+                        if ("10000".equals(errorMessage.code)) {
 
-                } else {
+                        } else {
 
+                        }
+                        deal(errorMessage.message);
+                        return;
+                    }
+                } catch (IOException e1) {
+                    //忽略
                 }
-                deal(errorMessage.message);
-            } catch (IOException e1) {
-                e1.printStackTrace();
             }
-            return;
         }
-        deal(e.getMessage());
+        deal(e.toString());
     }
 
     @Override

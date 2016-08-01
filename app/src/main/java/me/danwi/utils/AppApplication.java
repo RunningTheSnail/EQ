@@ -9,6 +9,7 @@ import java.util.Map;
 import me.danwi.eq.EQApplication;
 import me.danwi.eq.interceptor.BaseHeaderInterceptor;
 import me.danwi.eq.interceptor.CacheInterceptor;
+import me.danwi.eq.interceptor.NetWorkInterceptor;
 import okhttp3.Interceptor;
 
 /**
@@ -42,16 +43,24 @@ public class AppApplication extends EQApplication {
                 return map;
             }
         });
-        pre.add(new CacheInterceptor());
+        pre.add(new CacheInterceptor() {
+            @Override
+            public List<String> forceNetWork() {
+                //配置有网时,强制从网络中获取的请求地址
+                List<String> urls = new ArrayList<String>();
+                urls.add("http://119.9.68.36/api/selftime/getByUser.ac");
+                return urls;
+            }
+        });
 //        pre.add(new UploadProgressInterceptor());
         return pre;
     }
 
     @Override
     public List<Interceptor> getPost() {
-//        List<Interceptor> post = new ArrayList<>();
-//        post.add(new CacheInterceptor());
-        return null;
+        List<Interceptor> post = new ArrayList<>();
+        post.add(new NetWorkInterceptor());
+        return post;
     }
 
     //配置缓存目录
