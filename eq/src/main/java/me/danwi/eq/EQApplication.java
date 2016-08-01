@@ -12,7 +12,10 @@ import me.danwi.eq.utils.LogUtils;
 import okhttp3.Interceptor;
 
 /**
- * Created by RunningSnail on 16/2/27.
+ * Created with Android Studio.
+ * User: 最帅最帅的RunningSnail
+ * Date: 16/2/27
+ * Time: 上午10:27
  */
 public abstract class EQApplication extends Application {
 
