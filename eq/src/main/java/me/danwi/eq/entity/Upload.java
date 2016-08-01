@@ -1,7 +1,12 @@
 package me.danwi.eq.entity;
 
 /**
- * Created by RunningSnail on 16/7/27.
+ * Created with Android Studio.
+ * User: 最帅最帅的RunningSnail
+ * Date: 16/7/27
+ * Time: 下午4:35
+ * <p/>
+ * 上传参数
  */
 public class Upload {
     //key

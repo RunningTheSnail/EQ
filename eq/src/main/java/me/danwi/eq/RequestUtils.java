@@ -10,8 +10,12 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 /**
- * Created by RunningSnail on 16/7/27.
- * 请求辅助类
+ * Created with Android Studio.
+ * User: 最帅最帅的RunningSnail
+ * Date: 16/7/27
+ * Time: 下午4:04
+ * <p/>
+ * 文件上传辅助类,避免麻烦的参数拼接
  */
 public class RequestUtils {
 

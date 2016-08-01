@@ -1,8 +1,12 @@
 package me.danwi.eq.entity;
 
 /**
- * Created by RunningSnail on 16/6/2.
- * 错误信息
+ * Created with Android Studio.
+ * User: 最帅最帅的RunningSnail
+ * Date: 16/6/2
+ * Time: 下午4:34
+ * <p/>
+ * 业务异常错误信息
  */
 public class ErrorMessage {
     public String code;

@@ -12,7 +12,11 @@ import retrofit2.Response;
 import retrofit2.adapter.rxjava.HttpException;
 
 /**
- * Created by RunningSnail on 16/6/2.
+ * Created with Android Studio.
+ * User: 最帅最帅的RunningSnail
+ * Date: 16/6/2
+ * Time: 下午4:05
+ * <p/>
  * 封装Subscriber,对异常进行封装,统一处理(针对不同的Response可以定制不懂的转换规则)
  */
 public abstract class CommonSubscriber<T> extends BaseSubscriber<T> {
