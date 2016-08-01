@@ -2,6 +2,7 @@ package me.danwi.eq.core;
 
 import java.io.File;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import me.danwi.eq.cookie.SimpleCookieJar;
 import me.danwi.eq.interceptor.LoggerInterceptor;
@@ -13,21 +14,56 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by RunningSnail on 16/1/20.
+ * Created with Android Studio.
+ * User: 最帅最帅的RunningSnail
+ * Date: 16/1/20
+ * Time: 下午5:06
+ * <p>
  * 服务生产者
  */
 public class ServiceProducers {
 
-    //私有构造函数
-    private ServiceProducers() {
+    //请求的服务器地址,必须以 /  结尾
+    private String url;
 
-    }
+    //缓存目录设置
+    private String dir;
+
+    //请求之前处理 拦截器
+    private List<Interceptor> pre;
+
+    //响应之后处理 拦截器
+    private List<Interceptor> post;
+
+    //配置缓存大小
+    private int size;
+
+    private boolean debug = false;
+
+    private int connectTimeOut;
+    private int readTimeOut;
+    private int writeTimeOut;
 
     private static ServiceProducers serviceProducers;
 
     private Retrofit retrofit;
 
-    private ServiceProducers(String url, String dir, List<Interceptor> pre, List<Interceptor> post, boolean debug, int size) {
+    private ServiceProducers() {
+
+    }
+
+    //没有默认配置Builder,可以通过外部构建
+    public ServiceProducers(Builder builder) {
+        this.url = builder.url;
+        this.dir = builder.dir;
+        this.pre = builder.pre;
+        this.post = builder.post;
+        this.debug = builder.debug;
+        this.size = builder.size;
+        this.connectTimeOut = builder.connectTimeOut;
+        this.readTimeOut = builder.readTimeOut;
+        this.writeTimeOut = builder.writeTimeOut;
+
         checkNotNull(url, "url==null");
         Retrofit.Builder retrofitBuilder = new Retrofit.Builder();
         //为了配置拦截器
@@ -55,6 +91,9 @@ public class ServiceProducers {
             //内置日志拦截器,外部控制
             httpBuilder.addInterceptor(new LoggerInterceptor());
         }
+        httpBuilder.connectTimeout(connectTimeOut, TimeUnit.SECONDS);
+        httpBuilder.readTimeout(readTimeOut, TimeUnit.SECONDS);
+        httpBuilder.writeTimeout(writeTimeOut, TimeUnit.SECONDS);
 
         //默认支持cookie
         httpBuilder.cookieJar(new SimpleCookieJar());
@@ -68,11 +107,11 @@ public class ServiceProducers {
                 .build();
     }
 
-    private static ServiceProducers getInstance(String url, String dir, List<Interceptor> pre, List<Interceptor> post, boolean debug, int size) {
+    public static ServiceProducers getInstance(Builder builder) {
         if (serviceProducers == null) {
             synchronized (ServiceProducers.class) {
                 if (serviceProducers == null) {
-                    serviceProducers = new ServiceProducers(url, dir, pre, post, debug, size);
+                    serviceProducers = new ServiceProducers(builder);
                 }
             }
         }
@@ -96,6 +135,10 @@ public class ServiceProducers {
         private int size;
 
         private boolean debug = false;
+
+        private int connectTimeOut;
+        private int readTimeOut;
+        private int writeTimeOut;
 
         public Builder url(String url) {
             this.url = url;
@@ -127,9 +170,28 @@ public class ServiceProducers {
             return this;
         }
 
-        public ServiceProducers build() {
-            return getInstance(url, dir, pre, post, debug, size);
+        //连接超时时长
+        public Builder connectTimeOut(int connectTimeOut) {
+            this.connectTimeOut = connectTimeOut;
+            return this;
         }
+
+        //读取超时时长
+        public Builder readTimeOut(int readTimeOut) {
+            this.readTimeOut = readTimeOut;
+            return this;
+        }
+
+        //写入超时时长
+        public Builder writeTimeOut(int writeTimeOut) {
+            this.writeTimeOut = writeTimeOut;
+            return this;
+        }
+
+        public ServiceProducers build() {
+            return getInstance(this);
+        }
+
     }
 
     //生产服务

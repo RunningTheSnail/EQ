@@ -31,6 +31,9 @@ public abstract class EQApplication extends Application {
         LogUtils.init("EQ", logLevel);
         new ServiceProducers.Builder()
                 .url(getUrl())
+                .connectTimeOut(connectionTimeOut())
+                .readTimeOut(readTimeOut())
+                .writeTimeOut(writeTimeOut())
                 .pre(getPre())
                 .post(getPost())
                 .dir(getDir())
@@ -88,6 +91,19 @@ public abstract class EQApplication extends Application {
      * @return
      */
     public int getSize() {
+        return 10;
+    }
+
+    //10秒钟
+    public int connectionTimeOut() {
+        return 10;
+    }
+
+    public int readTimeOut() {
+        return 10;
+    }
+
+    public int writeTimeOut() {
         return 10;
     }
 }
