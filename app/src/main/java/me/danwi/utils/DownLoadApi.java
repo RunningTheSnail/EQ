@@ -11,6 +11,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PartMap;
+import retrofit2.http.Query;
 import retrofit2.http.Streaming;
 import rx.Observable;
 
@@ -28,10 +29,11 @@ public interface DownLoadApi {
     Observable<ResponseBody> download();
 
     @Multipart
-    @POST("http://111.9.68.36/admin/uploadSelftime.do ")
+    @POST("http://111.3.68.36/admin/uploadSelftime.do ")
     Observable<ResponseBody> upload(@PartMap Map<String, RequestBody> params, @Header("AUTH-TOKEN") String token);
 
-    @Headers({"cache-control:max-age=3600"})
+    @Headers({"cache-control:max-age=60"})
     @GET("http://119.9.68.36/api/selftime/getByUser.ac")
-    Observable<List<Video>> getAll(@Header("AUTH-TOKEN") String token);
+    Observable<List<Video>> getAll(@Header("AUTH-TOKEN") String token, @Query("name") String name);
+
 }

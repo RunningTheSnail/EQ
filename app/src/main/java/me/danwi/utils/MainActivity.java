@@ -11,7 +11,6 @@ import me.danwi.eq.core.ServiceProducers;
 import me.danwi.eq.subscriber.CommonSubscriber;
 import me.danwi.eq.transform.ThreadTransFormer;
 import me.danwi.eq.utils.LogUtils;
-import rx.Subscription;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -27,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         TextView tv = (TextView) findViewById(R.id.send);
-        Subscription subscription = downLoadApi.getAll("608bb376-5baf-4828-b670-8d5fe8bc08a0")
+        downLoadApi.getAll("608bb376-5baf-4828-b670-8d5fe8bc08a0","haha")
                 .compose(new ThreadTransFormer<List<Video>>())
                 .subscribe(new CommonSubscriber<List<Video>>() {
                     @Override

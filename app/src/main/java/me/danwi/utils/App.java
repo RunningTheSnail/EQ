@@ -59,7 +59,6 @@ public class App extends EQApplication {
     @Override
     public List<Interceptor> getPost() {
         List<Interceptor> post = new ArrayList<>();
-        post.add(new NetWorkInterceptor());
         return post;
     }
 

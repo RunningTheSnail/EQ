@@ -24,29 +24,34 @@ public class CacheInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
-        //获取请求的地址
-        String url = request.url().url().toString();
-        String cacheControl = request.cacheControl().toString();
-        Response response;
-        if (NetUtils.isNetWorkAvailable()) {
-            //有网时,缓存是否过期判断从网络还是缓存中获取
-            if (forceNetWork().contains(url)) {
-                //强制从网络中获取
-                response = chain.proceed(chain.request().newBuilder().cacheControl(CacheControl.FORCE_NETWORK).build());
+        //判断是否是get请求
+        if ("GET".equalsIgnoreCase(request.method())) {
+            //获取请求的地址
+            String url = request.url().url().toString();
+            String cacheControl = request.cacheControl().toString();
+            Response response;
+            if (NetUtils.isNetWorkAvailable()) {
+                //截取请求的url不包含参数
+                String result = url.split("\\?")[0];
+                if (forceNetWork().contains(result)) {
+                    //强制从网络中获取
+                    response = chain.proceed(chain.request().newBuilder().cacheControl(CacheControl.FORCE_NETWORK).build());
+                } else {
+                    //先判断缓存是否过期,没有过期在缓存中获取,过期了从网络中获取
+                    response = chain.proceed(request);
+                }
             } else {
-                //先判断缓存是否过期,没有过期在缓存中获取,过期了从网络中获取
-                response = chain.proceed(request);
+                //没有网络时,强制从缓存中读取,如果缓存中过期会抛出异常
+                response = chain.proceed(request.newBuilder().cacheControl(CacheControl.FORCE_CACHE).build());
             }
-        } else {
-            //没有网络时,强制从缓存中读取,如果缓存中过期会抛出异常
-            response = chain.proceed(request.newBuilder().cacheControl(CacheControl.FORCE_CACHE).build());
+            //获取Cache-Control请求头
+            if (TextUtils.isEmpty(cacheControl)) {
+                cacheControl = "no-cache";
+            }
+            //修改响应头,如果请求头设置了缓存就沿用
+            return response.newBuilder().removeHeader("Pragma").header("Cache-Control", cacheControl).build();
         }
-        //获取Cache-Control请求头
-        if (TextUtils.isEmpty(cacheControl)) {
-            cacheControl = "no-cache";
-        }
-        //修改响应头,如果请求头设置了缓存就沿用
-        return response.newBuilder().removeHeader("Pragma").header("Cache-Control", cacheControl).build();
+        return chain.proceed(request);
     }
 
     //需要强制从网络中获取的请求

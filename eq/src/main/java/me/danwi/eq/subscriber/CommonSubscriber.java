@@ -57,6 +57,12 @@ public abstract class CommonSubscriber<T> extends BaseSubscriber<T> {
                     //忽略
                 }
             }
+
+            //没有网络,缓存又过期
+            if (response.code() == 504) {
+                deal("服务器连接异常,请检查网络");
+                return;
+            }
         }
         deal(e.toString());
     }
