@@ -15,7 +15,7 @@ import okhttp3.Interceptor;
 /**
  * Created by RunningSnail on 16/7/20.
  */
-public class AppApplication extends EQApplication {
+public class App extends EQApplication {
     @Override
     public void onCreate() {
         super.onCreate();
@@ -28,7 +28,7 @@ public class AppApplication extends EQApplication {
 
     @Override
     public String getUrl() {
-        return "http://192.168.253.103:3000";
+        return BuildConfig.SERVER_URL;
     }
 
     @Override

@@ -1,9 +1,10 @@
 apply plugin: 'com.android.application'
 
 //签名配置
+println(rootProject.ext.url.signingUrl);
 Properties signingProperties = new Properties();
 //检查是否需要签名
-def signingFileExists = file('../signing.properties').exists()
+def signingFileExists = file(rootProject.ext.url.signingUrl).exists()
 if (!signingFileExists)
     println '当前项目被配置为不签名,如需开启,配置signing.properties文件';
 else {
@@ -41,8 +42,8 @@ android {
             release {
                 storeFile file(signingProperties.get('RELEASE_STORE_FILE'))
                 storePassword signingProperties.get('RELEASE_STORE_PASSWORD')
-                keyAlias signingProperties.get('RELEASE_KEY_PASSWORD')
-                keyPassword signingProperties.get('RELEASE_KEY_ALIAS')
+                keyAlias signingProperties.get('RELEASE_KEY_ALIAS')
+                keyPassword signingProperties.get('RELEASE_KEY_PASSWORD')
             }
         }
     }
@@ -126,8 +127,9 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile rootProject.ext.dependencies["appcompat-v7"]
     compile 'com.android.support:design:23.1.1'
     compile project(':eq')
+    compile project(':pgyer')
 }
 
