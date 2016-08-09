@@ -15,74 +15,55 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import me.danwi.eq.EQApplication;
+
 public class FileUtil {
-    /**
-     * 写文本文件 在Android系统中，文件保存在 /data/data/PACKAGE_NAME/files 目录下
-     *
-     * @param context
-     * @param fileName
-     * @param content
-     */
-    public static void write(Context context, String fileName, String content) {
-        if (content == null)
-            content = "";
-
-        try {
-            FileOutputStream fos = context.openFileOutput(fileName,
-                    Context.MODE_PRIVATE);
-            fos.write(content.getBytes());
-
-            fos.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
-     * 读取文本文件
+     * 写文本文件 根据sk是否存在,文件存储在不同的位置
+     * 1.文件保存在 /data/data/PACKAGE_NAME/files 目录下
+     * 2.文件保存在sd卡/Android/data/data/PACKAGE_NAME/dir/fileName
      *
-     * @param context
-     * @param fileName
-     * @return
+     * @param dir      文件目录
+     * @param fileName 文件名
+     * @param content  写入内容
      */
-    public static String read(Context context, String fileName) {
+    public static void writeFile(String dir, String fileName, byte[] content) {
+        //判断写入条件
+        Utils.checkNotNull(dir, "dir can't null");
+        Utils.checkNotNull(fileName, "fileName can't null");
+        Utils.checkNotNull(content, "content can't null");
+        FileOutputStream fos = null;
+        //代码简洁,在外层try catch
         try {
-            FileInputStream in = context.openFileInput(fileName);
-            return readInStream(in);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
-
-    public static String readInStream(InputStream inStream) {
-        try {
-            ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-            byte[] buffer = new byte[512];
-            int length = -1;
-            while ((length = inStream.read(buffer)) != -1) {
-                outStream.write(buffer, 0, length);
+            //先判断sd卡是否存在
+            if (SdCardUtils.isExist()) {
+                fos = new FileOutputStream(new File(EQApplication.context.getExternalFilesDir(dir), fileName));
+            } else {
+                File parent = new File(EQApplication.context.getFilesDir(), dir);
+                //判断父目录是否存在
+                if (!parent.exists()) {
+                    parent.mkdir();
+                }
+                fos = new FileOutputStream(new File(parent, fileName));
             }
-
-            outStream.close();
-            inStream.close();
-            return outStream.toString();
+            fos.write(content);
         } catch (IOException e) {
-            Log.i("FileTest", e.getMessage());
+            //// TODO: 16/8/9 日志 
+        } finally {
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    // TODO: 16/8/9 日志
+                    e.printStackTrace();
+                }
+            }
         }
-        return null;
-    }
-
-    public static File createFile(String folderPath, String fileName) {
-        File destDir = new File(folderPath);
-        if (!destDir.exists()) {
-            destDir.mkdirs();
-        }
-        return new File(folderPath, fileName + fileName);
     }
 
     /**
-     * 向手机写图片
+     * 向手机写图片 sd卡
      *
      * @param buffer
      * @param folder
@@ -127,6 +108,71 @@ public class FileUtil {
 
         return writeSucc;
     }
+
+    /**
+     * 读取文本
+     *
+     * @param dir      目录
+     * @param fileName 文件名
+     * @return 内容
+     */
+    public static String readFile(String dir, String fileName) {
+        //判断读取条件
+        Utils.checkNotNull(dir, "dir can't null");
+        Utils.checkNotNull(fileName, "fileName can't null");
+        FileInputStream fis = null;
+        String content = null;
+        //代码简洁,在外层try catch
+        try {
+            //先判断sd卡是否存在
+            if (SdCardUtils.isExist()) {
+                fis = new FileInputStream(new File(EQApplication.context.getExternalFilesDir(dir), fileName));
+            } else {
+                File parent = new File(EQApplication.context.getFilesDir(), dir);
+                fis = new FileInputStream(new File(parent, fileName));
+            }
+            content = readInStream(fis);
+        } catch (IOException e) {
+            //// TODO: 16/8/9 日志
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    // TODO: 16/8/9 日志 
+                    e.printStackTrace();
+                }
+            }
+        }
+        return content;
+    }
+
+    public static String readInStream(InputStream inStream) {
+        try {
+            ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+            byte[] buffer = new byte[512];
+            int length = -1;
+            while ((length = inStream.read(buffer)) != -1) {
+                outStream.write(buffer, 0, length);
+            }
+
+            outStream.close();
+            inStream.close();
+            return outStream.toString();
+        } catch (IOException e) {
+            Log.i("FileTest", e.getMessage());
+        }
+        return null;
+    }
+
+    public static File createFile(String folderPath, String fileName) {
+        File destDir = new File(folderPath);
+        if (!destDir.exists()) {
+            destDir.mkdirs();
+        }
+        return new File(folderPath, fileName + fileName);
+    }
+
 
     /**
      * 根据文件绝对路径获取文件名
@@ -446,7 +492,7 @@ public class FileUtil {
 
     /**
      * 删除空目录
-     * <p>
+     * <p/>
      * 返回 0代表成功 ,1 代表没有删除权限, 2代表不是空目录,3 代表未知错误
      *
      * @return

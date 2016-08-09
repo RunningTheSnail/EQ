@@ -4,7 +4,7 @@ ext {
 
     //构建配置
     android = [
-            applicationId    : "me.danwi.utils",
+            applicationId    : "me.danwi.eq",
             buildToolsVersion: "23.0.3",
             compileSdkVersion: 23,
             minSdkVersion    : 15,

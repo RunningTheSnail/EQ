@@ -3,13 +3,9 @@ package me.danwi.utils;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.TextView;
-
-import java.util.List;
 
 import me.danwi.eq.core.ServiceProducers;
-import me.danwi.eq.subscriber.CommonSubscriber;
-import me.danwi.eq.transform.ThreadTransFormer;
+import me.danwi.eq.utils.FileUtil;
 import me.danwi.eq.utils.LogUtils;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,19 +21,9 @@ public class MainActivity extends AppCompatActivity {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        TextView tv = (TextView) findViewById(R.id.send);
-        downLoadApi.getAll("608bb376-5baf-4828-b670-8d5fe8bc08a0","haha")
-                .compose(new ThreadTransFormer<List<Video>>())
-                .subscribe(new CommonSubscriber<List<Video>>() {
-                    @Override
-                    public void deal(String message) {
-                    }
-
-                    @Override
-                    public void onNext(List<Video> videos) {
-                        LogUtils.d(TAG, "success");
-                    }
-                });
+        FileUtil.writeFile("test", "test.text", "Running Snail".getBytes());
+        String content = FileUtil.readFile("test", "test.text");
+        LogUtils.d(TAG, content);
     }
 
 
