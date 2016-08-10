@@ -1,9 +1,9 @@
 package me.danwi.eq.utils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Environment;
 import android.os.StatFs;
-import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -20,7 +20,7 @@ import me.danwi.eq.EQApplication;
 public class FileUtil {
 
     /**
-     * 写文本文件 根据sk是否存在,文件存储在不同的位置
+     * 写文本文件 根据sd卡是否存在,文件存储在不同的位置
      * 1.文件保存在 /data/data/PACKAGE_NAME/files 目录下
      * 2.文件保存在sd卡/Android/data/data/PACKAGE_NAME/dir/fileName
      *
@@ -28,7 +28,7 @@ public class FileUtil {
      * @param fileName 文件名
      * @param content  写入内容
      */
-    public static void writeFile(String dir, String fileName, byte[] content) {
+    public static void writeFileToPackage(String dir, String fileName, byte[] content) {
         //判断写入条件
         Utils.checkNotNull(dir, "dir can't null");
         Utils.checkNotNull(fileName, "fileName can't null");
@@ -65,24 +65,21 @@ public class FileUtil {
     /**
      * 向手机写图片 sd卡
      *
-     * @param buffer
+     * @param buffer   字节数组
      * @param folder
      * @param fileName
      * @return
      */
-    public static boolean writeFile(byte[] buffer, String folder,
-                                    String fileName) {
-        boolean writeSucc = false;
+    public static boolean writeFileToSd(byte[] buffer, String folder, String fileName) {
+        boolean writeSuccess = false;
 
-        boolean sdCardExist = Environment.getExternalStorageState().equals(
-                Environment.MEDIA_MOUNTED);
+        boolean sdCardExist = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
 
         String folderPath = "";
         if (sdCardExist) {
-            folderPath = Environment.getExternalStorageDirectory()
-                    + File.separator + folder + File.separator;
+            folderPath = Environment.getExternalStorageDirectory() + File.separator + folder + File.separator;
         } else {
-            writeSucc = false;
+            writeSuccess = false;
         }
 
         File fileDir = new File(folderPath);
@@ -95,7 +92,7 @@ public class FileUtil {
         try {
             out = new FileOutputStream(file);
             out.write(buffer);
-            writeSucc = true;
+            writeSuccess = true;
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -106,7 +103,32 @@ public class FileUtil {
             }
         }
 
-        return writeSucc;
+        return writeSuccess;
+    }
+
+
+    /**
+     * 将bitmap转成字节数组
+     *
+     * @param bitmap bitmap
+     * @return
+     */
+    public static byte[] bitmapToBytes(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        //质量压缩
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
+    }
+
+    /**
+     * 将bitmap保存成文件
+     *
+     * @param bitmap
+     * @param dir
+     * @param fileName
+     */
+    public static void bitmapToFile(Bitmap bitmap, String dir, String fileName) {
+        writeFileToPackage(dir, fileName, bitmapToBytes(bitmap));
     }
 
     /**
@@ -151,7 +173,7 @@ public class FileUtil {
         try {
             ByteArrayOutputStream outStream = new ByteArrayOutputStream();
             byte[] buffer = new byte[512];
-            int length = -1;
+            int length;
             while ((length = inStream.read(buffer)) != -1) {
                 outStream.write(buffer, 0, length);
             }
@@ -160,11 +182,18 @@ public class FileUtil {
             inStream.close();
             return outStream.toString();
         } catch (IOException e) {
-            Log.i("FileTest", e.getMessage());
+            // TODO: 16/8/10 日志
         }
         return null;
     }
 
+    /**
+     * 创建文件
+     *
+     * @param folderPath 目录
+     * @param fileName   文件名
+     * @return
+     */
     public static File createFile(String folderPath, String fileName) {
         File destDir = new File(folderPath);
         if (!destDir.exists()) {
@@ -492,7 +521,7 @@ public class FileUtil {
 
     /**
      * 删除空目录
-     * <p/>
+     * <p>
      * 返回 0代表成功 ,1 代表没有删除权限, 2代表不是空目录,3 代表未知错误
      *
      * @return
