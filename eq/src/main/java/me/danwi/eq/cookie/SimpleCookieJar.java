@@ -31,6 +31,7 @@ public final class SimpleCookieJar implements CookieJar {
     public synchronized List<Cookie> loadForRequest(HttpUrl url) {
         List<Cookie> result = new ArrayList<>();
         for (Cookie cookie : allCookies) {
+            //将域名相同的cookie添加到result
             if (cookie.matches(url)) {
                 result.add(cookie);
             }

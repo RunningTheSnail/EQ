@@ -6,7 +6,10 @@ import rx.subjects.SerializedSubject;
 import rx.subjects.Subject;
 
 /**
- * Created by RunningSnail on 16/6/7.
+ * Created with Android Studio.
+ * User: 最帅最帅的RunningSnail
+ * Date: 16/6/7
+ * Time: 上午10:06
  */
 public class RxBus {
     private static RxBus rxBus;

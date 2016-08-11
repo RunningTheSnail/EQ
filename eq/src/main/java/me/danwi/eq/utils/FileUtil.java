@@ -1,7 +1,6 @@
 package me.danwi.eq.utils;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Environment;
 import android.os.StatFs;
 
@@ -106,30 +105,6 @@ public class FileUtil {
         return writeSuccess;
     }
 
-
-    /**
-     * 将bitmap转成字节数组
-     *
-     * @param bitmap bitmap
-     * @return
-     */
-    public static byte[] bitmapToBytes(Bitmap bitmap) {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        //质量压缩
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-        return byteArrayOutputStream.toByteArray();
-    }
-
-    /**
-     * 将bitmap保存成文件
-     *
-     * @param bitmap
-     * @param dir
-     * @param fileName
-     */
-    public static void bitmapToFile(Bitmap bitmap, String dir, String fileName) {
-        writeFileToPackage(dir, fileName, bitmapToBytes(bitmap));
-    }
 
     /**
      * 读取文本

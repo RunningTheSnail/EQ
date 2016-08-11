@@ -3,6 +3,8 @@ package me.danwi.eq.utils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import java.io.ByteArrayOutputStream;
+
 import me.danwi.eq.EQApplication;
 
 /**
@@ -16,9 +18,9 @@ public class ImageUtils {
     /**
      * 计算缩放比例
      *
-     * @param options：包含了图片的width,height
-     * @param reqWidth：需要压缩到的宽度
-     * @param reqHeight:需要压缩到的高度
+     * @param options   从中分析出width,height
+     * @param reqWidth  目标宽度
+     * @param reqHeight 目标高度
      * @return
      */
     private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
@@ -39,11 +41,11 @@ public class ImageUtils {
     /**
      * 按比例压缩图片
      *
-     * @param path:图片保存的路径
-     * @param data:字节中获取
-     * @param resourceId:从项目中获取
-     * @param reqWidth:显示的宽度
-     * @param reqHeight:显示的高度
+     * @param path       图片保存的路径
+     * @param data       字节中获取
+     * @param resourceId 从项目中获取
+     * @param reqWidth   目标宽度
+     * @param reqHeight  目标高度
      * @return
      */
     private static Bitmap decode(String path, byte[] data, int resourceId, int reqWidth, int reqHeight) {
@@ -77,13 +79,7 @@ public class ImageUtils {
         return bitmap;
     }
 
-    /**
-     * 读取sd卡下的图片
-     *
-     * @param reqWidth
-     * @param reqHeight
-     * @return:bitmap
-     */
+
     public static Bitmap decodeSd(String path, int reqWidth, int reqHeight) {
         return decode(path, null, 0, reqWidth, reqHeight);
     }
@@ -96,4 +92,27 @@ public class ImageUtils {
         return decode(null, null, resourceId, reqWidth, reqHeight);
     }
 
+    /**
+     * 将bitmap转成字节数组
+     *
+     * @param bitmap bitmap
+     * @return
+     */
+    public static byte[] bitmapToBytes(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        //质量压缩
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
+    }
+
+    /**
+     * 将bitmap保存成文件
+     *
+     * @param bitmap   bitmap
+     * @param dir      目录
+     * @param fileName 文件名
+     */
+    public static void bitmapToFile(Bitmap bitmap, String dir, String fileName) {
+        FileUtil.writeFileToPackage(dir, fileName, bitmapToBytes(bitmap));
+    }
 }
