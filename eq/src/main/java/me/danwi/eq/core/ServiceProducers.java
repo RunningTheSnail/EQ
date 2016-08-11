@@ -18,42 +18,40 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * User: 最帅最帅的RunningSnail
  * Date: 16/1/20
  * Time: 下午5:06
- * <p>
+ * <p/>
  * 服务生产者
  */
 public class ServiceProducers {
 
     //请求的服务器地址,必须以 /  结尾
-    private String url;
+    final String url;
 
     //缓存目录设置
-    private String dir;
+    final String dir;
 
     //请求之前处理 拦截器
-    private List<Interceptor> pre;
+    final List<Interceptor> pre;
 
     //响应之后处理 拦截器
-    private List<Interceptor> post;
+    final List<Interceptor> post;
 
     //配置缓存大小
-    private int size;
+    final int size;
 
-    private boolean debug = false;
+    final boolean debug;
 
-    private int connectTimeOut;
-    private int readTimeOut;
-    private int writeTimeOut;
+    final int connectTimeOut;
+    final int readTimeOut;
+    final int writeTimeOut;
 
     private static ServiceProducers serviceProducers;
 
     private Retrofit retrofit;
 
-    private ServiceProducers() {
-
-    }
+    private OkHttpClient okHttpClient;
 
     //没有默认配置Builder,可以通过外部构建
-    public ServiceProducers(Builder builder) {
+    private ServiceProducers(Builder builder) {
         this.url = builder.url;
         this.dir = builder.dir;
         this.pre = builder.pre;
@@ -94,13 +92,13 @@ public class ServiceProducers {
         httpBuilder.connectTimeout(connectTimeOut, TimeUnit.SECONDS);
         httpBuilder.readTimeout(readTimeOut, TimeUnit.SECONDS);
         httpBuilder.writeTimeout(writeTimeOut, TimeUnit.SECONDS);
-
         //默认支持cookie
         httpBuilder.cookieJar(new SimpleCookieJar());
         //创建OkHttpClient客户端
-        OkHttpClient okHttpClient = httpBuilder.build();
+        okHttpClient = httpBuilder.build();
         //创建retrofit对象,默认使用Gson解析Request和response
-        retrofit = retrofitBuilder.baseUrl(url)
+        retrofit = retrofitBuilder
+                .baseUrl(url)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
@@ -119,23 +117,12 @@ public class ServiceProducers {
     }
 
     public static class Builder {
-        //请求的服务器地址,必须以 /  结尾
         private String url;
-
-        //缓存目录设置
         private String dir;
-
-        //请求之前处理 拦截器
         private List<Interceptor> pre;
-
-        //响应之后处理 拦截器
         private List<Interceptor> post;
-
-        //配置缓存大小
         private int size;
-
         private boolean debug = false;
-
         private int connectTimeOut;
         private int readTimeOut;
         private int writeTimeOut;
@@ -197,7 +184,7 @@ public class ServiceProducers {
     //生产服务
     public static <T> T createService(Class<T> service) {
         if (serviceProducers == null) {
-            throw new NullPointerException("ServiceProducers必须初始化");
+            throw new NullPointerException("you don't init serviceProducers");
         }
         return serviceProducers.retrofit.create(service);
     }
