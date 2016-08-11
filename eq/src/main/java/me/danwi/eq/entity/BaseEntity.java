@@ -1,7 +1,10 @@
 package me.danwi.eq.entity;
 
 /**
- * Created by RunningSnail on 16/7/29.
+ * Created with Android Studio.
+ * User: HandSome-T
+ * Date: 16/7/29
+ * Time: 下午3:14
  */
 public class BaseEntity<T> {
     public int code;

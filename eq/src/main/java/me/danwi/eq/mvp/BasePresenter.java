@@ -4,7 +4,10 @@ import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
 /**
- * Created by RunningSnail on 16/6/1.
+ * Created with Android Studio.
+ * User: HandSome-T
+ * Date: 16/6/1
+ * Time: 下午3:18
  */
 public abstract class BasePresenter<V> {
     public CompositeSubscription compositeSubscription;

@@ -12,7 +12,10 @@ import okio.Okio;
 import okio.Sink;
 
 /**
- * Created by RunningSnail on 16/1/20.
+ * Created with Android Studio.
+ * User: HandSome-T
+ * Date: 16/1/20
+ * Time: 下午3:18
  */
 public class ProgressRequestBody extends RequestBody {
     public static final String TAG = "ProgressRequestBody";

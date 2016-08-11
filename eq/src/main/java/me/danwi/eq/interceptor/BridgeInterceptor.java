@@ -9,10 +9,14 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * Created by RunningSnail on 16/7/20.
- * 修改请求头拦截器
+ * Created with Android Studio.
+ * User: HandSome-T
+ * Date: 16/7/20
+ * Time: 下午3:15
+ * <p/>
+ * 请求头修改拦截器
  */
-public abstract class BaseHeaderInterceptor implements Interceptor {
+public abstract class BridgeInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();

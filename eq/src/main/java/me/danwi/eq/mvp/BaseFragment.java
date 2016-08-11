@@ -11,7 +11,10 @@ import android.view.ViewGroup;
 import butterknife.ButterKnife;
 
 /**
- * Created by RunningSnail on 16/6/1.
+ * Created with Android Studio.
+ * User: HandSome-T
+ * Date: 16/6/1
+ * Time: 下午3:18
  */
 public abstract class BaseFragment<V, T extends BasePresenter<V>> extends Fragment {
     public String TAG = this.getClass().getSimpleName();
