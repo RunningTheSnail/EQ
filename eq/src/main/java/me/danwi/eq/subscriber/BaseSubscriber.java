@@ -1,7 +1,6 @@
 package me.danwi.eq.subscriber;
 
-import android.util.Log;
-
+import me.danwi.eq.utils.LogUtils;
 import rx.Subscriber;
 
 /**
@@ -17,7 +16,7 @@ public class BaseSubscriber<T> extends Subscriber<T> {
 
     @Override
     public void onError(Throwable e) {
-        Log.e(TAG, e.toString());
+        LogUtils.e(TAG, e.toString());
     }
 
     @Override

@@ -41,7 +41,7 @@ public class CacheInterceptor implements Interceptor {
                     response = chain.proceed(request);
                 }
             } else {
-                //没有网络时,强制从缓存中读取,如果缓存中过期会抛出异常
+                //没有网络时,强制从缓存中读取,如果缓存不存在或者过期会返回504错误
                 response = chain.proceed(request.newBuilder().cacheControl(CacheControl.FORCE_CACHE).build());
             }
             //获取Cache-Control请求头

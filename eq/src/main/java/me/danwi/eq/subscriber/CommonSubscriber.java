@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.net.ConnectException;
 
 import me.danwi.eq.entity.ErrorMessage;
-import me.danwi.eq.utils.LogUtils;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.adapter.rxjava.HttpException;
@@ -16,7 +15,7 @@ import retrofit2.adapter.rxjava.HttpException;
  * User: 最帅最帅的RunningSnail
  * Date: 16/6/2
  * Time: 下午4:05
- * <p/>
+ * <p>
  * 封装Subscriber,对异常进行封装,统一处理(针对不同的Response可以定制不懂的转换规则)
  */
 public abstract class CommonSubscriber<T> extends BaseSubscriber<T> {
@@ -28,8 +27,7 @@ public abstract class CommonSubscriber<T> extends BaseSubscriber<T> {
 
     @Override
     public void onError(Throwable e) {
-        //统一错误输出
-        LogUtils.e(TAG, e.toString());
+        super.onError(e);
         if (e instanceof ConnectException) {
             deal("服务器连接异常,请检查网络");
             return;
