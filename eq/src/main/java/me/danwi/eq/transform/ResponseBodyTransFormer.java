@@ -40,8 +40,7 @@ public abstract class ResponseBodyTransFormer implements Observable.Transformer<
                                 String folderPath = "";
                                 if (sdCardExist) {
                                     //文件夹
-                                    folderPath = SdCardUtils.getRootPath()
-                                            + File.separator + getFolder() + File.separator;
+                                    folderPath = SdCardUtils.getRootPath() + File.separator + getFolder() + File.separator;
                                 }
 
                                 File fileDir = new File(folderPath);

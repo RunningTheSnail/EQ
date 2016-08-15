@@ -6,7 +6,10 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 /**
- * Created by RunningSnail on 16/7/4.
+ * Created with Android Studio.
+ * User: HandSome-T
+ * Date: 16/7/4
+ * Time: 上午11:41
  */
 public class DownLoadFileService extends Service {
 

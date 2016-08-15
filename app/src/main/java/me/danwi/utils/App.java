@@ -7,9 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import me.danwi.eq.EQApplication;
-import me.danwi.eq.interceptor.BaseHeaderInterceptor;
-import me.danwi.eq.interceptor.CacheInterceptor;
-import me.danwi.eq.interceptor.NetWorkInterceptor;
+import me.danwi.eq.interceptor.BridgeInterceptor;
 import okhttp3.Interceptor;
 
 /**
@@ -34,7 +32,7 @@ public class App extends EQApplication {
     @Override
     public List<Interceptor> getPre() {
         List<Interceptor> pre = new ArrayList<>();
-        pre.add(new BaseHeaderInterceptor() {
+        pre.add(new BridgeInterceptor() {
             @Override
             public Map<String, String> add() {
                 Map<String, String> map = new HashMap<>();
@@ -43,16 +41,6 @@ public class App extends EQApplication {
                 return map;
             }
         });
-        pre.add(new CacheInterceptor() {
-            @Override
-            public List<String> forceNetWork() {
-                //配置有网时,强制从网络中获取的请求地址
-                List<String> urls = new ArrayList<String>();
-                urls.add("http://119.9.68.36/api/selftime/getByUser.ac");
-                return urls;
-            }
-        });
-//        pre.add(new UploadProgressInterceptor());
         return pre;
     }
 
