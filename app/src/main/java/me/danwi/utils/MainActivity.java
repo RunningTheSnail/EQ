@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import me.danwi.eq.core.ServiceProducers;
-
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -16,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final Api api = ServiceProducers.createService(Api.class);
+//        final Api api = ServiceProducers.createService(Api.class);
         //断点续传
 //        api.download("")
 //                .flatMap(new Func1<ResponseBody, Observable<Long>>() {
