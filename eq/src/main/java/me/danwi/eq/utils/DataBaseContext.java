@@ -10,7 +10,10 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Created by RunningSnail on 16/6/14.
+ * Created with Android Studio.
+ * User: HandSome-T
+ * Date: 16/6/14
+ * Time: 下午11:53
  */
 public class DataBaseContext extends ContextWrapper {
     //db文件保存的路径
