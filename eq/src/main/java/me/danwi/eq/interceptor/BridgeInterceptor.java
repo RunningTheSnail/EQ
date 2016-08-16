@@ -14,7 +14,8 @@ import okhttp3.Response;
  * Date: 16/7/20
  * Time: 下午3:15
  * <p/>
- * 请求头修改拦截器
+ * 1.请求头修改拦截器,添加统一的请求头
+ * 2.每个请求添加不同的请求可以使用@Header注解
  */
 public abstract class BridgeInterceptor implements Interceptor {
     @Override
