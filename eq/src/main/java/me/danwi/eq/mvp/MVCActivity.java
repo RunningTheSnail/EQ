@@ -14,7 +14,7 @@ import rx.subscriptions.CompositeSubscription;
  * Date: 16/8/17
  * Time: 下午6:46
  */
-public abstract class CommonActivity extends AppCompatActivity {
+public abstract class MVCActivity extends AppCompatActivity {
     public String TAG = this.getClass().getSimpleName();
 
     //子类不需要知道
