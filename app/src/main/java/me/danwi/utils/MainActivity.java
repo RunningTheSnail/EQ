@@ -3,16 +3,35 @@ package me.danwi.utils;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.Button;
+
+import com.jakewharton.rxbinding.view.RxView;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import rx.functions.Action1;
 
 public class MainActivity extends AppCompatActivity {
+
     private static final String TAG = MainActivity.class.getSimpleName();
+    @BindView(R.id.btn_click)
+    Button btnClick;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        RxView.clicks(btnClick).doOnNext(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                        //void presenter.init();有异常内部也会捕捉
+                    }
+                })
+                .subscribe();
 
 //        final Api api = ServiceProducers.createService(Api.class);
         //断点续传
