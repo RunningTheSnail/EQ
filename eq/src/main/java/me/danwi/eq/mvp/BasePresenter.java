@@ -31,6 +31,8 @@ public abstract class BasePresenter<V> {
 
     public void onDetach() {
         if (compositeSubscription != null && compositeSubscription.isUnsubscribed()) {
+            //取消订阅,不再接受事件
+            //关键代码SafeSubscriber里面
             compositeSubscription.unsubscribe();
         }
         this.view = null;

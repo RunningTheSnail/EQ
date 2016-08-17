@@ -7,6 +7,8 @@ import android.widget.Button;
 
 import com.jakewharton.rxbinding.view.RxView;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.functions.Action1;
@@ -32,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .subscribe();
+
+        RxView.clicks(btnClick)
+                .throttleWithTimeout(500, TimeUnit.MILLISECONDS);
+
 
 //        final Api api = ServiceProducers.createService(Api.class);
         //断点续传
