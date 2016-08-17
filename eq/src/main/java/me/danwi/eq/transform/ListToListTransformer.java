@@ -11,7 +11,7 @@ import rx.functions.Func1;
  * Date: 16/8/17
  * Time: 上午12:07
  */
-public abstract class ListToList<T, R> implements Observable.Transformer<List<T>, List<R>> {
+public abstract class ListToListTransformer<T, R> implements Observable.Transformer<List<T>, List<R>> {
 
     @Override
     public Observable<List<R>> call(Observable<List<T>> listObservable) {

@@ -9,7 +9,7 @@ import rx.functions.Func1;
  * Created by RunningSnail on 16/7/29.
  * 普通的请求结果转换
  */
-public class ResolveResponse<T> implements Observable.Transformer<BaseEntity<T>, T> {
+public class CommonResponseTransformer<T> implements Observable.Transformer<BaseEntity<T>, T> {
 
     @Override
     public Observable<T> call(Observable<BaseEntity<T>> baseEntityObservable) {
