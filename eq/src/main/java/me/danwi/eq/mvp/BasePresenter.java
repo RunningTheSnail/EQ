@@ -10,7 +10,7 @@ import rx.subscriptions.CompositeSubscription;
  * Time: 下午3:18
  */
 public abstract class BasePresenter<V> {
-    public CompositeSubscription compositeSubscription;
+    private CompositeSubscription compositeSubscription;
 
     public void addSubscription(Subscription subscription) {
         if (compositeSubscription == null) {
@@ -30,7 +30,7 @@ public abstract class BasePresenter<V> {
     }
 
     public void onDetach() {
-        if (compositeSubscription != null) {
+        if (compositeSubscription != null && compositeSubscription.isUnsubscribed()) {
             compositeSubscription.unsubscribe();
         }
         this.view = null;
