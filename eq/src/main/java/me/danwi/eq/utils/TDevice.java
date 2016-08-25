@@ -67,7 +67,8 @@ public class TDevice {
     public static int getVersionCode(String packageName) {
         int versionCode = 0;
         try {
-            versionCode = EQApplication.getContext().getPackageManager()
+            versionCode = EQApplication.getContext()
+                    .getPackageManager()
                     .getPackageInfo(packageName, 0).versionCode;
         } catch (PackageManager.NameNotFoundException ex) {
             versionCode = 0;

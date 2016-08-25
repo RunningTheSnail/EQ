@@ -3,40 +3,23 @@ package me.danwi.utils;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.Button;
+import android.widget.ImageView;
 
-import com.jakewharton.rxbinding.view.RxView;
-
-import java.util.concurrent.TimeUnit;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import rx.functions.Action1;
+import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    @BindView(R.id.btn_click)
-    Button btnClick;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        RxView.clicks(btnClick).doOnNext(new Action1<Void>() {
-                    @Override
-                    public void call(Void aVoid) {
-                        //void presenter.init();有异常内部也会捕捉
-                    }
-                })
-                .subscribe();
-
-        RxView.clicks(btnClick)
-                .throttleWithTimeout(500, TimeUnit.MILLISECONDS);
+        ImageView imageView = (ImageView) findViewById(R.id.iv);
+        Picasso.with(this).load(R.mipmap.ic_launcher).into(imageView);
 
 
 //        final Api api = ServiceProducers.createService(Api.class);

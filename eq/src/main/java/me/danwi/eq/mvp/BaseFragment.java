@@ -19,14 +19,14 @@ import butterknife.ButterKnife;
 public abstract class BaseFragment<V, T extends BasePresenter<V>> extends Fragment {
     public String TAG = this.getClass().getSimpleName();
 
-    public BaseActivity activity;
+    public BaseMVPActivity activity;
 
     public T presenter;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.activity = (BaseActivity) context;
+        this.activity = (BaseMVPActivity) context;
     }
 
     @Override
