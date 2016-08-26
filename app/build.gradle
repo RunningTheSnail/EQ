@@ -9,7 +9,7 @@ if (!signingFileExists)
     println '当前项目被配置为不签名,如需开启,配置signing.properties文件';
 else {
     println '当前项目配置了签名';
-    signingProperties.load(file('../signing.properties').newDataInputStream());
+    signingProperties.load(file(rootProject.ext.url.signingUrl).newDataInputStream());
 }
 
 //定义开发环境和生产环境服务器地址
@@ -19,6 +19,19 @@ def String RELEASE_URL = "\"" + rootProject.ext.url.releaseUrl + "\"";
 //定义打包的时间
 def packageTime() {
     return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"));
+}
+
+buildscript {
+    repositories {
+        jcenter()
+        flatDir {
+            dirs 'libs' //this way we can find the .aar file in libs folder
+        }
+    }
+
+    dependencies {
+
+    }
 }
 
 android {
@@ -49,6 +62,19 @@ android {
     }
 
     buildTypes {
+
+        debug {
+            //测试环境的服务器地址
+            buildConfigField "String", "SERVER_URL", DEBUG_URL
+            //是否开启混淆
+            minifyEnabled false
+            //是否zip优化
+            zipAlignEnabled true
+            //移除无用的资源文件
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
         release {
             //生产环境的服务器地址
             buildConfigField "String", "SERVER_URL", RELEASE_URL
@@ -87,30 +113,30 @@ android {
     }
 
     //修改生成的最终文件名
-//    applicationVariants.all { variant ->
-//        variant.outputs.each { output ->
-//            def outputFile = output.outputFile
-//            if (outputFile != null && outputFile.name.endsWith('.apk')) {
-//                File outputDirectory = new File(outputFile.parent);
-//                def fileName
-//                if (variant.buildType.name == "release") {
-//                    // 输出apk名称为app_v1.0.0_2015-06-15_playStore.apk
-//                    fileName = "app_v${defaultConfig.versionName}_${packageTime()}_${variant.productFlavors[0].name}.apk"
-//                } else {
-//                    fileName = "app_v${defaultConfig.versionName}_${packageTime()}_beta.apk"
-//                }
-//                output.outputFile = new File(outputDirectory, fileName)
-//            }
-//        }
-//    }
-
-    // 删掉没有签名的APK文件，同时在这里也可以配置APK文件的输出路径
     applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                File outputDirectory = new File(outputFile.parent);
+                def fileName
+                if (variant.buildType.name == "release") {
+                    // 输出apk名称为app_v1.0.0_2015-06-15_playStore.apk
+                    fileName = "app_v${defaultConfig.versionName}_${packageTime()}_${variant.productFlavors[0].name}.apk"
+                } else {
+                    //debug版本
+                    fileName = "app_v${defaultConfig.versionName}_${packageTime()}_beta.apk"
+                }
+                //定义生成的路径
+                output.outputFile = new File(outputDirectory, fileName)
+            }
+        }
+    }
+
+    // 删掉没有对齐的APK文件
+    applicationVariants.all { variant ->
+        //assemble task最后
         variant.assemble.doLast {
             variant.outputs.each { output ->
-                println "aligned " + output.outputFile
-                println "unaligned " + output.packageApplication.outputFile
-
                 File unaligned = output.packageApplication.outputFile;
                 File aligned = output.outputFile
                 if (!unaligned.getName().equalsIgnoreCase(aligned.getName())) {
@@ -121,6 +147,13 @@ android {
         }
     }
 
+    //过滤debug版本
+//    variantFilter { variant ->
+//        if (variant.buildType.name == "debug") {
+//            variant.ignore = true
+//        }
+//    }
+
 
 }
 
@@ -129,6 +162,8 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile rootProject.ext.dependencies["appcompat-v7"]
     compile 'com.android.support:design:23.1.1'
+//    compile(name: 'eq-release', ext: 'aar')
+//    compile(name: 'pgyer-release', ext: 'aar')
     compile project(':eq')
     compile project(':pgyer')
 }

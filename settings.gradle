@@ -1,1 +1,1 @@
-include ':app', ':eq', ':pgyer'
+include ':app',':eq',':pgyer'

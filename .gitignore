@@ -7,3 +7,6 @@
 .DS_Store
 /build
 /captures
+/signing.properties
+pgyer/src/main/java/
+pgyer/src/main/res/drawable/
