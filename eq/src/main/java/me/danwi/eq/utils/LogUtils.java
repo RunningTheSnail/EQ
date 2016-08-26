@@ -63,7 +63,7 @@ public class LogUtils {
     }
 
     public static void e(String tag, Throwable throwable, String message, Object... objects) {
-        Logger.t(tag).e(throwable, message);
+        Logger.t(tag).e(throwable, message, objects);
     }
 
 

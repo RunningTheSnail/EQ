@@ -49,13 +49,21 @@ public class TDevice {
         Intent intent = new Intent();
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setAction(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.fromFile(file),
-                "application/vnd.android.package-archive");
+        intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
         context.startActivity(intent);
     }
 
-    public static void unInstallApk(Context context, File file) {
-
+    /**
+     * 卸载应用
+     *
+     * @param context
+     * @param packageName
+     */
+    public static void unInstallApk(Context context, String packageName) {
+        Intent intent = new Intent(Intent.ACTION_DELETE);
+        Uri packageURI = Uri.parse("package:" + packageName);
+        intent.setData(packageURI);
+        context.startActivity(intent);
     }
 
     /**
@@ -65,13 +73,13 @@ public class TDevice {
      * @return
      */
     public static int getVersionCode(String packageName) {
-        int versionCode = 0;
+        int versionCode;
         try {
             versionCode = EQApplication.getContext()
                     .getPackageManager()
                     .getPackageInfo(packageName, 0).versionCode;
         } catch (PackageManager.NameNotFoundException ex) {
-            versionCode = 0;
+            versionCode = 1;
         }
         return versionCode;
     }
@@ -82,7 +90,7 @@ public class TDevice {
      * @return
      */
     public static String getVersionName() {
-        String name = "";
+        String name;
         try {
             name = EQApplication
                     .getContext()

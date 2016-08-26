@@ -5,24 +5,27 @@ package me.danwi.eq.entity;
  * User: 最帅最帅的RunningSnail
  * Date: 16/7/27
  * Time: 下午4:35
- * <p/>
+ * <p>
  * 上传参数
  */
-public class Upload {
+public class Param {
     //key
     public String key;
+    //非文件上传
+    public String value;
     //文件名
     public String fileName;
     //文件路径
     public String filePath;
-    //非文件上传
-    public String value;
 
-    public Upload(Builder builder) {
+    public byte[] bytes;
+
+    public Param(Builder builder) {
         this.key = builder.key;
         this.fileName = builder.fileName;
         this.filePath = builder.filePath;
         this.value = builder.value;
+        this.bytes = builder.bytes;
     }
 
     public static class Builder {
@@ -34,6 +37,8 @@ public class Upload {
         private String filePath;
         //非文件上传
         private String value;
+
+        private byte[] bytes;
 
         public Builder key(String key) {
             this.key = key;
@@ -55,14 +60,19 @@ public class Upload {
             return this;
         }
 
-        public Upload build() {
-            return new Upload(this);
+        public Builder bytes(byte[] bytes) {
+            this.bytes = bytes;
+            return this;
+        }
+
+        public Param build() {
+            return new Param(this);
         }
     }
 
     @Override
     public String toString() {
-        return "Upload{" +
+        return "Param{" +
                 "key='" + key + '\'' +
                 ", fileName='" + fileName + '\'' +
                 ", filePath='" + filePath + '\'' +

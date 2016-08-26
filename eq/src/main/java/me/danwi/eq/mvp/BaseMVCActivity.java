@@ -52,6 +52,15 @@ public abstract class BaseMVCActivity extends AppCompatActivity {
         return tv.getText().toString();
     }
 
+    public void d(String message, Object... object) {
+        LogUtils.d(TAG, message, object);
+    }
+
+    public void d(String message) {
+        LogUtils.d(TAG, message);
+    }
+
+
     public abstract int getLayoutId();
 
 }

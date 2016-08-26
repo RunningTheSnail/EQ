@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.ConnectException;
 
 import me.danwi.eq.entity.ErrorMessage;
+import me.danwi.eq.utils.LogUtils;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.adapter.rxjava.HttpException;
@@ -37,6 +38,12 @@ public abstract class CommonSubscriber<T> extends BaseSubscriber<T> {
             HttpException httpException = (HttpException) e;
             Response response = httpException.response();
             ResponseBody responseBody = response.errorBody();
+            try {
+                LogUtils.e(TAG, responseBody.string());
+            } catch (IOException e1) {
+                //
+            }
+            //其他小伙伴可以根据自己的业务进行分析
             //针对自家业务解析
             if (response.code() == 500) {
                 try {
