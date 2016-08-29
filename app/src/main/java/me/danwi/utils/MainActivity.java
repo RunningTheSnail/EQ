@@ -1,24 +1,26 @@
 package me.danwi.utils;
 
 import android.os.Bundle;
-import android.os.Environment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.danwi.eq.RequestUtils;
-import me.danwi.eq.core.ServiceProducers;
-import me.danwi.eq.entity.Param;
+import butterknife.BindView;
 import me.danwi.eq.mvp.BaseMVCActivity;
-import me.danwi.eq.subscriber.CommonSubscriber;
-import me.danwi.eq.transform.ThreadTransFormer;
-import me.danwi.eq.utils.LogUtils;
-import okhttp3.ResponseBody;
+import me.danwi.utils.fragment.LazyFragment;
 
 public class MainActivity extends BaseMVCActivity {
+
+    @BindView(R.id.vp)
+    ViewPager vp;
+
+    @BindView(R.id.rl)
+    RelativeLayout rl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,38 +28,23 @@ public class MainActivity extends BaseMVCActivity {
         setContentView(getLayoutId());
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        vp = (ViewPager) findViewById(R.id.vp);
 
-        ImageView imageView = (ImageView) findViewById(R.id.iv);
+        final List<Fragment> fragmentList = new ArrayList<>();
+        fragmentList.add(new LazyFragment());
+        fragmentList.add(new LazyFragment());
+        fragmentList.add(new LazyFragment());
+        vp.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                return fragmentList.get(position);
+            }
 
-        DownLoadApi downLoadApi = ServiceProducers.createService(DownLoadApi.class);
-        String path = Environment.getExternalStorageDirectory().getPath() + "/head.jpg";
-        List<Param> paramList = new ArrayList<>();
-        Param param1 = new Param.Builder().key("avatar").fileName("head.jpg").filePath(path).build();
-        Param param2 = new Param.Builder().key("id").value("128e82e0-6b3f-11e6-8e89-433fe177ddc0").build();
-//        Param param3 = new Param.Builder().key("detail").value("detail").build();
-//        Param param4 = new Param.Builder().key("cover").fileName("test.jpg").filePath(path).build();
-        paramList.add(param1);
-//        paramList.add(param2);
-//        paramList.add(param3);
-//        paramList.add(param4);
-
-        downLoadApi.upload(RequestUtils.combine(param1, param2))
-                .compose(new ThreadTransFormer<ResponseBody>())
-                .subscribe(new CommonSubscriber<ResponseBody>() {
-                    @Override
-                    public void deal(String message) {
-
-                    }
-
-                    @Override
-                    public void onNext(ResponseBody responseBody) {
-                        try {
-                            LogUtils.d(TAG, responseBody.string());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
+            @Override
+            public int getCount() {
+                return fragmentList.size();
+            }
+        });
 
 //        final Api api = ServiceProducers.createService(Api.class);
         //断点续传

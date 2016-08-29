@@ -5,3 +5,5 @@ gradle打包
 文档编写
 TableLayout
 缺少断点续传和下载功能
+FragmentPagerAdapter会保持实例,只会销毁视图层级结构
+Fragment
