@@ -1,6 +1,9 @@
 package me.danwi.eq.mvp;
 
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+
+import butterknife.ButterKnife;
 
 /**
  * Created with Android Studio.
@@ -8,14 +11,16 @@ import android.os.Bundle;
  * Date: 16/6/1
  * Time: 下午3:18
  */
-public abstract class BaseMVPActivity<V, T extends BasePresenter<V>> extends BaseMVCActivity {
+public abstract class BaseMVPActivity<V, T extends BasePresenter<V>> extends AppCompatActivity {
 
-    //一个Activity对应一个Presenter
+    //一个View对应一个Presenter
     public T presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(getLayoutId());
+        ButterKnife.bind(this);
         presenter = initPresenter();
     }
 

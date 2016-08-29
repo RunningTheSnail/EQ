@@ -8,7 +8,6 @@ import android.widget.TextView;
 import butterknife.ButterKnife;
 import me.danwi.eq.utils.LogUtils;
 import rx.Subscription;
-import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created with Android Studio.
@@ -17,35 +16,30 @@ import rx.subscriptions.CompositeSubscription;
  * Time: 下午6:46
  */
 public abstract class BaseMVCActivity extends AppCompatActivity {
+    private SubscriptionManager subscriptionManager;
+
     //获取类名
     public String TAG = this.getClass().getSimpleName();
-
-    //子类不需要知道
-    private CompositeSubscription compositeSubscription;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
         ButterKnife.bind(this);
-        compositeSubscription = new CompositeSubscription();
+        subscriptionManager = new SubscriptionManager();
         LogUtils.d(TAG, "进入了%s", TAG);
     }
 
     @Override
     protected void onStop() {
-        if (compositeSubscription != null && compositeSubscription.isUnsubscribed()) {
-            compositeSubscription.unsubscribe();
+        if (subscriptionManager != null) {
+            subscriptionManager.removeAllSubscription();
         }
         super.onStop();
     }
 
     public void addSubscription(Subscription subscription) {
-        if (compositeSubscription != null) {
-            if (subscription != null) {
-                compositeSubscription.add(subscription);
-            }
-        }
+        subscriptionManager.addSubscription(subscription);
     }
 
     public String getValue(TextView tv) {
@@ -61,6 +55,7 @@ public abstract class BaseMVCActivity extends AppCompatActivity {
     }
 
 
+    //模板设计模式哦~
     public abstract int getLayoutId();
 
 }
