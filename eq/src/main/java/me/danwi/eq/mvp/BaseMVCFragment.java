@@ -36,6 +36,15 @@ public abstract class BaseMVCFragment extends Fragment {
         this.activity = (Activity) context;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            getParams(bundle);
+        }
+        super.onCreate(savedInstanceState);
+    }
+
     //设计成final禁止子类重写该方法
     @Nullable
     @Override
@@ -43,6 +52,11 @@ public abstract class BaseMVCFragment extends Fragment {
         View view = inflater.inflate(getLayoutId(), container, false);
         ButterKnife.bind(this, view);
         isPrepare = true;
+        //判断是否单独使用Fragment
+        if (isAlone()) {
+            //可视的
+            isVisible = true;
+        }
         lazyLoad();
         return view;
     }
@@ -54,6 +68,7 @@ public abstract class BaseMVCFragment extends Fragment {
         super.onDestroyView();
     }
 
+    //单独的Fragment不会调用,配合ViewPager使用中才会调用
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -78,4 +93,10 @@ public abstract class BaseMVCFragment extends Fragment {
 
     public abstract void init();
 
+    //判断是否单独使用Fragment
+    public boolean isAlone() {
+        return true;
+    }
+
+    public abstract void getParams(Bundle bundle);
 }
