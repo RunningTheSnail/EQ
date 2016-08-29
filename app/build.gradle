@@ -44,6 +44,7 @@ android {
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
+        //manifest 字符串替换
         manifestPlaceholders = [app_name: "@string/app_name"]
         buildConfigField "String", "SERVER_URL", DEBUG_URL
     }
@@ -95,7 +96,6 @@ android {
     productFlavors {
         //开发环境
         dev {
-            manifestPlaceholders = [app_name: '@string/app_name']
         }
     }
 
@@ -145,6 +145,11 @@ android {
                 }
             }
         }
+    }
+
+    //将flavor名称作为友盟渠道名
+    productFlavors.all { flavor ->
+        flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
     }
 
     //过滤debug版本

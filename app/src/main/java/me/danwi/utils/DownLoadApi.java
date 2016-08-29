@@ -3,6 +3,7 @@ package me.danwi.utils;
 import java.util.List;
 import java.util.Map;
 
+import me.danwi.utils.entity.Video;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.http.GET;

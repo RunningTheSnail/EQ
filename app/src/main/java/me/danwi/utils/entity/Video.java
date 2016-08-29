@@ -1,4 +1,4 @@
-package me.danwi.utils;
+package me.danwi.utils.entity;
 
 import com.google.gson.Gson;
 
