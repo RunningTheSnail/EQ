@@ -16,7 +16,7 @@ import rx.Subscription;
  * Time: 下午6:46
  */
 public abstract class BaseMVCActivity extends AppCompatActivity {
-    private SubscriptionManager subscriptionManager;
+    protected SubscriptionManager subscriptionManager;
 
     //获取类名
     public String TAG = this.getClass().getSimpleName();
