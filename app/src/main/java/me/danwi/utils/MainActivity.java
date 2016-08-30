@@ -12,6 +12,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import me.danwi.eq.mvp.BaseMVCActivity;
+import me.danwi.eq.utils.LogUtils;
 import me.danwi.utils.fragment.LazyFragment;
 
 public class MainActivity extends BaseMVCActivity {
@@ -37,6 +38,7 @@ public class MainActivity extends BaseMVCActivity {
         vp.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
+                LogUtils.d(TAG, position);
                 return fragmentList.get(position);
             }
 

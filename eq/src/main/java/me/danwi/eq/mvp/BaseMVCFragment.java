@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
 import me.danwi.eq.utils.LogUtils;
+import rx.Subscription;
 
 /**
  * Created with Android Studio.
@@ -30,6 +31,8 @@ public abstract class BaseMVCFragment extends Fragment {
 
     public Activity activity;
 
+    private SubscriptionManager subscriptionManager;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -38,6 +41,7 @@ public abstract class BaseMVCFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        subscriptionManager = new SubscriptionManager();
         Bundle bundle = getArguments();
         if (bundle != null) {
             getParams(bundle);
@@ -64,11 +68,21 @@ public abstract class BaseMVCFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
+        LogUtils.d(TAG, "%s onDestroyView", TAG);
+        //视图层级销毁了,表示需要重新加载数据?
         isLoad = false;
+        //取消订阅(取消所有异步任务)
+        subscriptionManager.removeAllSubscription();
         super.onDestroyView();
     }
 
-    //单独的Fragment不会调用,配合ViewPager使用中才会调用
+    @Override
+    public void onDetach() {
+        LogUtils.d(TAG, "%s onDetach", TAG);
+        super.onDetach();
+    }
+
+    //单独的Fragment不会调用,配合ViewPager使用才会调用
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -88,15 +102,17 @@ public abstract class BaseMVCFragment extends Fragment {
         }
     }
 
+    public void addSubscription(Subscription subscription) {
+        subscriptionManager.addSubscription(subscription);
+    }
+
     //获取布局id
     public abstract int getLayoutId();
 
     public abstract void init();
 
     //判断是否单独使用Fragment
-    public boolean isAlone() {
-        return true;
-    }
+    public abstract boolean isAlone();
 
     public abstract void getParams(Bundle bundle);
 }
