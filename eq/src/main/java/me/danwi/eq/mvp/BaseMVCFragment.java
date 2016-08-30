@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,8 @@ public abstract class BaseMVCFragment extends Fragment {
     //日志TAG
     public String TAG = this.getClass().getSimpleName();
 
+    private static final String STATE_SAVE_IS_HIDDEN = "STATE_SAVE_IS_HIDDEN";
+
     public Activity activity;
 
     private SubscriptionManager subscriptionManager;
@@ -45,6 +48,16 @@ public abstract class BaseMVCFragment extends Fragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             getParams(bundle);
+        }
+        if (savedInstanceState != null) {
+            boolean status = savedInstanceState.getBoolean(STATE_SAVE_IS_HIDDEN);
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            if (!status) {
+                fragmentTransaction.show(this);
+            } else {
+                fragmentTransaction.hide(this);
+            }
+            fragmentTransaction.commit();
         }
         super.onCreate(savedInstanceState);
     }
@@ -65,6 +78,12 @@ public abstract class BaseMVCFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        //状态回复
+        outState.putBoolean(STATE_SAVE_IS_HIDDEN, isHidden());
+        super.onSaveInstanceState(outState);
+    }
 
     @Override
     public void onDestroyView() {

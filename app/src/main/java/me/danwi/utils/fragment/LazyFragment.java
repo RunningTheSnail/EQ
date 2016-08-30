@@ -3,6 +3,7 @@ package me.danwi.utils.fragment;
 import android.os.Bundle;
 
 import me.danwi.eq.mvp.BaseMVCFragment;
+import me.danwi.eq.utils.LogUtils;
 import me.danwi.utils.R;
 
 /**
@@ -32,6 +33,12 @@ public class LazyFragment extends BaseMVCFragment {
 
     @Override
     public boolean isAlone() {
-        return false;
+        return true;
+    }
+
+    @Override
+    public void onStop() {
+        LogUtils.d(TAG,"onStop");
+        super.onStop();
     }
 }

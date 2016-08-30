@@ -2,26 +2,29 @@ package me.danwi.utils;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.widget.RelativeLayout;
+import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import me.danwi.eq.mvp.BaseMVCActivity;
-import me.danwi.eq.utils.LogUtils;
+import me.danwi.utils.fragment.Lazy2Fragment;
+import me.danwi.utils.fragment.Lazy3Fragment;
 import me.danwi.utils.fragment.LazyFragment;
 
 public class MainActivity extends BaseMVCActivity {
 
-    @BindView(R.id.vp)
-    ViewPager vp;
+//    @BindView(R.id.vp)
+//    ViewPager vp;
 
     @BindView(R.id.rl)
-    RelativeLayout rl;
+    FrameLayout rl;
+
+    Button btn1, btn2, btn3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,24 +32,65 @@ public class MainActivity extends BaseMVCActivity {
         setContentView(getLayoutId());
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        vp = (ViewPager) findViewById(R.id.vp);
-
+        rl = (FrameLayout) findViewById(R.id.fl);
+        btn1 = (Button) findViewById(R.id.btn1);
+        btn2 = (Button) findViewById(R.id.btn2);
+        btn3 = (Button) findViewById(R.id.btn3);
         final List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(new LazyFragment());
+        fragmentList.add(new Lazy2Fragment());
         fragmentList.add(new LazyFragment());
-        fragmentList.add(new LazyFragment());
-        vp.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
-            @Override
-            public Fragment getItem(int position) {
-                LogUtils.d(TAG, position);
-                return fragmentList.get(position);
-            }
 
+        if (savedInstanceState != null) {
+
+        } else {
+            getSupportFragmentManager().beginTransaction().add(R.id.rl, new Lazy3Fragment()).commit();
+        }
+
+        btn1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public int getCount() {
-                return fragmentList.size();
+            public void onClick(View v) {
+                getSupportFragmentManager().beginTransaction().add(R.id.rl, fragmentList.get(0), "1").commit();
             }
         });
+
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSupportFragmentManager().beginTransaction().add(R.id.rl, fragmentList.get(1)).commit();
+            }
+        });
+
+        btn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = getSupportFragmentManager().findFragmentByTag("1");
+                if (fragment != null) {
+                    getSupportFragmentManager().beginTransaction().show(fragment).commit();
+                }
+            }
+        });
+
+
+//        rl.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                getSupportFragmentManager().beginTransaction().add(R.id.rl, fragmentList.get(1)).commit();
+//            }
+//        }, 3000);
+
+//        vp.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+//            @Override
+//            public Fragment getItem(int position) {
+//                LogUtils.d(TAG, position);
+//                return fragmentList.get(position);
+//            }
+//
+//            @Override
+//            public int getCount() {
+//                return fragmentList.size();
+//            }
+//        });
 
 //        final Api api = ServiceProducers.createService(Api.class);
         //断点续传
