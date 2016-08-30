@@ -34,7 +34,7 @@ public abstract class BaseMVCFragment extends Fragment {
 
     public Activity activity;
 
-    private SubscriptionManager subscriptionManager;
+    protected SubscriptionManager subscriptionManager;
 
     @Override
     public void onAttach(Context context) {
