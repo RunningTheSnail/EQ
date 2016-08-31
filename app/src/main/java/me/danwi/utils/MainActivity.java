@@ -1,20 +1,11 @@
 package me.danwi.utils;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import me.danwi.eq.mvp.BaseMVCActivity;
-import me.danwi.utils.fragment.Lazy2Fragment;
-import me.danwi.utils.fragment.Lazy3Fragment;
-import me.danwi.utils.fragment.LazyFragment;
 
 public class MainActivity extends BaseMVCActivity {
 
@@ -24,8 +15,6 @@ public class MainActivity extends BaseMVCActivity {
     @BindView(R.id.rl)
     FrameLayout rl;
 
-    Button btn1, btn2, btn3;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,43 +22,6 @@ public class MainActivity extends BaseMVCActivity {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         rl = (FrameLayout) findViewById(R.id.fl);
-        btn1 = (Button) findViewById(R.id.btn1);
-        btn2 = (Button) findViewById(R.id.btn2);
-        btn3 = (Button) findViewById(R.id.btn3);
-        final List<Fragment> fragmentList = new ArrayList<>();
-        fragmentList.add(new LazyFragment());
-        fragmentList.add(new Lazy2Fragment());
-        fragmentList.add(new LazyFragment());
-
-        if (savedInstanceState != null) {
-
-        } else {
-            getSupportFragmentManager().beginTransaction().add(R.id.rl, new Lazy3Fragment()).commit();
-        }
-
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getSupportFragmentManager().beginTransaction().add(R.id.rl, fragmentList.get(0), "1").commit();
-            }
-        });
-
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getSupportFragmentManager().beginTransaction().add(R.id.rl, fragmentList.get(1)).commit();
-            }
-        });
-
-        btn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment fragment = getSupportFragmentManager().findFragmentByTag("1");
-                if (fragment != null) {
-                    getSupportFragmentManager().beginTransaction().show(fragment).commit();
-                }
-            }
-        });
 
 
 //        rl.postDelayed(new Runnable() {
@@ -180,5 +132,10 @@ public class MainActivity extends BaseMVCActivity {
     @Override
     public int getLayoutId() {
         return R.layout.activity_main;
+    }
+
+    @Override
+    public void defaultFragment() {
+
     }
 }

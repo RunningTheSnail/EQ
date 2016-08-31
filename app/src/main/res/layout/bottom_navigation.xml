@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rg_bottom_navigation"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:orientation="horizontal">
+
+    <RadioButton
+        android:id="@+id/rb_first"
+        android:layout_width="0dp"
+        android:checked="true"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:button="@null"
+        android:drawableTop="@mipmap/ic_launcher"
+        android:gravity="center_horizontal"
+        android:text="微信" />
+
+    <RadioButton
+        android:id="@+id/rb_second"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:button="@null"
+        android:drawableTop="@mipmap/ic_launcher"
+        android:gravity="center_horizontal"
+        android:text="通讯录" />
+
+    <RadioButton
+        android:id="@+id/rb_three"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:button="@null"
+        android:drawableTop="@mipmap/ic_launcher"
+        android:gravity="center_horizontal"
+        android:text="发现" />
+
+    <RadioButton
+        android:id="@+id/rb_four"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:button="@null"
+        android:drawableTop="@mipmap/ic_launcher"
+        android:gravity="center_horizontal"
+        android:text="我的" />
+
+</RadioGroup>

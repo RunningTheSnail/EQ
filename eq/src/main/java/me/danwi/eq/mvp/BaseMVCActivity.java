@@ -26,6 +26,9 @@ public abstract class BaseMVCActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
         ButterKnife.bind(this);
+        if (savedInstanceState == null) {
+            defaultFragment();
+        }
         subscriptionManager = new SubscriptionManager();
         LogUtils.d(TAG, "进入了%s", TAG);
     }
@@ -58,4 +61,6 @@ public abstract class BaseMVCActivity extends AppCompatActivity {
     //模板设计模式哦~
     public abstract int getLayoutId();
 
+    //默认显示的Fragment
+    public abstract void defaultFragment();
 }
