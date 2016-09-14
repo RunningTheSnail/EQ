@@ -38,6 +38,4 @@ public abstract class BaseMVPActivity<V, T extends BasePresenter<V>> extends Bas
 
     public abstract T initPresenter();
 
-    //容器
-    public abstract int getContainer();
 }

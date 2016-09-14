@@ -19,6 +19,50 @@ import me.danwi.eq.EQApplication;
 public class FileUtil {
 
     /**
+     * 创建文件夹
+     *
+     * @param parent
+     * @param folder
+     * @return
+     */
+    public static File createDir(File parent, String folder) {
+        //判断父目录是否创建
+        if (!parent.exists()) {
+            parent.mkdir();
+        }
+        //创建子目录
+        File file = new File(parent, folder);
+        if (!file.exists()) {
+            file.mkdir();
+        }
+        return file;
+    }
+
+
+    public static File createDir(String parent, String folder) {
+        return createDir(new File(parent), folder);
+    }
+
+    /**
+     * 创建文件
+     *
+     * @param folderPath 目录
+     * @param fileName   文件名
+     * @return
+     */
+    public static File createFile(String folderPath, String fileName) {
+        File destDir = new File(folderPath);
+        return createFile(destDir, fileName);
+    }
+
+    public static File createFile(File parent, String fileName) {
+        if (!parent.exists()) {
+            parent.mkdir();
+        }
+        return new File(parent, fileName);
+    }
+
+    /**
      * 写文本文件 根据sd卡是否存在,文件存储在不同的位置
      * 1.文件保存在 /data/data/PACKAGE_NAME/files 目录下
      * 2.文件保存在sd卡/Android/data/data/PACKAGE_NAME/dir/fileName
@@ -160,21 +204,6 @@ public class FileUtil {
             // TODO: 16/8/10 日志
         }
         return null;
-    }
-
-    /**
-     * 创建文件
-     *
-     * @param folderPath 目录
-     * @param fileName   文件名
-     * @return
-     */
-    public static File createFile(String folderPath, String fileName) {
-        File destDir = new File(folderPath);
-        if (!destDir.exists()) {
-            destDir.mkdirs();
-        }
-        return new File(folderPath, fileName + fileName);
     }
 
 
@@ -496,7 +525,7 @@ public class FileUtil {
 
     /**
      * 删除空目录
-     * <p>
+     * <p/>
      * 返回 0代表成功 ,1 代表没有删除权限, 2代表不是空目录,3 代表未知错误
      *
      * @return

@@ -11,9 +11,11 @@ import java.util.List;
  * Created with Android Studio.
  * User: HandSome-T
  * Date: 16/8/31
- * Time: 上午11:11
+ * Time: 上午11:12
+ * <p>
+ * 具备底部导航栏逻辑的Activity
  */
-public class BaseMainActivity<V, T extends BasePresenter<V>> extends BaseMVPActivity {
+public abstract class BaseMainActivity<V, T extends BasePresenter<V>> extends BaseMVPActivity<V, T> {
 
     private List<Fragment> fragmentList;
 
@@ -48,23 +50,6 @@ public class BaseMainActivity<V, T extends BasePresenter<V>> extends BaseMVPActi
         }
     }
 
-    @Override
-    public int getLayoutId() {
-        return 0;
-    }
-
-    @Override
-    public void defaultFragment() {
-
-    }
-
-    @Override
-    public T initPresenter() {
-        return null;
-    }
-
-    @Override
-    public int getContainer() {
-        return 0;
-    }
+    //容器
+    public abstract int getContainer();
 }

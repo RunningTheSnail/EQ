@@ -2,6 +2,8 @@ package me.danwi.eq.utils;
 
 import android.os.Environment;
 
+import java.io.File;
+
 /**
  * Created by RunningSnail on 16/6/2.
  */
@@ -25,8 +27,15 @@ public class SdCardUtils {
      * @return
      */
     public static String getRootPath() {
+        if (getRoot() != null) {
+            return getRoot().getPath();
+        }
+        return null;
+    }
+
+    public static File getRoot() {
         if (isExist()) {
-            return Environment.getExternalStorageDirectory().getPath();
+            return Environment.getRootDirectory();
         }
         return null;
     }
