@@ -1,28 +1,29 @@
 package me.danwi.utils;
 
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.widget.FrameLayout;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
-import butterknife.BindView;
 import me.danwi.eq.mvp.BaseMVCActivity;
+import me.danwi.eq.widget.BasePopUpWindow;
 
 public class MainActivity extends BaseMVCActivity {
-
-//    @BindView(R.id.vp)
-//    ViewPager vp;
-
-    @BindView(R.id.rl)
-    FrameLayout rl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        rl = (FrameLayout) findViewById(R.id.fl);
 
+        final BasePopUpWindow basePopUpWindow = new BasePopUpWindow(this, R.layout.test, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        final Button btn = (Button) findViewById(R.id.btn);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                basePopUpWindow.showCenter(btn);
+            }
+        });
 
 //        rl.postDelayed(new Runnable() {
 //            @Override

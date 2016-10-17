@@ -7,6 +7,7 @@ import android.os.StatFs;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,6 +18,7 @@ import java.util.Map;
 import me.danwi.eq.EQApplication;
 
 public class FileUtil {
+    private static final String TAG = "FileUtil";
 
     /**
      * 创建文件夹
@@ -27,15 +29,18 @@ public class FileUtil {
      */
     public static File createDir(File parent, String folder) {
         //判断父目录是否创建
-        if (!parent.exists()) {
-            parent.mkdir();
+        boolean success;
+        success = parent.exists() || parent.mkdir();
+        if (success) {
+            //创建子目录
+            File file = new File(parent, folder);
+            if (!file.exists()) {
+                success = file.mkdir();
+                LogUtils.d(TAG, "文件夹%s创建%s", folder, success ? "成功" : "失败");
+            }
+            return file;
         }
-        //创建子目录
-        File file = new File(parent, folder);
-        if (!file.exists()) {
-            file.mkdir();
-        }
-        return file;
+        return null;
     }
 
 
@@ -109,8 +114,8 @@ public class FileUtil {
      * 向手机写图片 sd卡
      *
      * @param buffer   字节数组
-     * @param folder
-     * @param fileName
+     * @param folder   文件夹
+     * @param fileName 文件名
      * @return
      */
     public static boolean writeFileToSd(byte[] buffer, String folder, String fileName) {
@@ -186,6 +191,16 @@ public class FileUtil {
             }
         }
         return content;
+    }
+
+    public static String readFile(String path) {
+        try {
+            FileInputStream fileInputStream = new FileInputStream(new File(path));
+            return readInStream(fileInputStream);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static String readInStream(InputStream inStream) {
