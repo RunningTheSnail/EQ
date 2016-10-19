@@ -7,7 +7,10 @@ import java.io.File;
 import me.danwi.eq.EQApplication;
 
 /**
- * Created by RunningSnail on 16/6/2.
+ * Created with Android Studio.
+ * User: HandSome-T
+ * Date: 16/6/2
+ * Time: 下午4:59
  */
 public class SdCardUtils {
     private SdCardUtils() {
@@ -29,13 +32,13 @@ public class SdCardUtils {
      * @return
      */
     public static String getRootPath() {
-        if (getRoot() != null) {
-            return getRoot().getPath();
+        if (getRootFile() != null) {
+            return getRootFile().getPath();
         }
         return null;
     }
 
-    public static File getRoot() {
+    public static File getRootFile() {
         if (isExist()) {
             return Environment.getExternalStorageDirectory();
         }
@@ -47,7 +50,7 @@ public class SdCardUtils {
      *
      * @return
      */
-    public static String getDiskCacheDir() {
+    public static String getDiskCacheDirPath() {
         //缓存路径
         String cachePath;
         //判断是否存在sd卡
@@ -61,7 +64,7 @@ public class SdCardUtils {
         return cachePath;
     }
 
-    public static String getDiskFileDir() {
+    public static String getDiskFileDirPath() {
         //缓存路径
         String filePath;
         //判断是否存在sd卡

@@ -1,7 +1,6 @@
 package me.danwi.utils;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
@@ -17,13 +16,6 @@ public class MainActivity extends BaseMVCActivity {
 
         final BasePopUpWindow basePopUpWindow = new BasePopUpWindow(this, R.layout.test, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         final Button btn = (Button) findViewById(R.id.btn);
-
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                basePopUpWindow.showCenter(btn);
-            }
-        });
 
 //        rl.postDelayed(new Runnable() {
 //            @Override
