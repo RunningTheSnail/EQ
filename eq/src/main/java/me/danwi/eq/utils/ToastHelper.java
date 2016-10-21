@@ -9,11 +9,11 @@ import me.danwi.eq.EQApplication;
  */
 public class ToastHelper {
 
+    private static Toast mToast;
+
     private ToastHelper() {
 
     }
-
-    private static Toast mToast;
 
     public static Toast getToast(int resId) {
         return Toast.makeText(EQApplication.context, resId, Toast.LENGTH_SHORT);

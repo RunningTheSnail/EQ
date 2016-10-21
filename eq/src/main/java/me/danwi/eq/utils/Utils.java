@@ -17,9 +17,9 @@ public class Utils {
      * 检查元素是否为空
      *
      * @param obj
-     * @param <T>
+     * @param message 提示消息
      */
-    public static <T> void checkNotNull(T obj, String message) {
+    public static void checkNotNull(Object obj, String message) {
         if (obj == null) {
             throw new NullPointerException(message);
         }

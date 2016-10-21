@@ -15,7 +15,10 @@ import java.util.UUID;
 import me.danwi.eq.EQApplication;
 
 /**
- * Created by RunningSnail on 16/7/4.
+ * Created with Android Studio.
+ * User: HandSome-T
+ * Date: 16/7/4
+ * Time: 上午11:01
  */
 public class TDevice {
 
