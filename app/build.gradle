@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
 
 //签名配置
 println(rootProject.ext.url.signingUrl);
@@ -30,7 +31,9 @@ buildscript {
     }
 
     dependencies {
-
+        dependencies {
+            classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        }
     }
 }
 
@@ -170,6 +173,8 @@ dependencies {
 //    compile(name: 'eq-release', ext: 'aar')
 //    compile(name: 'pgyer-release', ext: 'aar')
     compile project(':eq')
+    compile 'com.jakewharton:butterknife:8.1.0'
+    apt 'com.jakewharton:butterknife-compiler:8.1.0'
     compile project(':pgyer')
 }
 

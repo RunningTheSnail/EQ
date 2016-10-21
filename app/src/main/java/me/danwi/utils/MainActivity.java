@@ -1,11 +1,12 @@
 package me.danwi.utils;
 
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import me.danwi.eq.mvp.BaseMVCActivity;
-import me.danwi.eq.widget.BasePopUpWindow;
 
 public class MainActivity extends BaseMVCActivity {
 
@@ -14,8 +15,11 @@ public class MainActivity extends BaseMVCActivity {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
 
-        final BasePopUpWindow basePopUpWindow = new BasePopUpWindow(this, R.layout.test, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        final Button btn = (Button) findViewById(R.id.btn);
+        ListView lv = (ListView) findViewById(R.id.lv);
+        List<String> dataList = new ArrayList<>();
+        dataList.add("谭帅");
+        dataList.add("HandSome-T");
+        lv.setAdapter(new NameAdapter(this, dataList));
 
 //        rl.postDelayed(new Runnable() {
 //            @Override

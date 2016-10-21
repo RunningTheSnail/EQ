@@ -52,16 +52,22 @@ public abstract class CommonAdapter<T, V> extends BaseAdapter {
         V viewHolder;
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(resId, parent, false);
-            viewHolder = getViewHolder(convertView);
+            viewHolder = getViewHolder(convertView, getItemViewType(position));
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (V) convertView.getTag();
         }
-        onBindCommonViewHolder(viewHolder, dataList.get(position));
+        onBindCommonViewHolder(viewHolder, position);
         return convertView;
     }
 
-    public abstract void onBindCommonViewHolder(V viewHolder, T data);
+    public void refreshData(List<T> tList) {
+        dataList.clear();
+        dataList.addAll(tList);
+        notifyDataSetChanged();
+    }
 
-    public abstract V getViewHolder(View view);
+    public abstract void onBindCommonViewHolder(V viewHolder, int position);
+
+    public abstract V getViewHolder(View view, int viewType);
 }
