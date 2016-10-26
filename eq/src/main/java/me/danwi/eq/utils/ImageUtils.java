@@ -113,6 +113,6 @@ public class ImageUtils {
      * @param fileName 文件名
      */
     public static void bitmapToFile(Bitmap bitmap, String dir, String fileName) {
-        FileUtil.writeFileToPackage(dir, fileName, bitmapToBytes(bitmap));
+        FileUtils.writeFileToPackage(dir, fileName, bitmapToBytes(bitmap));
     }
 }

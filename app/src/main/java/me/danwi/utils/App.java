@@ -9,6 +9,7 @@ import java.util.Map;
 import me.danwi.eq.EQApplication;
 import me.danwi.eq.interceptor.BridgeInterceptor;
 import me.danwi.eq.utils.LogUtils;
+import me.danwi.eq.utils.ResourceUtils;
 import me.danwi.eq.utils.ScreenUtils;
 import me.danwi.eq.utils.SdCardUtils;
 import okhttp3.Interceptor;
@@ -26,6 +27,8 @@ public class App extends EQApplication {
         LogUtils.d(TAG, "densityDpi%d,density%f", getResources().getDisplayMetrics().densityDpi, getResources().getDisplayMetrics().density);
         LogUtils.d(TAG, "分辨率width:%d,height:%d", ScreenUtils.getScreenSize(this)[0], ScreenUtils.getScreenSize(this)[1]);
         LogUtils.d(TAG, "状态栏高度%d", ScreenUtils.getStatusBarHeight(this));
+        LogUtils.d(TAG, "应用程序包名:%s", getPackageName());
+        LogUtils.d(TAG, "获取资源id:%d", ResourceUtils.getResourceByName(this, "bg"));
     }
 
     @Override

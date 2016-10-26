@@ -1,5 +1,6 @@
 package me.danwi.eq.utils;
 
+import android.content.Context;
 import android.text.TextUtils;
 
 import java.io.BufferedReader;
@@ -95,5 +96,16 @@ public class ResourceUtils {
     public static String getDataFromRaw(int resId) {
         InputStream inputStream = EQApplication.getContext().getResources().openRawResource(resId);
         return getData(inputStream);
+    }
+
+    /**
+     * 根据资源名获取资源id
+     *
+     * @param context
+     * @param name
+     * @return
+     */
+    public static int getResourceByName(Context context, String name) {
+        return context.getResources().getIdentifier(name, "mipmap", context.getPackageName());
     }
 }

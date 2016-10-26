@@ -15,7 +15,7 @@ import java.util.List;
  * <p>
  * 具备底部导航栏逻辑的Activity
  */
-public abstract class BaseMainActivity<V, T extends BasePresenter<V>> extends BaseMVPActivity<V, T> {
+public abstract class BaseNavigationBarActivity<V, T extends BasePresenter<V>> extends BaseMVPActivity<V, T> {
 
     private List<Fragment> fragmentList;
 

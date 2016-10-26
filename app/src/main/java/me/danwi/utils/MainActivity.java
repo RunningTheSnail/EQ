@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.danwi.eq.mvp.BaseMVCActivity;
+import me.danwi.eq.utils.LogUtils;
+import me.danwi.eq.utils.NetWorkUtils;
 
 public class MainActivity extends BaseMVCActivity {
 
@@ -14,7 +16,7 @@ public class MainActivity extends BaseMVCActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
-
+        LogUtils.d(TAG, "网络状态%s", NetWorkUtils.getNetworkTypeName(this));
         ListView lv = (ListView) findViewById(R.id.lv);
         List<String> dataList = new ArrayList<>();
         dataList.add("谭帅");

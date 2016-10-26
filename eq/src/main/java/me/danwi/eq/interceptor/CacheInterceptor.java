@@ -6,7 +6,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.danwi.eq.utils.NetUtils;
+import me.danwi.eq.EQApplication;
+import me.danwi.eq.utils.NetWorkUtils;
 import okhttp3.CacheControl;
 import okhttp3.Interceptor;
 import okhttp3.Request;
@@ -30,7 +31,7 @@ public class CacheInterceptor implements Interceptor {
             String url = request.url().url().toString();
             String cacheControl = request.cacheControl().toString();
             Response response;
-            if (NetUtils.isNetWorkAvailable()) {
+            if (NetWorkUtils.isNetWorkAvailable(EQApplication.context)) {
                 //截取请求的url不包含参数
                 String result = url.split("\\?")[0];
                 if (forceNetWork().contains(result)) {

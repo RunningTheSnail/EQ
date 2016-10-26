@@ -17,8 +17,8 @@ import java.util.Map;
 
 import me.danwi.eq.EQApplication;
 
-public class FileUtil {
-    private static final String TAG = "FileUtil";
+public class FileUtils {
+    private static final String TAG = "FileUtils";
 
     /**
      * 创建文件夹
@@ -61,10 +61,17 @@ public class FileUtil {
     }
 
     public static File createFile(File parent, String fileName) {
-        if (!parent.exists()) {
-            parent.mkdir();
+        boolean success = parent.exists();
+        File file = null;
+        if (!success) {
+            success = parent.mkdir();
+            if (success) {
+                file = new File(parent, fileName);
+            }
+        } else {
+            file = new File(parent, fileName);
         }
-        return new File(parent, fileName);
+        return file;
     }
 
     /**
@@ -118,7 +125,7 @@ public class FileUtil {
      * @param fileName 文件名
      * @return
      */
-    public static boolean writeFileToSd(byte[] buffer, String folder, String fileName) {
+    public static boolean writeFileToSd(String folder, String fileName, byte[] buffer) {
         boolean writeSuccess = false;
 
         boolean sdCardExist = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
@@ -594,7 +601,7 @@ public class FileUtil {
      * @param filePath
      */
     public static void clearFileWithPath(String filePath) {
-        List<File> files = FileUtil.listPathFiles(filePath);
+        List<File> files = FileUtils.listPathFiles(filePath);
         if (files.isEmpty()) {
             return;
         }
