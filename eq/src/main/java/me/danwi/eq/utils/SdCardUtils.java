@@ -5,8 +5,6 @@ import android.os.Environment;
 
 import java.io.File;
 
-import me.danwi.eq.EQApplication;
-
 /**
  * Created with Android Studio.
  * User: HandSome-T
@@ -69,6 +67,10 @@ public class SdCardUtils {
         return cachePath;
     }
 
+    public static File getDiskCacheDir(Context context) {
+        return new File(getDiskCacheDirPath(context));
+    }
+
     public static String getDiskFileDirPath(Context context) {
         //缓存路径
         String filePath = null;
@@ -81,8 +83,12 @@ public class SdCardUtils {
             }
         } else {
             //目录  /data/data/程序包名/cache
-            filePath = EQApplication.context.getFilesDir().getPath();
+            filePath = context.getFilesDir().getPath();
         }
         return filePath;
+    }
+
+    public static File getDiskFileDir(Context context) {
+        return new File(getDiskFileDirPath(context));
     }
 }

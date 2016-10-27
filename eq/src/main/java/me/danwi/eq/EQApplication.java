@@ -5,10 +5,13 @@ import android.content.Context;
 
 import com.orhanobut.logger.LogLevel;
 
+import java.io.File;
 import java.util.List;
 
 import me.danwi.eq.core.ServiceProducers;
+import me.danwi.eq.utils.FileUtils;
 import me.danwi.eq.utils.LogUtils;
+import me.danwi.eq.utils.SdCardUtils;
 import okhttp3.Interceptor;
 
 /**
@@ -67,22 +70,28 @@ public abstract class EQApplication extends Application {
      *
      * @return
      */
-    public abstract List<Interceptor> getPre();
+    public List<Interceptor> getPre() {
+        return null;
+    }
 
     /**
      * 请求之后的拦截器
      *
      * @return
      */
-    public abstract List<Interceptor> getPost();
+    public List<Interceptor> getPost() {
+        return null;
+    }
 
     /**
-     * 默认的缓存目录
+     * 默认的缓存目录 eq_cache
      *
      * @return
      */
     public String getDir() {
-        return getCacheDir().getPath();
+        String parent = SdCardUtils.getDiskCacheDirPath(this);
+        File dir = FileUtils.createDir(parent, "eq_cache");
+        return dir.getPath();
     }
 
     /**
