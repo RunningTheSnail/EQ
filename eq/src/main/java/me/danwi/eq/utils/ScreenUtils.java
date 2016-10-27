@@ -33,7 +33,7 @@ public class ScreenUtils {
     }
 
     public static int pxToDpInt(Context context, float px) {
-        return (int) (pxToDpInt(context, px) + 0.5f);
+        return (int) (pxToDp(context, px) + 0.5f);
     }
 
     public static float getTotalWidthDp(Context context) {

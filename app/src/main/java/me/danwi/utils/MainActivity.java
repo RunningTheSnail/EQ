@@ -1,14 +1,20 @@
 package me.danwi.utils;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import me.danwi.eq.mvp.BaseMVCActivity;
+import me.danwi.eq.utils.FileUtils;
+import me.danwi.eq.utils.ImageUtils;
 import me.danwi.eq.utils.LogUtils;
 import me.danwi.eq.utils.NetWorkUtils;
+import me.danwi.eq.utils.ScreenUtils;
+import me.danwi.eq.utils.SdCardUtils;
 
 public class MainActivity extends BaseMVCActivity {
 
@@ -22,6 +28,8 @@ public class MainActivity extends BaseMVCActivity {
         dataList.add("谭帅");
         dataList.add("HandSome-T");
         lv.setAdapter(new NameAdapter(this, dataList));
+        Bitmap bitmap = ImageUtils.decodeResource(R.mipmap.timo, ScreenUtils.pxToDpInt(this, 600), ScreenUtils.pxToDpInt(this, 600));
+        FileUtils.writeFileToLocal(new File(SdCardUtils.getDiskFileDirPath(this)), "TiMo.jpg", bitmap, Bitmap.CompressFormat.JPEG, 100);
 
 //        rl.postDelayed(new Runnable() {
 //            @Override

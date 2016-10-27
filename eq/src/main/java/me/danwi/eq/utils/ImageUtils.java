@@ -105,14 +105,4 @@ public class ImageUtils {
         return byteArrayOutputStream.toByteArray();
     }
 
-    /**
-     * 将bitmap保存成文件
-     *
-     * @param bitmap   bitmap
-     * @param dir      目录
-     * @param fileName 文件名
-     */
-    public static void bitmapToFile(Bitmap bitmap, String dir, String fileName) {
-        FileUtils.writeFileToPackage(dir, fileName, bitmapToBytes(bitmap));
-    }
 }

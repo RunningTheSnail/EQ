@@ -1,5 +1,6 @@
 package me.danwi.eq.utils;
 
+import android.content.Context;
 import android.os.Environment;
 
 import java.io.File;
@@ -13,6 +14,7 @@ import me.danwi.eq.EQApplication;
  * Time: 下午4:59
  */
 public class SdCardUtils {
+
     private SdCardUtils() {
 
     }
@@ -50,27 +52,33 @@ public class SdCardUtils {
      *
      * @return
      */
-    public static String getDiskCacheDirPath() {
+    public static String getDiskCacheDirPath(Context context) {
         //缓存路径
-        String cachePath;
+        String cachePath = null;
         //判断是否存在sd卡
         if (isExist()) {
             //目录   /sd卡/Android/data/程序包名/cache
-            cachePath = EQApplication.context.getExternalCacheDir().getPath();
+            File file = context.getExternalCacheDir();
+            if (file != null) {
+                cachePath = file.getPath();
+            }
         } else {
             //目录  /data/data/程序包名/cache
-            cachePath = EQApplication.context.getCacheDir().getPath();
+            cachePath = context.getCacheDir().getPath();
         }
         return cachePath;
     }
 
-    public static String getDiskFileDirPath() {
+    public static String getDiskFileDirPath(Context context) {
         //缓存路径
-        String filePath;
+        String filePath = null;
         //判断是否存在sd卡
         if (isExist()) {
             //目录   /sd卡/Android/data/程序包名/cache
-            filePath = EQApplication.context.getExternalFilesDir("").getPath();
+            File file = context.getExternalFilesDir("");
+            if (file != null) {
+                filePath = file.getPath();
+            }
         } else {
             //目录  /data/data/程序包名/cache
             filePath = EQApplication.context.getFilesDir().getPath();

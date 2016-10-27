@@ -1,21 +1,19 @@
 package me.danwi.eq.utils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Environment;
 import android.os.StatFs;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import me.danwi.eq.EQApplication;
 
 public class FileUtils {
     private static final String TAG = "FileUtils";
@@ -75,90 +73,111 @@ public class FileUtils {
     }
 
     /**
-     * 写文本文件 根据sd卡是否存在,文件存储在不同的位置
-     * 1.文件保存在 /data/data/PACKAGE_NAME/files 目录下
-     * 2.文件保存在sd卡/Android/data/data/PACKAGE_NAME/dir/fileName
+     * 保存文件到本地
      *
-     * @param dir      文件目录
-     * @param fileName 文件名
-     * @param content  写入内容
-     */
-    public static void writeFileToPackage(String dir, String fileName, byte[] content) {
-        //判断写入条件
-        Utils.checkNotNull(dir, "dir can't null");
-        Utils.checkNotNull(fileName, "fileName can't null");
-        Utils.checkNotNull(content, "content can't null");
-        FileOutputStream fos = null;
-        //代码简洁,在外层try catch
-        try {
-            //先判断sd卡是否存在
-            if (SdCardUtils.isExist()) {
-                fos = new FileOutputStream(new File(EQApplication.context.getExternalFilesDir(dir), fileName));
-            } else {
-                File parent = new File(EQApplication.context.getFilesDir(), dir);
-                //判断父目录是否存在
-                if (!parent.exists()) {
-                    parent.mkdir();
-                }
-                fos = new FileOutputStream(new File(parent, fileName));
-            }
-            fos.write(content);
-        } catch (IOException e) {
-            //// TODO: 16/8/9 日志 
-        } finally {
-            if (fos != null) {
-                try {
-                    fos.close();
-                } catch (IOException e) {
-                    // TODO: 16/8/9 日志
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    /**
-     * 向手机写图片 sd卡
-     *
-     * @param buffer   字节数组
-     * @param folder   文件夹
-     * @param fileName 文件名
+     * @param fileDir
+     * @param fileName
+     * @param buffer
      * @return
      */
-    public static boolean writeFileToSd(String folder, String fileName, byte[] buffer) {
+    public static boolean writeFileToLocal(File fileDir, String fileName, byte[] buffer) {
         boolean writeSuccess = false;
-
-        boolean sdCardExist = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
-
-        String folderPath = "";
-        if (sdCardExist) {
-            folderPath = Environment.getExternalStorageDirectory() + File.separator + folder + File.separator;
-        } else {
-            writeSuccess = false;
-        }
-
-        File fileDir = new File(folderPath);
-        if (!fileDir.exists()) {
-            fileDir.mkdirs();
-        }
-
-        File file = new File(folderPath + fileName);
+        File file = new File(fileDir, fileName);
         FileOutputStream out = null;
         try {
             out = new FileOutputStream(file);
             out.write(buffer);
             writeSuccess = true;
         } catch (Exception e) {
+            LogUtils.e(TAG, e.toString());
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+            } catch (IOException e) {
+                LogUtils.e(TAG, e.toString());
+            }
+        }
+        return writeSuccess;
+    }
+
+    /**
+     * 保存文件到本地
+     *
+     * @param fileDir
+     * @param fileName
+     * @param fileInputStream
+     * @return
+     */
+    public static boolean writeFileToLocal(File fileDir, String fileName, FileInputStream fileInputStream) {
+        boolean writeSuccess = false;
+        File file = new File(fileDir, fileName);
+        FileOutputStream out = null;
+        byte[] buffer = new byte[1024];
+        int length;
+        try {
+            out = new FileOutputStream(file);
+            while ((length = fileInputStream.read(buffer)) != -1) {
+                out.write(buffer, 0, length);
+            }
+            writeSuccess = true;
+        } catch (Exception e) {
+            LogUtils.e(TAG, e.toString());
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+                if (fileInputStream != null) {
+                    fileInputStream.close();
+                }
+            } catch (IOException e) {
+                LogUtils.e(TAG, e.toString());
+            }
+        }
+        return writeSuccess;
+    }
+
+
+    /**
+     * 保存图片到本地
+     *
+     * @param fileDir
+     * @param fileName
+     * @param bitmap
+     * @param compressFormat
+     * @param quality
+     * @return
+     */
+    public static boolean writeFileToLocal(File fileDir, String fileName, Bitmap bitmap, Bitmap.CompressFormat compressFormat, int quality) {
+        boolean writeSuccess = false;
+        File file = new File(fileDir, fileName);
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(file);
+            bitmap.compress(compressFormat, quality, out);
+            writeSuccess = true;
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
-                out.close();
+                if (out != null) {
+                    out.close();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
         return writeSuccess;
+    }
+
+    public static boolean writeFileToLocalPNG(File fileDir, String fileName, Bitmap bitmap) {
+        return writeFileToLocal(fileDir, fileName, bitmap, Bitmap.CompressFormat.PNG, 100);
+    }
+
+    public static boolean writeFileToLocalJPEG(File fileDir, String fileName, Bitmap bitmap) {
+        return writeFileToLocal(fileDir, fileName, bitmap, Bitmap.CompressFormat.JPEG, 100);
     }
 
 
@@ -177,37 +196,20 @@ public class FileUtils {
         String content = null;
         //代码简洁,在外层try catch
         try {
-            //先判断sd卡是否存在
-            if (SdCardUtils.isExist()) {
-                fis = new FileInputStream(new File(EQApplication.context.getExternalFilesDir(dir), fileName));
-            } else {
-                File parent = new File(EQApplication.context.getFilesDir(), dir);
-                fis = new FileInputStream(new File(parent, fileName));
-            }
+            fis = new FileInputStream(new File(dir, fileName));
             content = readInStream(fis);
         } catch (IOException e) {
-            //// TODO: 16/8/9 日志
+            LogUtils.e(TAG, e.toString());
         } finally {
             if (fis != null) {
                 try {
                     fis.close();
                 } catch (IOException e) {
-                    // TODO: 16/8/9 日志 
-                    e.printStackTrace();
+                    LogUtils.e(TAG, e.toString());
                 }
             }
         }
         return content;
-    }
-
-    public static String readFile(String path) {
-        try {
-            FileInputStream fileInputStream = new FileInputStream(new File(path));
-            return readInStream(fileInputStream);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public static String readInStream(InputStream inStream) {
@@ -218,12 +220,11 @@ public class FileUtils {
             while ((length = inStream.read(buffer)) != -1) {
                 outStream.write(buffer, 0, length);
             }
-
             outStream.close();
             inStream.close();
             return outStream.toString();
         } catch (IOException e) {
-            // TODO: 16/8/10 日志
+            LogUtils.e(TAG, e.toString());
         }
         return null;
     }
