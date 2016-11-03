@@ -18,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * User: 最帅最帅的RunningSnail
  * Date: 16/1/20
  * Time: 下午5:06
- * <p/>
+ * <p>
  * 服务生产者
  */
 public class ServiceProducers {
@@ -189,8 +189,14 @@ public class ServiceProducers {
         return serviceProducers.retrofit.create(service);
     }
 
-
-    public Cache createCache(String dir, int size) {
+    /**
+     * 创建缓存目录
+     *
+     * @param dir  配置缓存目录
+     * @param size 配置缓存大小
+     * @return
+     */
+    private Cache createCache(String dir, int size) {
         File file = new File(dir);
         //判断文件夹是否存在
         if (!file.exists()) {

@@ -19,6 +19,7 @@ public abstract class BaseMVPActivity<V, T extends BasePresenter<V>> extends Bas
         presenter = initPresenter();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     protected void onResume() {
         super.onResume();
