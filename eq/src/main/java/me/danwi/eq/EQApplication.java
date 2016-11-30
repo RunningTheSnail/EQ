@@ -6,6 +6,7 @@ import android.content.Context;
 import com.orhanobut.logger.LogLevel;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 
 import me.danwi.eq.core.ServiceProducers;
@@ -71,7 +72,7 @@ public abstract class EQApplication extends Application {
      * @return
      */
     public List<Interceptor> getPre() {
-        return null;
+        return Collections.emptyList();
     }
 
     /**
@@ -80,7 +81,7 @@ public abstract class EQApplication extends Application {
      * @return
      */
     public List<Interceptor> getPost() {
-        return null;
+        return Collections.emptyList();
     }
 
     /**
