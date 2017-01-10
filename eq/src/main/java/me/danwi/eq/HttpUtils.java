@@ -16,9 +16,9 @@ import okhttp3.RequestBody;
  * <p>
  * 文件上传辅助类,避免麻烦的参数拼接
  */
-public class RequestUtils {
+public class HttpUtils {
 
-    private RequestUtils() {
+    private HttpUtils() {
 
     }
 
