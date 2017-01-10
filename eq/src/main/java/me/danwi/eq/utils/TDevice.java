@@ -75,12 +75,10 @@ public class TDevice {
      * @param packageName
      * @return
      */
-    public static int getVersionCode(String packageName) {
+    public static int getVersionCode(Context context, String packageName) {
         int versionCode;
         try {
-            versionCode = EQApplication.getContext()
-                    .getPackageManager()
-                    .getPackageInfo(packageName, 0).versionCode;
+            versionCode = context.getPackageManager().getPackageInfo(packageName, 0).versionCode;
         } catch (PackageManager.NameNotFoundException ex) {
             versionCode = 1;
         }
@@ -92,14 +90,10 @@ public class TDevice {
      *
      * @return
      */
-    public static String getVersionName() {
+    public static String getVersionName(Context context) {
         String name;
         try {
-            name = EQApplication
-                    .getContext()
-                    .getPackageManager()
-                    .getPackageInfo(EQApplication.getContext().getPackageName(),
-                            0).versionName;
+            name = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
         } catch (PackageManager.NameNotFoundException ex) {
             name = "";
         }

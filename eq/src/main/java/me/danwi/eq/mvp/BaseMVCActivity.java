@@ -2,7 +2,10 @@ package me.danwi.eq.mvp;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import butterknife.ButterKnife;
@@ -24,13 +27,17 @@ public abstract class BaseMVCActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getLayoutId());
-        ButterKnife.bind(this);
-        if (savedInstanceState == null) {
-            defaultFragment();
+        if (fullScreen()) {
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
+        if (loadLayout()) {
+            setContentView(getLayoutId());
+        }
+        ButterKnife.bind(this);
         subscriptionManager = new SubscriptionManager();
-        LogUtils.d(TAG, "进入了%s", TAG);
+        d(TAG, "进入了%s", TAG);
     }
 
     @Override
@@ -62,5 +69,13 @@ public abstract class BaseMVCActivity extends AppCompatActivity {
     public abstract int getLayoutId();
 
     //默认显示的Fragment
-    public abstract void defaultFragment();
+    public abstract Fragment defaultFragment();
+
+    public boolean loadLayout() {
+        return true;
+    }
+
+    public boolean fullScreen() {
+        return false;
+    }
 }

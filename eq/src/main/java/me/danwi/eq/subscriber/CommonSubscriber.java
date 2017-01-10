@@ -38,28 +38,25 @@ public abstract class CommonSubscriber<T> extends BaseSubscriber<T> {
             HttpException httpException = (HttpException) e;
             Response response = httpException.response();
             ResponseBody responseBody = response.errorBody();
+            String message = null;
             try {
-                LogUtils.e(TAG, responseBody.string());
+                message = responseBody.string();
+                LogUtils.d(TAG, message);
             } catch (IOException e1) {
-                //
             }
             //其他小伙伴可以根据自己的业务进行分析
             //针对自家业务解析
             if (response.code() == 500) {
-                try {
-                    ErrorMessage errorMessage = new Gson().fromJson(responseBody.string(), ErrorMessage.class);
-                    //如果服务器黑了,并不是正常返回
-                    if (errorMessage != null) {
-                        if ("10000".equals(errorMessage.code)) {
+                ErrorMessage errorMessage = new Gson().fromJson(message, ErrorMessage.class);
+                //如果服务器黑了,并不是正常返回
+                if (errorMessage != null) {
+                    if ("10000".equals(errorMessage.code)) {
 
-                        } else {
+                    } else {
 
-                        }
-                        deal(errorMessage.message);
-                        return;
                     }
-                } catch (IOException e1) {
-                    //忽略
+                    deal(errorMessage.message);
+                    return;
                 }
             }
 

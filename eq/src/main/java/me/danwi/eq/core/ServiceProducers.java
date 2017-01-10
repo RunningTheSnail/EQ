@@ -6,6 +6,8 @@ import java.util.concurrent.TimeUnit;
 
 import me.danwi.eq.cookie.SimpleCookieJar;
 import me.danwi.eq.interceptor.LoggerInterceptor;
+import me.danwi.eq.utils.FileUtils;
+import me.danwi.eq.utils.Utils;
 import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -23,82 +25,53 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class ServiceProducers {
 
-    //请求的服务器地址,必须以 /  结尾
-    final String url;
-
-    //缓存目录设置
-    final String dir;
-
-    //请求之前处理 拦截器
-    final List<Interceptor> pre;
-
-    //响应之后处理 拦截器
-    final List<Interceptor> post;
-
-    //配置缓存大小
-    final int size;
-
-    final boolean debug;
-
-    final int connectTimeOut;
-    final int readTimeOut;
-    final int writeTimeOut;
-
     private static ServiceProducers serviceProducers;
 
     private Retrofit retrofit;
 
-    private OkHttpClient okHttpClient;
-
     //没有默认配置Builder,可以通过外部构建
     private ServiceProducers(Builder builder) {
-        this.url = builder.url;
-        this.dir = builder.dir;
-        this.pre = builder.pre;
-        this.post = builder.post;
-        this.debug = builder.debug;
-        this.size = builder.size;
-        this.connectTimeOut = builder.connectTimeOut;
-        this.readTimeOut = builder.readTimeOut;
-        this.writeTimeOut = builder.writeTimeOut;
+        //参数校验
+        Utils.checkArgument(builder.url, String.format("Server Url:%s is null", builder.url));
 
-        checkNotNull(url, "url==null");
         Retrofit.Builder retrofitBuilder = new Retrofit.Builder();
-        //为了配置拦截器
+
         OkHttpClient.Builder httpBuilder = new OkHttpClient.Builder();
 
-        if (dir != null) {
-            //设置缓存
-            httpBuilder.cache(createCache(dir, size));
+        //设置缓存
+        if (builder.dir != null) {
+            httpBuilder.cache(createCache(builder.dir, builder.size));
         }
 
-        if (pre != null) {
-            for (Interceptor interceptor : pre) {
+        //配置拦截器
+        if (builder.pre != null) {
+            for (Interceptor interceptor : builder.pre) {
                 httpBuilder.addInterceptor(interceptor);
             }
         }
 
-        //修改Request和Response之类的拦截器
-        if (post != null) {
-            for (Interceptor interceptor : post) {
+        if (builder.post != null) {
+            for (Interceptor interceptor : builder.post) {
                 httpBuilder.addNetworkInterceptor(interceptor);
             }
         }
 
-        if (debug) {
-            //内置日志拦截器,外部控制
+        //内置日志拦截器,外部控制
+        if (builder.debug) {
             httpBuilder.addInterceptor(new LoggerInterceptor());
         }
-        httpBuilder.connectTimeout(connectTimeOut, TimeUnit.SECONDS);
-        httpBuilder.readTimeout(readTimeOut, TimeUnit.SECONDS);
-        httpBuilder.writeTimeout(writeTimeOut, TimeUnit.SECONDS);
+
+        //设置连接，读取写入超时时间
+        httpBuilder.connectTimeout(builder.connectTimeOut, TimeUnit.SECONDS);
+        httpBuilder.readTimeout(builder.readTimeOut, TimeUnit.SECONDS);
+        httpBuilder.writeTimeout(builder.writeTimeOut, TimeUnit.SECONDS);
         //默认支持cookie
         httpBuilder.cookieJar(new SimpleCookieJar());
         //创建OkHttpClient客户端
-        okHttpClient = httpBuilder.build();
+        OkHttpClient okHttpClient = httpBuilder.build();
         //创建retrofit对象,默认使用Gson解析Request和response
         retrofit = retrofitBuilder
-                .baseUrl(url)
+                .baseUrl(builder.url)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
@@ -184,7 +157,7 @@ public class ServiceProducers {
     //生产服务
     public static <T> T createService(Class<T> service) {
         if (serviceProducers == null) {
-            throw new NullPointerException("you don't init serviceProducers");
+            throw new NullPointerException("You don't init ServiceProducers");
         }
         return serviceProducers.retrofit.create(service);
     }
@@ -197,21 +170,12 @@ public class ServiceProducers {
      * @return
      */
     private Cache createCache(String dir, int size) {
-        File file = new File(dir);
-        //判断文件夹是否存在
-        if (!file.exists()) {
-            //创建目录
-            file.mkdir();
+        File cacheDir = FileUtils.createDir(new File(dir));
+        if (cacheDir != null) {
+            return new Cache(cacheDir, size * 1024 * 1024);
+        } else {
+            throw new IllegalStateException("创建缓存文件夹失败");
         }
-        return new Cache(file, size * 1024 * 1024);
-    }
-
-    //检查服务器地址是否合法
-    private String checkNotNull(String url, String message) {
-        if (url == null) {
-            throw new NullPointerException(message);
-        }
-        return url;
     }
 
 }

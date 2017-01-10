@@ -8,15 +8,105 @@ import android.os.StatFs;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InvalidClassException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class FileUtils {
     private static final String TAG = "FileUtils";
+
+    /**
+     * 保存对象
+     *
+     * @param ser
+     * @param file
+     * @throws IOException
+     */
+    public static boolean saveObject(Context context, Serializable ser,
+                                     String file) {
+        FileOutputStream fos = null;
+        ObjectOutputStream oos = null;
+        try {
+            fos = context.openFileOutput(file, Context.MODE_PRIVATE);
+            oos = new ObjectOutputStream(fos);
+            oos.writeObject(ser);
+            oos.flush();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            if (oos != null) {
+                try {
+                    oos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /**
+     * 读取对象
+     *
+     * @param file
+     * @return
+     * @throws IOException
+     */
+    public static Serializable readObject(Context context, String file) {
+        FileInputStream fis = null;
+        ObjectInputStream ois = null;
+        try {
+            fis = context.openFileInput(file);
+            ois = new ObjectInputStream(fis);
+            return (Serializable) ois.readObject();
+        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
+            // 反序列化失败 - 删除缓存文件
+            if (e instanceof InvalidClassException) {
+                File data = context.getFileStreamPath(file);
+                data.delete();
+            }
+        } finally {
+            if (ois != null) {
+                try {
+                    ois.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
+    public static File createDir(File folder) {
+        return createDir(folder.getParent(), folder.getName());
+    }
 
     /**
      * 创建文件夹

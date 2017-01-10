@@ -1,36 +1,33 @@
 package me.danwi.utils;
 
-import android.graphics.Bitmap;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.widget.ListView;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import android.os.IBinder;
 
 import me.danwi.eq.mvp.BaseMVCActivity;
-import me.danwi.eq.utils.FileUtils;
-import me.danwi.eq.utils.ImageUtils;
-import me.danwi.eq.utils.LogUtils;
-import me.danwi.eq.utils.NetWorkUtils;
-import me.danwi.eq.utils.ScreenUtils;
-import me.danwi.eq.utils.SdCardUtils;
+import me.danwi.utils.service.FileDownService;
 
 public class MainActivity extends BaseMVCActivity {
+
+    ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            FileDownService.ExecuteTaskBinder executeTaskBinder = (FileDownService.ExecuteTaskBinder) service;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
-        LogUtils.d(TAG, "网络状态%s", NetWorkUtils.getNetworkTypeName(this));
-        ListView lv = (ListView) findViewById(R.id.lv);
-        List<String> dataList = new ArrayList<>();
-        dataList.add("谭帅");
-        dataList.add("HandSome-T");
-        lv.setAdapter(new NameAdapter(this, dataList));
-        Bitmap bitmap = ImageUtils.decodeResource(R.mipmap.timo, ScreenUtils.pxToDpInt(this, 600), ScreenUtils.pxToDpInt(this, 600));
-        FileUtils.writeFileToLocal(new File(SdCardUtils.getDiskFileDirPath(this)), "TiMo.jpg", bitmap, Bitmap.CompressFormat.JPEG, 100);
-
+        bindService(new Intent(this, FileDownService.class), serviceConnection, BIND_AUTO_CREATE);
 //        rl.postDelayed(new Runnable() {
 //            @Override
 //            public void run() {
@@ -142,7 +139,7 @@ public class MainActivity extends BaseMVCActivity {
     }
 
     @Override
-    public void defaultFragment() {
-
+    public android.support.v4.app.Fragment defaultFragment() {
+        return null;
     }
 }

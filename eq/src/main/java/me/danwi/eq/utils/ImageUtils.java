@@ -2,6 +2,7 @@ package me.danwi.eq.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 
 import java.io.ByteArrayOutputStream;
 
@@ -104,5 +105,45 @@ public class ImageUtils {
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
         return byteArrayOutputStream.toByteArray();
     }
+
+    /**
+     * scale image
+     *
+     * @param org
+     * @param newWidth
+     * @param newHeight
+     * @return
+     */
+    public static Bitmap scaleImageTo(Bitmap org, int newWidth, int newHeight) {
+        return scaleImage(org, (float) newWidth / org.getWidth(), (float) newHeight / org.getHeight());
+    }
+
+    /**
+     * scale image
+     *
+     * @param org
+     * @param scaleWidth  sacle of width
+     * @param scaleHeight scale of height
+     * @return
+     */
+    public static Bitmap scaleImage(Bitmap org, float scaleWidth, float scaleHeight) {
+        if (org == null) {
+            return null;
+        }
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleHeight);
+        return Bitmap.createBitmap(org, 0, 0, org.getWidth(), org.getHeight(), matrix, true);
+    }
+
+    public static Bitmap scaleImageToSuitable(Bitmap org, int newWidth, int newHeight) {
+        if (newWidth >= org.getWidth()) {
+            return org;
+        }
+        float wScale = (float) newWidth / (float) org.getWidth();
+        Matrix matrix = new Matrix();
+        matrix.postScale(wScale, wScale);
+        return Bitmap.createBitmap(org, 0, 0, org.getWidth(), org.getHeight(), matrix, true);
+    }
+
 
 }

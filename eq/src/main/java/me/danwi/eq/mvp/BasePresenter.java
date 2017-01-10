@@ -6,7 +6,7 @@ package me.danwi.eq.mvp;
  * Date: 16/6/1
  * Time: 下午3:18
  */
-public abstract class BasePresenter<V> {
+public class BasePresenter<V> {
     //V和P对应
     public V view;
 

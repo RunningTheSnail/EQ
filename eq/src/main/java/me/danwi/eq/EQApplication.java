@@ -3,15 +3,12 @@ package me.danwi.eq;
 import android.app.Application;
 import android.content.Context;
 
-import com.orhanobut.logger.LogLevel;
-
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
 
 import me.danwi.eq.core.ServiceProducers;
 import me.danwi.eq.utils.FileUtils;
-import me.danwi.eq.utils.LogUtils;
 import me.danwi.eq.utils.SdCardUtils;
 import okhttp3.Interceptor;
 
@@ -31,8 +28,6 @@ public abstract class EQApplication extends Application {
     public void onCreate() {
         super.onCreate();
         context = this;
-        LogLevel logLevel = isDebug() ? LogLevel.FULL : LogLevel.NONE;
-        LogUtils.init("EQ", logLevel);
         new ServiceProducers.Builder()
                 .url(getUrl())
                 .connectTimeOut(connectionTimeOut())

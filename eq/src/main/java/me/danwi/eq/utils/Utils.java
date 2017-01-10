@@ -25,4 +25,10 @@ public class Utils {
         }
     }
 
+    public static void checkArgument(Object obj, String message) {
+        if (obj == null) {
+            throw new IllegalArgumentException(message);
+        }
+    }
+
 }
