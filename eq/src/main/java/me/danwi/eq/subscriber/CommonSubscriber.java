@@ -1,12 +1,10 @@
 package me.danwi.eq.subscriber;
 
-import com.google.gson.Gson;
-
 import java.io.IOException;
 import java.net.ConnectException;
 
-import me.danwi.eq.entity.ErrorMessage;
 import me.danwi.eq.utils.LogUtils;
+import me.danwi.eq.utils.ToastHelper;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.adapter.rxjava.HttpException;
@@ -30,7 +28,7 @@ public abstract class CommonSubscriber<T> extends BaseSubscriber<T> {
     public void onError(Throwable e) {
         super.onError(e);
         if (e instanceof ConnectException) {
-            deal("服务器连接异常,请检查网络");
+            dealException("服务器连接异常,请检查网络");
             return;
         }
         //通用异常
@@ -38,35 +36,16 @@ public abstract class CommonSubscriber<T> extends BaseSubscriber<T> {
             HttpException httpException = (HttpException) e;
             Response response = httpException.response();
             ResponseBody responseBody = response.errorBody();
-            String message = null;
+            String message;
             try {
                 message = responseBody.string();
                 LogUtils.d(TAG, message);
-            } catch (IOException e1) {
-            }
-            //其他小伙伴可以根据自己的业务进行分析
-            //针对自家业务解析
-            if (response.code() == 500) {
-                ErrorMessage errorMessage = new Gson().fromJson(message, ErrorMessage.class);
-                //如果服务器黑了,并不是正常返回
-                if (errorMessage != null) {
-                    if ("10000".equals(errorMessage.code)) {
-
-                    } else {
-
-                    }
-                    deal(errorMessage.message);
-                    return;
-                }
-            }
-
-            //没有网络,缓存又过期
-            if (response.code() == 504) {
-                deal("服务器连接异常,请检查网络");
+            } catch (IOException io) {
+                dealException(io.getMessage());
                 return;
             }
+            resp(response.code(), message);
         }
-        deal(e.toString());
     }
 
     @Override
@@ -74,5 +53,10 @@ public abstract class CommonSubscriber<T> extends BaseSubscriber<T> {
 
     }
 
-    public abstract void deal(String message);
+    protected abstract void resp(int code, String message);
+
+    //提供默认实现
+    public void dealException(String message) {
+        ToastHelper.showToast(message);
+    }
 }
