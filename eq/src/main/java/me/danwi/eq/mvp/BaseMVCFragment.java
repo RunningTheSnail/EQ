@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.ButterKnife;
 import me.danwi.eq.utils.LogUtils;
 import rx.Subscription;
@@ -44,6 +46,7 @@ public abstract class BaseMVCFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        EventBus.getDefault().register(this);
         subscriptionManager = new SubscriptionManager();
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -92,9 +95,16 @@ public abstract class BaseMVCFragment extends Fragment {
         LogUtils.d(TAG, "%s onDestroyView", TAG);
         //视图层级销毁了,表示需要重新加载数据?
         isLoad = false;
+
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
         //取消订阅(取消所有异步任务)
         subscriptionManager.removeAllSubscription();
-        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
