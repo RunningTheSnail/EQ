@@ -49,6 +49,7 @@ public abstract class BaseMVCFragment extends Fragment {
         if (bundle != null) {
             getParams(bundle);
         }
+        //当Fragment重建时state不为null,原理和Activity重建一样
         if (savedInstanceState != null) {
             boolean status = savedInstanceState.getBoolean(STATE_SAVE_IS_HIDDEN);
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
@@ -80,7 +81,8 @@ public abstract class BaseMVCFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        //状态回复
+        //状态恢复
+        //通过isHidden()判断在当前状态是显示还是隐藏
         outState.putBoolean(STATE_SAVE_IS_HIDDEN, isHidden());
         super.onSaveInstanceState(outState);
     }
@@ -133,5 +135,6 @@ public abstract class BaseMVCFragment extends Fragment {
     //判断是否单独使用Fragment
     public abstract boolean isAlone();
 
+    //获取从Activity传过来的参数
     public abstract void getParams(Bundle bundle);
 }

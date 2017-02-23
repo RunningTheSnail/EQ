@@ -11,7 +11,6 @@ import me.danwi.eq.interceptor.BridgeInterceptor;
 import me.danwi.eq.utils.LogUtils;
 import me.danwi.eq.utils.ResourceUtils;
 import me.danwi.eq.utils.ScreenUtils;
-import me.danwi.eq.utils.SdCardUtils;
 import okhttp3.Interceptor;
 
 /**
@@ -21,8 +20,6 @@ public class App extends EQApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        LogUtils.d(TAG, SdCardUtils.getDiskFileDirPath());
-        LogUtils.d(TAG, SdCardUtils.getDiskCacheDirPath());
         LogUtils.d(TAG, "手机分辨率宽%d,高%d", getResources().getDisplayMetrics().widthPixels, getResources().getDisplayMetrics().heightPixels);
         LogUtils.d(TAG, "densityDpi%d,density%f", getResources().getDisplayMetrics().densityDpi, getResources().getDisplayMetrics().density);
         LogUtils.d(TAG, "分辨率width:%d,height:%d", ScreenUtils.getScreenSize(this)[0], ScreenUtils.getScreenSize(this)[1]);

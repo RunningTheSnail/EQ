@@ -40,4 +40,5 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar'
+    compile 'org.greenrobot:eventbus:3.0.0'
 }
