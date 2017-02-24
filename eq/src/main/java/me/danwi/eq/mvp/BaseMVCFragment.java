@@ -147,4 +147,5 @@ public abstract class BaseMVCFragment extends Fragment {
 
     //获取从Activity传过来的参数
     public abstract void getParams(Bundle bundle);
+
 }

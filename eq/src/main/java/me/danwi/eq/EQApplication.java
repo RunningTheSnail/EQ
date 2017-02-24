@@ -8,6 +8,8 @@ import java.util.Collections;
 import java.util.List;
 
 import me.danwi.eq.core.ServiceProducers;
+import me.danwi.eq.third.ImgLoader;
+import me.danwi.eq.third.PicassoLoader;
 import me.danwi.eq.utils.FileUtils;
 import me.danwi.eq.utils.SdCardUtils;
 import okhttp3.Interceptor;
@@ -24,6 +26,8 @@ public abstract class EQApplication extends Application {
 
     public static Context context;
 
+    public static ImgLoader imgLoader;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -39,7 +43,7 @@ public abstract class EQApplication extends Application {
                 .size(getSize())
                 .debug(isDebug())
                 .build();
-
+        imgLoader = PicassoLoader.with(this);
     }
 
     public static Context getContext() {
