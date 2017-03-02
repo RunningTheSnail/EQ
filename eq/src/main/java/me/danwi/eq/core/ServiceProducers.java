@@ -1,8 +1,20 @@
 package me.danwi.eq.core;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManagerFactory;
 
 import me.danwi.eq.cookie.SimpleCookieJar;
 import me.danwi.eq.interceptor.LoggerInterceptor;
@@ -61,6 +73,14 @@ public class ServiceProducers {
             httpBuilder.addInterceptor(new LoggerInterceptor());
         }
 
+        //设置证书
+        if (builder.certificate != null) {
+            SSLContext sslContext = setCertificate(builder.certificate);
+            if (sslContext != null) {
+                httpBuilder.socketFactory(sslContext.getSocketFactory());
+            }
+        }
+
         //设置连接，读取写入超时时间
         httpBuilder.connectTimeout(builder.connectTimeOut, TimeUnit.SECONDS);
         httpBuilder.readTimeout(builder.readTimeOut, TimeUnit.SECONDS);
@@ -99,6 +119,7 @@ public class ServiceProducers {
         private int connectTimeOut;
         private int readTimeOut;
         private int writeTimeOut;
+        private InputStream certificate;
 
         public Builder url(String url) {
             this.url = url;
@@ -148,6 +169,11 @@ public class ServiceProducers {
             return this;
         }
 
+        public Builder certificate(InputStream certificate) {
+            this.certificate = certificate;
+            return this;
+        }
+
         public ServiceProducers build() {
             return getInstance(this);
         }
@@ -176,6 +202,24 @@ public class ServiceProducers {
         } else {
             throw new IllegalStateException("创建缓存文件夹失败");
         }
+    }
+
+    public SSLContext setCertificate(InputStream certificate) {
+        try {
+            CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
+            KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            keyStore.load(null);
+            String certificateAlias = Integer.toString(0);
+            keyStore.setCertificateEntry(certificateAlias, certificateFactory.generateCertificate(certificate));
+            SSLContext sslContext = SSLContext.getInstance("TLS");
+            TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            trustManagerFactory.init(keyStore);
+            sslContext.init(null, trustManagerFactory.getTrustManagers(), new SecureRandom());
+            return sslContext;
+        } catch (CertificateException | KeyStoreException | NoSuchAlgorithmException | KeyManagementException | IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
