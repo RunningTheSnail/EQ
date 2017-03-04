@@ -1,21 +1,24 @@
 package me.danwi.eq.transform;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.ObservableTransformer;
+import io.reactivex.functions.Function;
 import me.danwi.eq.entity.HttpResult;
 import me.danwi.eq.exception.BizException;
-import rx.Observable;
-import rx.functions.Func1;
 
 /**
  * Created by RunningSnail on 16/7/29.
  * 普通的请求结果转换
  */
-public class CommonResponseTransformer<T> implements Observable.Transformer<HttpResult<T>, T> {
+public class CommonResponseTransformer<T> implements ObservableTransformer<HttpResult<T>, T> {
 
     @Override
-    public Observable<T> call(Observable<HttpResult<T>> baseEntityObservable) {
-        return baseEntityObservable.flatMap(new Func1<HttpResult<T>, Observable<T>>() {
+    public ObservableSource<T> apply(Observable<HttpResult<T>> upstream) {
+
+        return upstream.flatMap(new Function<HttpResult<T>, ObservableSource<T>>() {
             @Override
-            public Observable<T> call(HttpResult<T> tHttpResult) {
+            public ObservableSource<T> apply(HttpResult<T> tHttpResult) throws Exception {
                 int code = tHttpResult.code;
                 //判断结果码
                 if (code == 200) {
@@ -24,6 +27,7 @@ public class CommonResponseTransformer<T> implements Observable.Transformer<Http
                 //抛出业务异常
                 return Observable.error(new BizException(tHttpResult.message));
             }
+
         });
     }
 }

@@ -2,9 +2,11 @@ package me.danwi.eq.transform;
 
 import java.io.IOException;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.ObservableTransformer;
+import io.reactivex.functions.Function;
 import okhttp3.ResponseBody;
-import rx.Observable;
-import rx.functions.Func1;
 
 /**
  * Created with Android Studio.
@@ -12,13 +14,13 @@ import rx.functions.Func1;
  * Date: 16/12/22
  * Time: 下午4:53
  */
-public class StringTransFormer implements Observable.Transformer<ResponseBody, String> {
+public class StringTransFormer implements ObservableTransformer<ResponseBody, String> {
 
     @Override
-    public Observable<String> call(Observable<ResponseBody> responseBodyObservable) {
-        return responseBodyObservable.flatMap(new Func1<ResponseBody, Observable<String>>() {
+    public ObservableSource<String> apply(Observable<ResponseBody> upstream) {
+        return upstream.flatMap(new Function<ResponseBody, ObservableSource<String>>() {
             @Override
-            public Observable<String> call(ResponseBody responseBody) {
+            public ObservableSource<String> apply(ResponseBody responseBody) throws Exception {
                 try {
                     return Observable.just(responseBody.string());
                 } catch (IOException e) {
