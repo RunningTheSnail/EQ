@@ -1,7 +1,7 @@
 package me.danwi.eq;
 
-import rx.Observable;
-import rx.Subscriber;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 
 /**
  * Created with Android Studio.
@@ -9,16 +9,14 @@ import rx.Subscriber;
  * Date: 16/8/16
  * Time: 下午11:43
  */
-public abstract class CommonOnSubscribe<T> implements Observable.OnSubscribe<T> {
+public abstract class CommonOnSubscribe<T> implements ObservableOnSubscribe<T> {
+
+    public abstract void work(ObservableEmitter<T> e);
 
     @Override
-    public void call(Subscriber<? super T> subscriber) {
-        //判断是否取消订阅,使用create操作符创建Observable必须自己判断订阅是否取消
-        //否则即使调用了subscription.unSubscribe()还会继续接受事件
-        if (!subscriber.isUnsubscribed()) {
-            work(subscriber);
+    public void subscribe(ObservableEmitter<T> e) throws Exception {
+        if (e.isDisposed()) {
+            work(e);
         }
     }
-
-    public abstract void work(Subscriber<? super T> subscriber);
 }

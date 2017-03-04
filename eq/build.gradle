@@ -38,7 +38,7 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.1.0'
     compile 'com.orhanobut:logger:1.15'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
-    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar'
+//    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.2@aar'
     compile 'org.greenrobot:eventbus:3.0.0'
 }
