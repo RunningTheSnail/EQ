@@ -60,25 +60,23 @@ public class TDevice {
      * 卸载应用
      *
      * @param context
-     * @param packageName
      */
-    public static void unInstallApk(Context context, String packageName) {
+    public static void unInstallApk(Context context) {
         Intent intent = new Intent(Intent.ACTION_DELETE);
-        Uri packageURI = Uri.parse("package:" + packageName);
+        Uri packageURI = Uri.parse("package:" + context.getPackageName());
         intent.setData(packageURI);
         context.startActivity(intent);
     }
 
     /**
-     * 获取应用程序版本
+     * 获取应用程序版本号
      *
-     * @param packageName
      * @return
      */
-    public static int getVersionCode(Context context, String packageName) {
+    public static int getVersionCode(Context context) {
         int versionCode;
         try {
-            versionCode = context.getPackageManager().getPackageInfo(packageName, 0).versionCode;
+            versionCode = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
         } catch (PackageManager.NameNotFoundException ex) {
             versionCode = 1;
         }
@@ -86,7 +84,7 @@ public class TDevice {
     }
 
     /**
-     * 获取应用名称
+     * 获取应用程序版本名称
      *
      * @return
      */

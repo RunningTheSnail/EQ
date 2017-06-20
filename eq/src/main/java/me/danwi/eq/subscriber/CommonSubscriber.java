@@ -6,8 +6,8 @@ import java.net.ConnectException;
 import me.danwi.eq.utils.LogUtils;
 import me.danwi.eq.utils.ToastHelper;
 import okhttp3.ResponseBody;
+import retrofit2.HttpException;
 import retrofit2.Response;
-import retrofit2.adapter.rxjava.HttpException;
 
 /**
  * Created with Android Studio.
@@ -17,16 +17,11 @@ import retrofit2.adapter.rxjava.HttpException;
  * <p>
  * 封装Subscriber,对异常进行封装,统一处理(针对不同的Response可以定制不懂的转换规则)
  */
-public abstract class CommonSubscriber<T> extends BaseSubscriber<T> {
+public abstract class CommonSubscriber extends BaseConsumerThrowable {
 
     @Override
-    public void onCompleted() {
-
-    }
-
-    @Override
-    public void onError(Throwable e) {
-        super.onError(e);
+    public void accept(Throwable e) throws Exception {
+        super.accept(e);
         if (e instanceof ConnectException) {
             dealException("服务器连接异常,请检查网络");
             return;
@@ -46,11 +41,6 @@ public abstract class CommonSubscriber<T> extends BaseSubscriber<T> {
             }
             resp(response.code(), message);
         }
-    }
-
-    @Override
-    public void onNext(T t) {
-
     }
 
     protected abstract void resp(int code, String message);
