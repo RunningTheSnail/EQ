@@ -13,8 +13,8 @@ import android.view.ViewGroup;
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.ButterKnife;
+import io.reactivex.disposables.Disposable;
 import me.danwi.eq.utils.LogUtils;
-import rx.Subscription;
 
 /**
  * Created with Android Studio.
@@ -133,7 +133,7 @@ public abstract class BaseMVCFragment extends Fragment {
         }
     }
 
-    public void addSubscription(Subscription subscription) {
+    public void addSubscription(Disposable subscription) {
         subscriptionManager.addSubscription(subscription);
     }
 
