@@ -10,7 +10,7 @@ import me.danwi.eq.entity.ErrorMessage;
  * Date: 17/1/18
  * Time: 上午10:41
  */
-public class EasySubscriber<T> extends CommonSubscriber<T> {
+public class EasySubscriber extends CommonSubscriber {
 
     @Override
     protected void resp(int code, String message) {

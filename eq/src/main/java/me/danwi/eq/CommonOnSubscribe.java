@@ -15,7 +15,7 @@ public abstract class CommonOnSubscribe<T> implements ObservableOnSubscribe<T> {
 
     @Override
     public void subscribe(ObservableEmitter<T> e) throws Exception {
-        if (e.isDisposed()) {
+        if (!e.isDisposed()) {
             work(e);
         }
     }
