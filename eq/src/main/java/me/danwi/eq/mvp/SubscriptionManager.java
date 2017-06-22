@@ -1,7 +1,7 @@
 package me.danwi.eq.mvp;
 
-import rx.Subscription;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created with Android Studio.
@@ -11,23 +11,23 @@ import rx.subscriptions.CompositeSubscription;
  */
 public class SubscriptionManager {
 
-    private CompositeSubscription compositeSubscription;
+    private CompositeDisposable compositeDisposable;
 
     public SubscriptionManager() {
-        compositeSubscription = new CompositeSubscription();
+        compositeDisposable = new CompositeDisposable();
     }
 
     //取消所有订阅
     public void removeAllSubscription() {
-        if (compositeSubscription != null && compositeSubscription.isUnsubscribed()) {
-            compositeSubscription.unsubscribe();
+        if (compositeDisposable != null && compositeDisposable.isDisposed()) {
+            compositeDisposable.dispose();
         }
     }
 
-    public void addSubscription(Subscription subscription) {
-        if (compositeSubscription != null) {
-            if (subscription != null) {
-                compositeSubscription.add(subscription);
+    public void addSubscription(Disposable disposable) {
+        if (compositeDisposable != null) {
+            if (disposable != null) {
+                compositeDisposable.add(disposable);
             }
         }
     }
