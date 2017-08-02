@@ -82,6 +82,15 @@ public class ServiceProducers {
         }
 
         //设置连接，读取写入超时时间
+        if (builder.connectTimeOut == 0) {
+            builder.connectTimeOut = 60;
+        }
+        if (builder.readTimeOut == 0) {
+            builder.readTimeOut = 60;
+        }
+        if (builder.writeTimeOut == 0) {
+            builder.writeTimeOut = 60;
+        }
         httpBuilder.connectTimeout(builder.connectTimeOut, TimeUnit.SECONDS);
         httpBuilder.readTimeout(builder.readTimeOut, TimeUnit.SECONDS);
         httpBuilder.writeTimeout(builder.writeTimeOut, TimeUnit.SECONDS);
