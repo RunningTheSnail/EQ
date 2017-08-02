@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'android-apt'
+//apply plugin: 'android-apt'
 
 //签名配置
 println(rootProject.ext.url.signingUrl);
@@ -30,11 +30,11 @@ buildscript {
         }
     }
 
-    dependencies {
-        dependencies {
-            classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-        }
-    }
+//    dependencies {
+//        dependencies {
+//            classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+//        }
+//    }
 }
 
 android {
@@ -169,12 +169,10 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile rootProject.ext.dependencies["appcompat-v7"]
-    compile 'com.android.support:design:23.1.1'
-//    compile(name: 'eq-release', ext: 'aar')
-//    compile(name: 'pgyer-release', ext: 'aar')
+    compile 'com.android.support:design:25.3.1'
     compile project(':eq')
-    compile 'com.jakewharton:butterknife:8.1.0'
-    apt 'com.jakewharton:butterknife-compiler:8.1.0'
+//    compile 'com.jakewharton:butterknife:8.1.0'
+//    apt 'com.jakewharton:butterknife-compiler:8.1.0'
     compile project(':pgyer')
 }
 

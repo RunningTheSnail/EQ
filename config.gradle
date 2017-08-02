@@ -5,10 +5,10 @@ ext {
     //构建配置
     android = [
             applicationId    : "me.danwi.eq",
-            buildToolsVersion: "23.0.3",
-            compileSdkVersion: 23,
+            buildToolsVersion: "25.0.0",
+            compileSdkVersion: 25,
             minSdkVersion    : 15,
-            targetSdkVersion : 23,
+            targetSdkVersion : 25,
             versionCode      : 1,
             versionName      : "1.0.0"
     ]

@@ -6,7 +6,11 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import me.danwi.eq.CommonOnSubscribe;
 import me.danwi.eq.mvp.BaseMVCActivity;
+import me.danwi.eq.subscriber.ObserverAdapter;
 import me.danwi.utils.service.FileDownService;
 
 public class MainActivity extends BaseMVCActivity {
@@ -28,6 +32,12 @@ public class MainActivity extends BaseMVCActivity {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
         bindService(new Intent(this, FileDownService.class), serviceConnection, BIND_AUTO_CREATE);
+        Observable.create(new CommonOnSubscribe<String>() {
+            @Override
+            public void work(ObservableEmitter<String> e) {
+
+            }
+        }).subscribe(new ObserverAdapter<String>(subscriptionManager));
 //        rl.postDelayed(new Runnable() {
 //            @Override
 //            public void run() {
