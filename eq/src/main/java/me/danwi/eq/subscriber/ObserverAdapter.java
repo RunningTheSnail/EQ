@@ -1,8 +1,9 @@
 package me.danwi.eq.subscriber;
 
+import com.orhanobut.logger.Logger;
+
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-import me.danwi.eq.mvp.SubscriptionManager;
 
 /**
  * Created with Android Studio.
@@ -12,19 +13,10 @@ import me.danwi.eq.mvp.SubscriptionManager;
  */
 public class ObserverAdapter<T> implements Observer<T> {
 
-    private SubscriptionManager subscriptionManager;
-
-    private Disposable disposable;
-
-    public ObserverAdapter(SubscriptionManager subscriptionManager) {
-        this.subscriptionManager = subscriptionManager;
-    }
-
 
     @Override
     public void onSubscribe(Disposable d) {
-        this.disposable = d;
-        subscriptionManager.addSubscription(d);
+
     }
 
     @Override
@@ -34,9 +26,7 @@ public class ObserverAdapter<T> implements Observer<T> {
 
     @Override
     public void onError(Throwable e) {
-        if (disposable != null && !disposable.isDisposed()) {
-            disposable.dispose();
-        }
+        Logger.e(e.toString());
     }
 
     @Override
