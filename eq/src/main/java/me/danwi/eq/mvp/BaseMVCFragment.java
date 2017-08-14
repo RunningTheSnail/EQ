@@ -14,7 +14,6 @@ import org.greenrobot.eventbus.EventBus;
 
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
-import me.danwi.eq.utils.LogUtils;
 
 /**
  * Created with Android Studio.
@@ -92,7 +91,7 @@ public abstract class BaseMVCFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
-        LogUtils.d(TAG, "%s onDestroyView", TAG);
+//        LogUtils.d(TAG, "%s onDestroyView", TAG);
         //视图层级销毁了,表示需要重新加载数据?
         isLoad = false;
 
@@ -109,7 +108,7 @@ public abstract class BaseMVCFragment extends Fragment {
 
     @Override
     public void onDetach() {
-        LogUtils.d(TAG, "%s onDetach", TAG);
+//        LogUtils.d(TAG, "%s onDetach", TAG);
         super.onDetach();
     }
 
@@ -125,7 +124,7 @@ public abstract class BaseMVCFragment extends Fragment {
     public void lazyLoad() {
         if (isVisible && isPrepare) {
             if (!isLoad) {
-                LogUtils.d(TAG, "data load");
+//                LogUtils.d(TAG, "data load");
                 isLoad = true;
                 //加载数据
                 init();

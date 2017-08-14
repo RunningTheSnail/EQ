@@ -1,9 +1,10 @@
 package me.danwi.eq.subscriber;
 
+import com.orhanobut.logger.Logger;
+
 import java.io.IOException;
 import java.net.ConnectException;
 
-import me.danwi.eq.utils.LogUtils;
 import me.danwi.eq.utils.ToastHelper;
 import okhttp3.ResponseBody;
 import retrofit2.HttpException;
@@ -34,7 +35,7 @@ public abstract class CommonSubscriber extends BaseConsumerThrowable {
             String message;
             try {
                 message = responseBody.string();
-                LogUtils.d(TAG, message);
+                Logger.d(TAG, message);
             } catch (IOException io) {
                 dealException(io.getMessage());
                 return;

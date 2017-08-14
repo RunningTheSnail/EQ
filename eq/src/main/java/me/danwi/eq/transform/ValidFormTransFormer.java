@@ -11,7 +11,7 @@ import io.reactivex.functions.Function;
  * Created by RunningSnail on 16/7/11.
  * 表单数据校验
  */
-public abstract   class ValidFormTransFormer<T> implements ObservableTransformer<T, Boolean> {
+public abstract class ValidFormTransFormer<T> implements ObservableTransformer<T, Boolean> {
 
     //表单数据校验
     public abstract boolean valid(String value);
@@ -23,6 +23,6 @@ public abstract   class ValidFormTransFormer<T> implements ObservableTransformer
             public ObservableSource<Boolean> apply(T t) throws Exception {
                 return Observable.just(!TextUtils.isEmpty(t.toString()) && valid(t.toString()));
             }
-        });
+        }).distinctUntilChanged();
     }
 }

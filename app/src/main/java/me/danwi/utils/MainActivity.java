@@ -8,6 +8,7 @@ import android.os.IBinder;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import me.danwi.eq.CommonOnSubscribe;
 import me.danwi.eq.mvp.BaseMVCActivity;
 import me.danwi.eq.subscriber.ObserverAdapter;
@@ -38,6 +39,13 @@ public class MainActivity extends BaseMVCActivity {
 
             }
         }).subscribe(new ObserverAdapter<String>(subscriptionManager));
+
+        Observable.create(new ObservableOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(ObservableEmitter<Boolean> e) throws Exception {
+
+            }
+        })
 //        rl.postDelayed(new Runnable() {
 //            @Override
 //            public void run() {

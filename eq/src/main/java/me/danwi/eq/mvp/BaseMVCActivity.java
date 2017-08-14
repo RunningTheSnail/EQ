@@ -3,11 +3,12 @@ package me.danwi.eq.mvp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
+
+import com.orhanobut.logger.Logger;
 
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
@@ -39,7 +40,8 @@ public abstract class BaseMVCActivity extends AppCompatActivity {
         }
         ButterKnife.bind(this);
         subscriptionManager = new SubscriptionManager();
-        d(TAG, "进入了%s", TAG);
+        LogUtils.init(String.format("EQ-%s", TAG));
+        Logger.d("进入了%s页面", TAG);
     }
 
     @Override
@@ -58,20 +60,8 @@ public abstract class BaseMVCActivity extends AppCompatActivity {
         return tv.getText().toString();
     }
 
-    public void d(String message, Object... object) {
-        LogUtils.d(TAG, message, object);
-    }
-
-    public void d(String message) {
-        LogUtils.d(TAG, message);
-    }
-
-
     //模板设计模式哦~
     public abstract int getLayoutId();
-
-    //默认显示的Fragment
-    public abstract Fragment defaultFragment();
 
     public boolean loadLayout() {
         return true;
