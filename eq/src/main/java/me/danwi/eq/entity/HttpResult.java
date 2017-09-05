@@ -7,25 +7,34 @@ package me.danwi.eq.entity;
  * Time: 下午3:14
  */
 public class HttpResult<T> {
-    public int code;
+    public int result;
     //调用接口返回的信息,假装在message中
-    public String message;
+    public String msg;
+    public String statusCode;
     public T data;
 
-    public int getCode() {
-        return code;
+    public int getResult() {
+        return result;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setResult(int result) {
+        this.result = result;
     }
 
-    public String getMessage() {
-        return message;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+    public String getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(String statusCode) {
+        this.statusCode = statusCode;
     }
 
     public T getData() {
@@ -34,5 +43,15 @@ public class HttpResult<T> {
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    @Override
+    public String toString() {
+        return "HttpResult{" +
+                "result=" + result +
+                ", msg='" + msg + '\'' +
+                ", statusCode='" + statusCode + '\'' +
+                ", data=" + data +
+                '}';
     }
 }

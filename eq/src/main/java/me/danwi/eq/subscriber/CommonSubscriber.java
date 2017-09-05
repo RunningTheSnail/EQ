@@ -1,7 +1,5 @@
 package me.danwi.eq.subscriber;
 
-import com.orhanobut.logger.Logger;
-
 import java.io.IOException;
 import java.net.ConnectException;
 
@@ -35,7 +33,7 @@ public abstract class CommonSubscriber extends BaseConsumerThrowable {
             String message;
             try {
                 message = responseBody.string();
-                Logger.d(TAG, message);
+//                LogUtils.d(TAG, message);
             } catch (IOException io) {
                 dealException(io.getMessage());
                 return;

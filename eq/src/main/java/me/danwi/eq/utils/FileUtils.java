@@ -124,7 +124,7 @@ public class FileUtils {
             File file = new File(parent, folder);
             if (!file.exists()) {
                 success = file.mkdir();
-                LogUtils.d(TAG, "文件夹%s创建%s", folder, success ? "成功" : "失败");
+//                LogUtils.d(TAG, "文件夹%s创建%s", folder, success ? "成功" : "失败");
             }
             return file;
         }
@@ -179,14 +179,14 @@ public class FileUtils {
             out.write(buffer);
             writeSuccess = true;
         } catch (Exception e) {
-            LogUtils.e(TAG, e.toString());
+//            LogUtils.e(TAG, e.toString());
         } finally {
             try {
                 if (out != null) {
                     out.close();
                 }
             } catch (IOException e) {
-                LogUtils.e(TAG, e.toString());
+//                LogUtils.e(TAG, e.toString());
             }
         }
         return writeSuccess;
@@ -213,7 +213,7 @@ public class FileUtils {
             }
             writeSuccess = true;
         } catch (Exception e) {
-            LogUtils.e(TAG, e.toString());
+//            LogUtils.e(TAG, e.toString());
         } finally {
             try {
                 if (out != null) {
@@ -223,7 +223,7 @@ public class FileUtils {
                     fileInputStream.close();
                 }
             } catch (IOException e) {
-                LogUtils.e(TAG, e.toString());
+//                LogUtils.e(TAG, e.toString());
             }
         }
         return writeSuccess;
@@ -289,13 +289,13 @@ public class FileUtils {
             fis = new FileInputStream(new File(dir, fileName));
             content = readInStream(fis);
         } catch (IOException e) {
-            LogUtils.e(TAG, e.toString());
+//            LogUtils.e(TAG, e.toString());
         } finally {
             if (fis != null) {
                 try {
                     fis.close();
                 } catch (IOException e) {
-                    LogUtils.e(TAG, e.toString());
+//                    LogUtils.e(TAG, e.toString());
                 }
             }
         }
@@ -314,7 +314,7 @@ public class FileUtils {
             inStream.close();
             return outStream.toString();
         } catch (IOException e) {
-            LogUtils.e(TAG, e.toString());
+//            LogUtils.e(TAG, e.toString());
         }
         return null;
     }

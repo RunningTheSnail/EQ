@@ -1,19 +1,7 @@
 package me.danwi.eq.transform;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
-import io.reactivex.functions.Function;
 import me.danwi.eq.entity.DownLoadResult;
-import me.danwi.eq.utils.SdCardUtils;
 import okhttp3.ResponseBody;
 
 /**
@@ -112,97 +100,11 @@ public abstract class ResponseBodyTransFormer implements ObservableTransformer<R
 //                    }
 //                })
 //                .sample(1000, TimeUnit.MILLISECONDS);
+//    }
 
     //获取文件夹
     public abstract String getFolder();
 
     //获取文件名
     public abstract String getFileName();
-
-    @Override
-    public ObservableSource<DownLoadResult> apply(Observable<ResponseBody> upstream) {
-        return upstream.flatMap(new Function<ResponseBody, ObservableSource<?>>() {
-            @Override
-            public ObservableSource<?> apply(final ResponseBody responseBody) throws Exception {
-                return Observable.create(new ObservableOnSubscribe<DownLoadResult>() {
-                    @Override
-                    public void subscribe(ObservableEmitter<DownLoadResult> e) throws Exception {
-                        InputStream inputStream = responseBody.byteStream();
-                        DownLoadResult downLoadResult = new DownLoadResult();
-
-                        //判断
-                        boolean sdCardExist = SdCardUtils.isExist();
-
-                        String folderPath = "";
-                        if (sdCardExist) {
-                            //文件夹
-                            folderPath = SdCardUtils.getRootPath() + File.separator + getFolder() + File.separator;
-                        }
-
-                        File fileDir = new File(folderPath);
-                        //创建文件夹
-                        if (!fileDir.exists()) {
-                            fileDir.mkdirs();
-                        }
-                        File file = new File(folderPath + getFileName());
-                        //输出流
-                        FileOutputStream out = null;
-                        try {
-                            out = new FileOutputStream(file);
-                        } catch (FileNotFoundException e) {
-                        }
-
-                        //缓冲区
-                        byte[] buffer = new byte[1024];
-                        //文件总体大小
-                        downLoadResult.contentLength = responseBody.contentLength();
-                        //判断是否下载完成
-                        downLoadResult.done = false;
-                        long current = 0;
-                        long temp;
-                        try {
-                            //读取流
-                            while ((temp = inputStream.read(buffer)) != -1) {
-                                //获取当前读取的字节数
-                                current = current + temp;
-                                downLoadResult.current = current;
-                                //已经下载的进度比
-                                downLoadResult.progress = (current * 100 / downLoadResult.contentLength);
-                                if (current == downLoadResult.contentLength) {
-                                    downLoadResult.done = true;
-                                }
-                                if (out != null) {
-                                    //写入文件
-                                    out.write(buffer, 0, (int) temp);
-                                    out.flush();
-                                }
-                                //发送数据
-                                e.onNext(downLoadResult);
-                            }
-                            //下载完成
-                            e.onComplete();
-                        } catch (IOException ioe) {
-                            e.onError(ioe);
-                        } finally {
-                            try {
-                                if (out != null) {
-                                    out.close();
-                                }
-                            } catch (IOException ioe) {
-//                                LogUtils.e(TAG, e.toString());
-                                e.onError(ioe);
-                            }
-
-                            try {
-                                inputStream.close();
-                            } catch (IOException ioe) {
-//                                LogUtils.e(TAG, e.toString());
-                                e.onError(ioe);
-                            }
-                        }
-                    }
-                });
-            }
-        });
-    }
 }

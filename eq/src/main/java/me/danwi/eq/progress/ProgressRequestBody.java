@@ -2,7 +2,6 @@ package me.danwi.eq.progress;
 
 import java.io.IOException;
 
-import me.danwi.eq.utils.LogUtils;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okio.Buffer;
@@ -54,7 +53,7 @@ public class ProgressRequestBody extends RequestBody {
                 if (contentLength == 0) {
                     //获得contentLength的值，后续不再调用
                     contentLength = requestBody.contentLength();
-                    LogUtils.d(TAG, contentLength);
+//                    LogUtils.d(TAG, contentLength);
                 }
                 //增加当前写入的字节数
                 bytesWritten += byteCount;

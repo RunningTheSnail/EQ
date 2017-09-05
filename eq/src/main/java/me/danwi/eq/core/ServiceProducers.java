@@ -39,7 +39,7 @@ public class ServiceProducers {
 
     private static ServiceProducers serviceProducers;
 
-    private Retrofit retrofit;
+    public Retrofit retrofit;
 
     //没有默认配置Builder,可以通过外部构建
     private ServiceProducers(Builder builder) {

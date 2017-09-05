@@ -19,13 +19,13 @@ public class CommonResponseTransformer<T> implements ObservableTransformer<HttpR
         return upstream.flatMap(new Function<HttpResult<T>, ObservableSource<T>>() {
             @Override
             public ObservableSource<T> apply(HttpResult<T> tHttpResult) throws Exception {
-                int code = tHttpResult.code;
+                int result = tHttpResult.result;
                 //判断结果码
-                if (code == 200) {
+                if (result == 1) {
                     return Observable.just(tHttpResult.data);
                 }
                 //抛出业务异常
-                return Observable.error(new BizException(tHttpResult.message));
+                return Observable.error(new BizException(tHttpResult.msg));
             }
 
         });

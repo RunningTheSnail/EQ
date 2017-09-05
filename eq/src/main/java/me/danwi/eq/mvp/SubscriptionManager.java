@@ -19,7 +19,7 @@ public class SubscriptionManager {
 
     //取消所有订阅
     public void removeAllSubscription() {
-        if (compositeDisposable != null && compositeDisposable.isDisposed()) {
+        if (compositeDisposable != null && !compositeDisposable.isDisposed()) {
             compositeDisposable.dispose();
         }
     }
@@ -29,6 +29,12 @@ public class SubscriptionManager {
             if (disposable != null) {
                 compositeDisposable.add(disposable);
             }
+        }
+    }
+
+    public void removeSubscription(Disposable disposable) {
+        if (disposable != null && compositeDisposable != null) {
+            compositeDisposable.remove(disposable);
         }
     }
 }

@@ -2,8 +2,11 @@ package me.danwi.eq.widget;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.ButterKnife;
 import me.danwi.eq.R;
@@ -16,7 +19,7 @@ import me.danwi.eq.R;
  */
 public abstract class BaseDialog extends Dialog {
 
-    private Context context;
+    protected Context context;
 
     private int width, height;
 
@@ -37,7 +40,7 @@ public abstract class BaseDialog extends Dialog {
         setCancelable(cancelAble());
         ButterKnife.bind(this);
         Window window = getWindow();
-        window.setWindowAnimations(R.style.BaseDialogAnimation);
+        setAnimation(window);
     }
 
     //配置是否显示标题
@@ -45,6 +48,11 @@ public abstract class BaseDialog extends Dialog {
 
     //窗口外是否能点击dismiss
     public abstract boolean cancelAble();
+
+    //配置对话框的动画
+    public void setAnimation(Window window) {
+        window.setWindowAnimations(R.style.BaseDialogAnimation);
+    }
 
     @Override
     public void show() {
@@ -57,5 +65,25 @@ public abstract class BaseDialog extends Dialog {
         //不设置这个dialog不会全屏
         window.setBackgroundDrawable(null);
         window.setAttributes(layoutParams);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (open()) {
+            EventBus.getDefault().register(this);
+        }
+    }
+
+    @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (open()) {
+            EventBus.getDefault().unregister(this);
+        }
+    }
+
+    protected boolean open() {
+        return false;
     }
 }

@@ -1,11 +1,16 @@
 package me.danwi.eq;
 
+import android.content.ContentResolver;
+import android.content.Context;
+import android.net.Uri;
+import android.webkit.MimeTypeMap;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import me.danwi.eq.entity.Param;
-import okhttp3.MultipartBody;
+import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
 /**
@@ -40,16 +45,30 @@ public class HttpUtils {
                     params.put(param.key, requestBody);
                 } else {
                     if (param.filePath != null) {
-                        requestBody = RequestBody.create(MultipartBody.FORM, new File(param.filePath));
+                        requestBody = RequestBody.create(MediaType.parse(param.mediaType), new File(param.filePath));
                     } else {
-                        requestBody = RequestBody.create(MultipartBody.FORM, param.bytes);
+                        requestBody = RequestBody.create(MediaType.parse(param.mediaType), param.bytes);
                     }
                     //包含文件
-                    params.put(param.key + "\";fileName=" + param.fileName, requestBody);
+                    params.put(param.key + "\"; filename=\"" + param.fileName, requestBody);
                 }
             }
         }
         return params;
+    }
+
+    public static String getMimeType(Context context, Uri uri) {
+        String mimeType = null;
+        if (uri.getScheme().equals(ContentResolver.SCHEME_CONTENT)) {
+            ContentResolver cr = context.getContentResolver();
+            mimeType = cr.getType(uri);
+        } else {
+            String fileExtension = MimeTypeMap.getFileExtensionFromUrl(uri
+                    .toString());
+            mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(
+                    fileExtension.toLowerCase());
+        }
+        return mimeType;
     }
 
 }

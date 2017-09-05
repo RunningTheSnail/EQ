@@ -1,8 +1,7 @@
 package me.danwi.eq.utils;
 
+import android.content.Context;
 import android.widget.Toast;
-
-import me.danwi.eq.EQApplication;
 
 /**
  * Created by RunningSnail on 16/6/18.
@@ -11,24 +10,26 @@ public class ToastHelper {
 
     private static Toast mToast;
 
+    public static Context context;
+
     private ToastHelper() {
 
     }
 
     public static Toast getToast(int resId) {
-        return Toast.makeText(EQApplication.context, resId, Toast.LENGTH_SHORT);
+        return Toast.makeText(context, resId, Toast.LENGTH_SHORT);
     }
 
     public static Toast getToast(String text) {
-        return Toast.makeText(EQApplication.context, text, Toast.LENGTH_SHORT);
+        return Toast.makeText(context, text, Toast.LENGTH_SHORT);
     }
 
     public static Toast getLongToast(int resId) {
-        return Toast.makeText(EQApplication.context, resId, Toast.LENGTH_LONG);
+        return Toast.makeText(context, resId, Toast.LENGTH_LONG);
     }
 
     public static Toast getLongToast(String text) {
-        return Toast.makeText(EQApplication.context, text, Toast.LENGTH_LONG);
+        return Toast.makeText(context, text, Toast.LENGTH_LONG);
     }
 
     public static Toast getSingletonToast(int resId) {
@@ -60,7 +61,7 @@ public class ToastHelper {
 
     public static Toast getSingleLongToast(String text) {
         if (mToast == null) {
-            mToast = getSingleLongToast(text);
+            mToast = getLongToast(text);
         } else {
             mToast.setText(text);
         }

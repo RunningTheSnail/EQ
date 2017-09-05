@@ -45,11 +45,11 @@ public abstract class BaseMVCActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
+    protected void onDestroy() {
         if (subscriptionManager != null) {
             subscriptionManager.removeAllSubscription();
         }
-        super.onStop();
+        super.onDestroy();
     }
 
     public void addSubscription(Disposable subscription) {

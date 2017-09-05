@@ -1,5 +1,7 @@
 package me.danwi.eq.entity;
 
+import java.util.Arrays;
+
 /**
  * Created with Android Studio.
  * User: 最帅最帅的RunningSnail
@@ -18,6 +20,8 @@ public class Param {
     //文件路径
     public String filePath;
 
+    public String mediaType;
+
     public byte[] bytes;
 
     public Param(Builder builder) {
@@ -26,6 +30,7 @@ public class Param {
         this.filePath = builder.filePath;
         this.value = builder.value;
         this.bytes = builder.bytes;
+        this.mediaType = builder.mediaType;
     }
 
     public static class Builder {
@@ -39,6 +44,8 @@ public class Param {
         private String value;
 
         private byte[] bytes;
+
+        private String mediaType;
 
         public Builder key(String key) {
             this.key = key;
@@ -65,6 +72,11 @@ public class Param {
             return this;
         }
 
+        public Builder mediaType(String mediaType) {
+            this.mediaType = mediaType;
+            return this;
+        }
+
         public Param build() {
             return new Param(this);
         }
@@ -74,9 +86,11 @@ public class Param {
     public String toString() {
         return "Param{" +
                 "key='" + key + '\'' +
+                ", value='" + value + '\'' +
                 ", fileName='" + fileName + '\'' +
                 ", filePath='" + filePath + '\'' +
-                ", value='" + value + '\'' +
+                ", mediaType='" + mediaType + '\'' +
+                ", bytes=" + Arrays.toString(bytes) +
                 '}';
     }
 }

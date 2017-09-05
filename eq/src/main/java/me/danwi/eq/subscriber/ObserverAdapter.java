@@ -1,9 +1,11 @@
 package me.danwi.eq.subscriber;
 
-import com.orhanobut.logger.Logger;
+import java.net.ConnectException;
+import java.net.NoRouteToHostException;
+import java.net.SocketTimeoutException;
 
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
+import me.danwi.eq.utils.ToastHelper;
 
 /**
  * Created with Android Studio.
@@ -11,13 +13,8 @@ import io.reactivex.disposables.Disposable;
  * Date: 17/6/22
  * Time: 下午3:02
  */
-public class ObserverAdapter<T> implements Observer<T> {
 
-
-    @Override
-    public void onSubscribe(Disposable d) {
-
-    }
+public class ObserverAdapter<T> extends DisposableObserver<T> {
 
     @Override
     public void onNext(T value) {
@@ -26,7 +23,13 @@ public class ObserverAdapter<T> implements Observer<T> {
 
     @Override
     public void onError(Throwable e) {
-        Logger.e(e.toString());
+        if (e instanceof NoRouteToHostException) {
+            ToastHelper.showToast("无法解析域名");
+        } else if (e instanceof SocketTimeoutException) {
+            ToastHelper.showToast("响应超时");
+        } else if (e instanceof ConnectException) {
+            ToastHelper.showToast("服务器连接超时");
+        }
     }
 
     @Override

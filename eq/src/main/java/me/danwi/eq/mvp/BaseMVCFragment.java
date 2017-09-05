@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.orhanobut.logger.Logger;
+
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.ButterKnife;
@@ -45,7 +47,10 @@ public abstract class BaseMVCFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        EventBus.getDefault().register(this);
+        Logger.d("进入了%s页面", TAG);
+        if (open()) {
+            EventBus.getDefault().register(this);
+        }
         subscriptionManager = new SubscriptionManager();
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -103,7 +108,9 @@ public abstract class BaseMVCFragment extends Fragment {
         super.onDestroy();
         //取消订阅(取消所有异步任务)
         subscriptionManager.removeAllSubscription();
-        EventBus.getDefault().unregister(this);
+        if (open()) {
+            EventBus.getDefault().unregister(this);
+        }
     }
 
     @Override
@@ -136,6 +143,10 @@ public abstract class BaseMVCFragment extends Fragment {
         subscriptionManager.addSubscription(subscription);
     }
 
+    public void removeSubscription(Disposable subscription) {
+        subscriptionManager.removeSubscription(subscription);
+    }
+
     //获取布局id
     public abstract int getLayoutId();
 
@@ -146,5 +157,9 @@ public abstract class BaseMVCFragment extends Fragment {
 
     //获取从Activity传过来的参数
     public abstract void getParams(Bundle bundle);
+
+    protected boolean open() {
+        return false;
+    }
 
 }
