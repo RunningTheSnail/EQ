@@ -57,6 +57,13 @@ public class HttpUtils {
         return params;
     }
 
+    /**
+     * 获取文件的MimeType
+     *
+     * @param context
+     * @param uri
+     * @return
+     */
     public static String getMimeType(Context context, Uri uri) {
         String mimeType = null;
         if (uri.getScheme().equals(ContentResolver.SCHEME_CONTENT)) {

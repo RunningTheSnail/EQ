@@ -1,12 +1,11 @@
 package me.danwi.eq.utils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 
 import java.io.ByteArrayOutputStream;
-
-import me.danwi.eq.EQApplication;
 
 /**
  * Created with Android Studio.
@@ -49,7 +48,7 @@ public class ImageUtils {
      * @param reqHeight  目标高度
      * @return
      */
-    private static Bitmap decode(String path, byte[] data, int resourceId, int reqWidth, int reqHeight) {
+    private static Bitmap decode(Context context, String path, byte[] data, int resourceId, int reqWidth, int reqHeight) {
         Bitmap bitmap = null;
         //第一次解析将inJustDecodeBounds设置为true,获取图片大小
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -61,7 +60,7 @@ public class ImageUtils {
             BitmapFactory.decodeByteArray(data, 0, data.length, options);
         }
         if (resourceId != 0) {
-            BitmapFactory.decodeResource(EQApplication.getContext().getResources(), resourceId, options);
+            BitmapFactory.decodeResource(context.getResources(), resourceId, options);
         }
         //计算缩放比例
         int inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
@@ -75,22 +74,22 @@ public class ImageUtils {
             bitmap = BitmapFactory.decodeByteArray(data, 0, data.length, options);
         }
         if (resourceId != 0) {
-            bitmap = BitmapFactory.decodeResource(EQApplication.getContext().getResources(), resourceId, options);
+            bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId, options);
         }
         return bitmap;
     }
 
 
-    public static Bitmap decodeSd(String path, int reqWidth, int reqHeight) {
-        return decode(path, null, 0, reqWidth, reqHeight);
+    public static Bitmap decodeSd(Context context, String path, int reqWidth, int reqHeight) {
+        return decode(context, path, null, 0, reqWidth, reqHeight);
     }
 
-    public static Bitmap decodeByteData(byte[] data, int reqWidth, int reqHeight) {
-        return decode(null, data, 0, reqWidth, reqHeight);
+    public static Bitmap decodeByteData(Context context, byte[] data, int reqWidth, int reqHeight) {
+        return decode(context, null, data, 0, reqWidth, reqHeight);
     }
 
-    public static Bitmap decodeResource(int resourceId, int reqWidth, int reqHeight) {
-        return decode(null, null, resourceId, reqWidth, reqHeight);
+    public static Bitmap decodeResource(Context context, int resourceId, int reqWidth, int reqHeight) {
+        return decode(context, null, null, resourceId, reqWidth, reqHeight);
     }
 
     /**
