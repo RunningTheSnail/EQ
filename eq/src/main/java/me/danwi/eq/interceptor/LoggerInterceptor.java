@@ -15,8 +15,6 @@ import okhttp3.Response;
  */
 public class LoggerInterceptor implements Interceptor {
 
-    private static final String TAG = LoggerInterceptor.class.getSimpleName();
-
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
