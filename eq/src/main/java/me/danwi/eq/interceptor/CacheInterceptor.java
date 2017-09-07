@@ -1,12 +1,12 @@
 package me.danwi.eq.interceptor;
 
+import android.content.Context;
 import android.text.TextUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.danwi.eq.EQApplication;
 import me.danwi.eq.utils.NetWorkUtils;
 import okhttp3.CacheControl;
 import okhttp3.Interceptor;
@@ -22,6 +22,12 @@ import okhttp3.Response;
  */
 public class CacheInterceptor implements Interceptor {
 
+    Context context;
+
+    public CacheInterceptor(Context context) {
+        this.context = context;
+    }
+
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
@@ -31,7 +37,7 @@ public class CacheInterceptor implements Interceptor {
             String url = request.url().url().toString();
             String cacheControl = request.cacheControl().toString();
             Response response;
-            if (NetWorkUtils.isNetWorkAvailable(EQApplication.context)) {
+            if (NetWorkUtils.isNetWorkAvailable(context)) {
                 //截取请求的url不包含参数
                 String result = url.split("\\?")[0];
                 if (forceNetWork().contains(result)) {
@@ -50,6 +56,7 @@ public class CacheInterceptor implements Interceptor {
                 cacheControl = "no-cache";
             }
             //修改响应头,如果请求头设置了缓存就沿用
+            //由客户端控制缓存
             return response.newBuilder().removeHeader("Pragma").header("Cache-Control", cacheControl).build();
         }
         return chain.proceed(request);
