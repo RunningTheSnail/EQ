@@ -161,8 +161,6 @@ android {
 //            variant.ignore = true
 //        }
 //    }
-
-
 }
 
 dependencies {
@@ -171,8 +169,8 @@ dependencies {
     compile rootProject.ext.dependencies["appcompat-v7"]
     compile 'com.android.support:design:25.3.1'
     compile project(':eq')
-//    compile 'com.jakewharton:butterknife:8.1.0'
-//    apt 'com.jakewharton:butterknife-compiler:8.1.0'
+    //    compile 'com.jakewharton:butterknife:8.1.0'
+    //    apt 'com.jakewharton:butterknife-compiler:8.1.0'
     compile project(':pgyer')
 }
 
