@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import me.danwi.eq.EQApplication;
+import static me.danwi.eq.AppManager.context;
 
 /**
  * Created by tanshuai on 16/2/27.
@@ -79,7 +79,7 @@ public class ResourceUtils {
 
         InputStream inputStream;
         try {
-            inputStream = EQApplication.getContext().getAssets().open(fileName);
+            inputStream = context.getAssets().open(fileName);
             return getData(inputStream);
         } catch (IOException e) {
             e.printStackTrace();
@@ -94,7 +94,7 @@ public class ResourceUtils {
      * @return
      */
     public static String getDataFromRaw(int resId) {
-        InputStream inputStream = EQApplication.getContext().getResources().openRawResource(resId);
+        InputStream inputStream = context.getResources().openRawResource(resId);
         return getData(inputStream);
     }
 
