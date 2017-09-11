@@ -1,6 +1,5 @@
 package me.danwi.eq.interceptor;
 
-import android.content.Context;
 import android.text.TextUtils;
 
 import java.io.IOException;
@@ -22,12 +21,6 @@ import okhttp3.Response;
  */
 public class CacheInterceptor implements Interceptor {
 
-    Context context;
-
-    public CacheInterceptor(Context context) {
-        this.context = context;
-    }
-
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
@@ -37,7 +30,7 @@ public class CacheInterceptor implements Interceptor {
             String url = request.url().url().toString();
             String cacheControl = request.cacheControl().toString();
             Response response;
-            if (NetWorkUtils.isNetWorkAvailable(context)) {
+            if (NetWorkUtils.isNetWorkAvailable()) {
                 //截取请求的url不包含参数
                 String result = url.split("\\?")[0];
                 if (forceNetWork().contains(result)) {
