@@ -3,33 +3,40 @@ package me.danwi.eq.utils;
 import android.content.Context;
 import android.widget.Toast;
 
+import me.danwi.eq.AppManager;
+
 /**
- * Created by RunningSnail on 16/6/18.
+ * Created with Android Studio.
+ * User: HandSome-T
+ * Date: 16/6/18
+ * Time: 上午9:39
  */
 public class ToastHelper {
 
     private static Toast mToast;
 
-    public static Context context;
-
     private ToastHelper() {
 
     }
 
+    public static Context getCurrentContext() {
+        return AppManager.getAppManager().currentContext();
+    }
+
     public static Toast getToast(int resId) {
-        return Toast.makeText(context, resId, Toast.LENGTH_SHORT);
+        return Toast.makeText(getCurrentContext(), resId, Toast.LENGTH_SHORT);
     }
 
     public static Toast getToast(String text) {
-        return Toast.makeText(context, text, Toast.LENGTH_SHORT);
+        return Toast.makeText(getCurrentContext(), text, Toast.LENGTH_SHORT);
     }
 
     public static Toast getLongToast(int resId) {
-        return Toast.makeText(context, resId, Toast.LENGTH_LONG);
+        return Toast.makeText(getCurrentContext(), resId, Toast.LENGTH_LONG);
     }
 
     public static Toast getLongToast(String text) {
-        return Toast.makeText(context, text, Toast.LENGTH_LONG);
+        return Toast.makeText(getCurrentContext(), text, Toast.LENGTH_LONG);
     }
 
     public static Toast getSingletonToast(int resId) {

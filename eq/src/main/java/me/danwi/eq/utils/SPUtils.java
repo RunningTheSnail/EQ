@@ -3,6 +3,8 @@ package me.danwi.eq.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import me.danwi.eq.AppManager;
+
 /**
  * Created with Android Studio.
  * User: HandSome-T
@@ -32,6 +34,10 @@ public class SPUtils {
         return editor.commit();
     }
 
+    public static boolean putString(String key, String value) {
+        return putString(getCurrentContext(), key, value);
+    }
+
     /**
      * get string preferences
      *
@@ -43,6 +49,10 @@ public class SPUtils {
      */
     public static String getString(Context context, String key) {
         return getString(context, key, null);
+    }
+
+    public static String getString(String key) {
+        return getString(getCurrentContext(), key);
     }
 
     /**
@@ -57,6 +67,10 @@ public class SPUtils {
     public static String getString(Context context, String key, String defaultValue) {
         SharedPreferences settings = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
         return settings.getString(key, defaultValue);
+    }
+
+    public static String getString(String key, String defaultValue) {
+        return getString(getCurrentContext(), key, defaultValue);
     }
 
     /**
@@ -74,6 +88,10 @@ public class SPUtils {
         return editor.commit();
     }
 
+    public static boolean putInt(String key, int value) {
+        return putInt(getCurrentContext(), key, value);
+    }
+
     /**
      * get int preferences
      *
@@ -85,6 +103,10 @@ public class SPUtils {
      */
     public static int getInt(Context context, String key) {
         return getInt(context, key, -1);
+    }
+
+    public static int getInt(String key) {
+        return getInt(getCurrentContext(), key, -1);
     }
 
     /**
@@ -99,6 +121,10 @@ public class SPUtils {
     public static int getInt(Context context, String key, int defaultValue) {
         SharedPreferences settings = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
         return settings.getInt(key, defaultValue);
+    }
+
+    public static int getInt(String key, int defaultValue) {
+        return getInt(getCurrentContext(), key, defaultValue);
     }
 
     /**
@@ -116,6 +142,10 @@ public class SPUtils {
         return editor.commit();
     }
 
+    public static boolean putLong(String key, long value) {
+        return putLong(getCurrentContext(), key, value);
+    }
+
     /**
      * get long preferences
      *
@@ -127,6 +157,10 @@ public class SPUtils {
      */
     public static long getLong(Context context, String key) {
         return getLong(context, key, -1);
+    }
+
+    public static long getLong(String key) {
+        return getLong(getCurrentContext(), key);
     }
 
     /**
@@ -141,6 +175,10 @@ public class SPUtils {
     public static long getLong(Context context, String key, long defaultValue) {
         SharedPreferences settings = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
         return settings.getLong(key, defaultValue);
+    }
+
+    public static long getLong(String key, long defaultValue) {
+        return getLong(getCurrentContext(), key, defaultValue);
     }
 
     /**
@@ -158,6 +196,10 @@ public class SPUtils {
         return editor.commit();
     }
 
+    public static boolean putFloat(String key, float value) {
+        return putFloat(getCurrentContext(), key, value);
+    }
+
     /**
      * get float preferences
      *
@@ -169,6 +211,10 @@ public class SPUtils {
      */
     public static float getFloat(Context context, String key) {
         return getFloat(context, key, -1);
+    }
+
+    public static float getFloat(String key) {
+        return getFloat(getCurrentContext(), key);
     }
 
     /**
@@ -183,6 +229,10 @@ public class SPUtils {
     public static float getFloat(Context context, String key, float defaultValue) {
         SharedPreferences settings = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
         return settings.getFloat(key, defaultValue);
+    }
+
+    public static float getFloat(String key, float defaultValue) {
+        return getFloat(getCurrentContext(), key, defaultValue);
     }
 
     /**
@@ -200,6 +250,10 @@ public class SPUtils {
         return editor.commit();
     }
 
+    public static boolean putBoolean(String key, boolean value) {
+        return putBoolean(getCurrentContext(), key, value);
+    }
+
     /**
      * get boolean preferences, default is false
      *
@@ -211,6 +265,10 @@ public class SPUtils {
      */
     public static boolean getBoolean(Context context, String key) {
         return getBoolean(context, key, false);
+    }
+
+    public static boolean getBoolean(String key) {
+        return getBoolean(getCurrentContext(), key);
     }
 
     /**
@@ -225,5 +283,13 @@ public class SPUtils {
     public static boolean getBoolean(Context context, String key, boolean defaultValue) {
         SharedPreferences settings = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
         return settings.getBoolean(key, defaultValue);
+    }
+
+    public static boolean getBoolean(String key, boolean defaultValue) {
+        return getBoolean(getCurrentContext(), key, defaultValue);
+    }
+
+    public static Context getCurrentContext() {
+        return AppManager.getAppManager().currentContext();
     }
 }

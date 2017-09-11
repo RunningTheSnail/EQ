@@ -57,15 +57,11 @@ public class ServiceProducers {
 
         //配置拦截器
         if (builder.pre != null) {
-            for (Interceptor interceptor : builder.pre) {
-                httpBuilder.addInterceptor(interceptor);
-            }
+            builder.pre.forEach(httpBuilder::addInterceptor);
         }
 
         if (builder.post != null) {
-            for (Interceptor interceptor : builder.post) {
-                httpBuilder.addNetworkInterceptor(interceptor);
-            }
+            builder.post.forEach(httpBuilder::addNetworkInterceptor);
         }
 
         //内置日志拦截器,外部控制

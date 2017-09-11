@@ -1,21 +1,23 @@
 package me.danwi.eq;
 
 import android.app.Activity;
+import android.content.Context;
 
 import java.util.Stack;
 
 /**
  * 应用程序Activity管理类：用于Activity管理和应用程序退出
- *
- * @author kymjs
- * @version 1.0
- * @created 2013-11-24
  */
 public class AppManager {
+
     private static Stack<Activity> activityStack;
+
     private static AppManager instance;
 
-    public AppManager() {
+    //全局Context
+    public static Context context;
+
+    private AppManager() {
     }
 
     public static AppManager getAppManager() {
@@ -48,10 +50,17 @@ public class AppManager {
     // 获得当前栈顶Activity
     public Activity currentActivity() {
         Activity activity = null;
-        if (null != activityStack && 0 != activityStack.size()) {
+        if (activityStack != null && activityStack.size() != 0) {
             activity = activityStack.lastElement();
         }
         return activity;
+    }
+
+    public Context currentContext() {
+        if (context == null) {
+            throw new NullPointerException("context must init");
+        }
+        return context;
     }
 
     // 将当前Activity推入栈中
