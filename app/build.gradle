@@ -87,7 +87,7 @@ android {
             //是否zip优化
             zipAlignEnabled true
             //移除无用的资源文件
-            shrinkResources true
+            shrinkResources false
             //配置签名
             if (signingFileExists) {
                 signingConfig signingConfigs.release
@@ -171,7 +171,7 @@ dependencies {
     compile project(':eq')
     //    compile 'com.jakewharton:butterknife:8.1.0'
     //    apt 'com.jakewharton:butterknife-compiler:8.1.0'
-    compile project(':pgyer')
+//    compile project(':pgyer')
 }
 
 repositories {

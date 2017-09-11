@@ -56,12 +56,16 @@ public class ServiceProducers {
         }
 
         //配置拦截器
-        if (builder.pre != null) {
-            builder.pre.forEach(httpBuilder::addInterceptor);
+        if (builder.pre != null && builder.pre.size() != 0) {
+            for (Interceptor interceptor : builder.pre) {
+                httpBuilder.addInterceptor(interceptor);
+            }
         }
 
-        if (builder.post != null) {
-            builder.post.forEach(httpBuilder::addNetworkInterceptor);
+        if (builder.post != null && builder.post.size() != 0) {
+            for (Interceptor interceptor : builder.post) {
+                httpBuilder.addNetworkInterceptor(interceptor);
+            }
         }
 
         //内置日志拦截器,外部控制
