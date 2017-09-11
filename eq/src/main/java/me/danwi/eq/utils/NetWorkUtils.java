@@ -5,6 +5,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
 
+import static me.danwi.eq.AppManager.context;
+
 /**
  * Created with Android Studio.
  * User: HandSome-T
@@ -31,7 +33,7 @@ public class NetWorkUtils {
      *
      * @return
      */
-    public static boolean isNetWorkAvailable(Context context) {
+    public static boolean isNetWorkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager != null) {
             try {
@@ -46,10 +48,9 @@ public class NetWorkUtils {
     /**
      * Get network type
      *
-     * @param context
      * @return
      */
-    public static int getNetworkType(Context context) {
+    public static int getNetworkType() {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager == null ? null : connectivityManager.getActiveNetworkInfo();
         return networkInfo == null ? -1 : networkInfo.getType();
@@ -58,10 +59,9 @@ public class NetWorkUtils {
     /**
      * Get network type name
      *
-     * @param context
      * @return
      */
-    public static String getNetworkTypeName(Context context) {
+    public static String getNetworkTypeName() {
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo;
         String type = NETWORK_TYPE_DISCONNECT;
@@ -74,7 +74,7 @@ public class NetWorkUtils {
             if ("WIFI".equalsIgnoreCase(typeName)) {
                 type = NETWORK_TYPE_WIFI;
             } else if ("MOBILE".equalsIgnoreCase(typeName)) {
-                type = isFastMobileNetwork(context, networkInfo.getSubtype());
+                type = isFastMobileNetwork(networkInfo.getSubtype());
             } else {
                 type = NETWORK_TYPE_UNKNOWN;
             }
@@ -85,10 +85,9 @@ public class NetWorkUtils {
     /**
      * 区分mobile
      *
-     * @param context
      * @return
      */
-    private static String isFastMobileNetwork(Context context, int nSubType) {
+    private static String isFastMobileNetwork(int nSubType) {
         String type;
         TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         if (telephonyManager == null) {
