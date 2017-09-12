@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 
+import me.danwi.eq.BaseConvertFactory;
 import me.danwi.eq.cookie.SimpleCookieJar;
 import me.danwi.eq.interceptor.LoggerInterceptor;
 import me.danwi.eq.utils.FileUtils;
@@ -102,6 +103,7 @@ public class ServiceProducers {
         retrofit = retrofitBuilder
                 .baseUrl(builder.url)
                 .client(okHttpClient)
+                .addConverterFactory(new BaseConvertFactory())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
