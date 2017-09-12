@@ -29,6 +29,7 @@ public class BaseConvertFactory extends Converter.Factory {
         return null;
     }
 
+    //非Retrofit不会解析,所以目测该接口不会被调用
     @Override
     public Converter<?, RequestBody> requestBodyConverter(Type type, Annotation[] parameterAnnotations, Annotation[] methodAnnotations, Retrofit retrofit) {
         return null;
