@@ -11,5 +11,6 @@ MVP+RxJava+Retrofit, 一个Android应用层快速开发基础框架
 - 通用参数添加(支持Get,Post)
 - 通用请求头添加
 - 缓存配置
+- 自定义解析器,适配各种非常规api设计
 
 

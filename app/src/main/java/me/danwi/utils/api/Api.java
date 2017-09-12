@@ -11,7 +11,7 @@ import retrofit2.http.GET;
  * Time: 下午2:40
  */
 public interface Api {
-    @EQ(value = "eq")
+    @EQ
     @GET("https://www.baidu.com")
     Observable<Empty> get();
 }
